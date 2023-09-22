@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - satyabhavsar
+      - main
 
 jobs:
   cucumber_test:
