@@ -3,6 +3,7 @@ name: Cucumber Test
 on:
   pull_request:
     branches:
+      - main
       - satyabhavsar
 
 jobs:
