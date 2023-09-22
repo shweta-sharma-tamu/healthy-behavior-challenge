@@ -19,4 +19,4 @@ jobs:
 
     - name: Run Cucumber tests
       run: |
-        bundle exec cucumber
+        cucumber -s
