@@ -1,0 +1,28 @@
+name: Cucumber Test
+
+on:
+  pull_request:
+    branches:
+      - satyabhavsar
+
+jobs:
+  cucumber_test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Ruby
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.7 # You can specify your Ruby version
+
+    - name: Install dependencies
+      run: |
+        gem install bundler
+        bundle install
+
+    - name: Run Cucumber tests
+      run: |
+        bundle exec cucumber
