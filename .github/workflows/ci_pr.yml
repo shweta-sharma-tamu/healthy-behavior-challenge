@@ -1,0 +1,22 @@
+name: Build and run tests
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  cucumber_test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build and test
+      run: |
+          docker build -t fitxt .
+
+    - name: Run Cucumber tests
+      run: |
+        cucumber -s
