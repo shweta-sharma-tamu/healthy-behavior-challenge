@@ -13,15 +13,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up Ruby
-      uses: actions/setup-ruby@v1
-      with:
-        ruby-version: 2.7 # You can specify your Ruby version
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-    - name: Install dependencies
+    - name: Build and test
       run: |
-        gem install bundler
-        bundle install
+          docker build -t fitxt .
 
     - name: Run Cucumber tests
       run: |
