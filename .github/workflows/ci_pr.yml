@@ -17,6 +17,5 @@ jobs:
       run: |
           docker build -t fitxt .
 
-    - name: Run Cucumber tests
-      run: |
-        cucumber -s
+    - name: Run Cucumber tests in Docker container
+      run: docker run fitxt cucumber
