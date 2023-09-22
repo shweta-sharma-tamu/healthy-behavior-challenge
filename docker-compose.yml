@@ -8,16 +8,29 @@ services:
       - .:/app
     command: rails s -b 0.0.0.0
     depends_on:
-      - db
-  db:
+      - postgres_dev
+      - postgres_test
+  postgres_dev:
     image: postgres:16-alpine
     restart: always
     environment:
-      - POSTGRES_DB=${DB_HOST}
+      - POSTGRES_DB=${DEV_DB_NAME}
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_HOST_AUTH_METHOD=trust
     ports:
       - "5432:5432"
     volumes: 
-      - ./tmp/postgres_data:/var/lib/postgresql/data
+      - ./tmp/postgres_dev_data:/var/lib/postgresql/data
+  postgres_test:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      - POSTGRES_DB=${TEST_DB_NAME}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - "5433:5432"
+    volumes: 
+      - ./tmp/postgres_test_data:/var/lib/postgresql/data
