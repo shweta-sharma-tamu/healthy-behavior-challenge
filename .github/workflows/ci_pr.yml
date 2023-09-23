@@ -15,7 +15,7 @@ jobs:
         ports:
           - 5432:5432
         env:
-          POSTGRES_USER: postgres_test
+          POSTGRES_USER: postgres1
           POSTGRES_PASSWORD: 54321
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
@@ -35,12 +35,12 @@ jobs:
           bundle exec rails db:schema:load
        env:
           RAILS_ENV: test
-          POSTGRES_USER: postgres_test
+          POSTGRES_USER: postgres1
           POSTGRES_PASSWORD: 54321
      - name: run-frontend-backend-tests
        run: |
           bundle exec rails test
        env:
           RAILS_ENV: test
-          POSTGRES_USER: postgres_test
+          POSTGRES_USER: postgres1
           POSTGRES_PASSWORD: 54321
