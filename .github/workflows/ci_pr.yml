@@ -6,16 +6,42 @@ on:
       - main
 
 jobs:
-  cucumber_test:
+  build:
+    name: ci-pipeline
     runs-on: ubuntu-latest
-
+    services:
+      postgres:
+        image: postgres:11
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Build and test
-      run: |
-          docker build -t fitxt .
-
-    - name: Run Cucumber tests in Docker container
-      run: docker run fitxt cucumber
+     - uses: actions/checkout@v2
+     - uses: ruby/setup-ruby@v1
+       with:
+          ruby-version: "3.1.0"
+          bundler-cache: true
+     - name: Install postgres
+       run: sudo apt-get install libpq-dev
+     - name: install dependencies
+       run: |
+              bundle install
+     - name: Setup Database
+       run: |
+          cp config/database.yml.github-actions config/database.yml
+          bundle exec rails db:create
+          bundle exec rails db:schema:load
+       env:
+          RAILS_ENV: test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+     - name: run-frontend-backend-tests
+       run: |
+          bundle exec rails test
+       env:
+          RAILS_ENV: test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
