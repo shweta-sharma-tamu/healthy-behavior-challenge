@@ -1,0 +1,8 @@
+<div>
+    <p>User ID from session: <%= @user_id_from_session %></p>
+    <% if flash[:notice].present? %>
+      <div>
+        <%= flash[:notice] %>
+      </div>
+    <% end %>
+</div>

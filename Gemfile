@@ -30,6 +30,15 @@ gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
+#Bcrypt is used for encrypting has_secure_password
+gem 'bcrypt', '~> 3.1.7'
+
+#Dependencies for rspec tests
+
+gem 'factory_bot_rails'
+gem 'faker'
+gem 'rails-controller-testing'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
 

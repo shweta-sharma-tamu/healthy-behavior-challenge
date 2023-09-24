@@ -1,22 +1,46 @@
+Given(/^I am not currently Logged in$/) do
+  visit login_path
+  expect(page).to have_content('Please Log in')
+end
+
 Given(/^I am on the Login page$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  visit login_path
 end
 
-When('I enter admin@gmail.com as username') do
-  pending # Write code here that turns the phrase above into concrete actions
+When('I enter Admin@gmail.com as email') do
+  fill_in 'email', with: 'Admin@gmail.com'
 end
 
-When('I enter Admin@{int} as password') do |int|
-  pending # Write code here that turns the phrase above into concrete actions
+When('I enter {string} as email') do |string|
+  fill_in 'email', with: string
 end
 
+When('I enter '' as email') do
+  fill_in 'email', with: ''
+end
+
+When('I enter Admin@123 as password') do
+  fill_in 'password', with: 'Admin@123'
+end
+
+When('I enter '' as password') do
+  fill_in 'password', with: ''
+end
+
+When('I enter {string} as password') do |string|
+  fill_in 'password', with: string
+end
+
+When('I enter abcd@123 as password') do
+  fill_in 'password', with: 'abcd@123'
+end
 
 When('I click on submit') do
-  pending # Write code here that turns the phrase above into concrete actions
+  click_button 'Sign In!'
 end
 
 Then('I should see {string}') do |arg|
-  pending # Write code here that turns the phrase above into concrete actions
+  expect(page).to have_content(arg)
 end
 
 
