@@ -8,6 +8,11 @@ on:
 jobs:
   cucumber_test:
     runs-on: ubuntu-latest
+    env:
+        DEV_DB_NAME: dev_db
+        DB_USERNAME: postgres_dev
+        DB_PASSWORD: 543221
+        TEST_DB_NAME: test_db
 
     services:
         postgres:
