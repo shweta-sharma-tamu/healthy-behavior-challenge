@@ -21,6 +21,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Copy .env file
+      run: |
+        cp .env.template .env
     - name: Stop and remove existing containers
       run: |
         docker stop $(docker ps -aq)
