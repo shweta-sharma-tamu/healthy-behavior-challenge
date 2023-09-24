@@ -33,6 +33,8 @@ gem "jbuilder"
 #Bcrypt is used for encrypting has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
+gem 'letter_opener'
+
 #Dependencies for rspec tests
 
 gem 'factory_bot_rails'
@@ -84,3 +86,4 @@ group :test do
   gem "rspec-rails"
   gem "database_cleaner"
 end
+
