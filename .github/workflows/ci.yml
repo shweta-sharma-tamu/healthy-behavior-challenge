@@ -38,7 +38,6 @@ jobs:
         docker-compose build
         docker-compose up -d
         docker-compose run web bundle exec rake db:create db:migrate
-        psql -U postgres1 -d test_db -c "\dt"
         docker-compose run web bundle exec rspec # or your preferred testing command
         docker-compose run web bundle exec cucumber
 
