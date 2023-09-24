@@ -9,7 +9,7 @@ Feature: Login
     When I enter Admin@gmail.com as email
     And I enter Admin@123 as password
     And I click on submit
-    Then I should see 'Successfully signed in'
+    Then I should see 'You have successfully signed in'
 
   Scenario: Login using incorrect email and password
     Given I am not currently Logged in
