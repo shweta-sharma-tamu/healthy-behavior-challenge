@@ -7,7 +7,7 @@ on:
 
 jobs:
   cucumber_test:
-    runs-on: ubuntu-lates
+    runs-on: ubuntu-latest
     services:
         postgres:
           image: postgres:latest
