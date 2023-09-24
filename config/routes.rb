@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   # root "articles#index"
   get "/", to: "main#index", as: "root"
   get "/login", to: "main#login", as: "login"
+  get "/navbar", to: "main#navbar", as: "navbar"
 end
