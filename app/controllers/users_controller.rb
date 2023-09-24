@@ -15,12 +15,14 @@ class UsersController < ApplicationController
     end
 
     def show
-        @user = User.find(params[:userid])
+        @user = User.find(params[:id])
+        @user_id_from_session = @user.id
+        render :show
     end
 
     private
 
     def user_params
-        params.require(:user).permit(:email, :password, :type, :userid)
+        params.require(:user).permit(:email, :password, :user_type)
     end
 end
