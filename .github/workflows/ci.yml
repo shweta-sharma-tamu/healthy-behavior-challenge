@@ -1,0 +1,29 @@
+name: Build and test
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  cucumber_test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build and test with Docker
+      run: |
+        docker build -t fitxt .
+        docker run -d --name my-rails-app-container -p 3000:3000 fitxt
+        docker exec my-rails-app-container bundle exec rake db:create db:migrate
+        docker exec my-rails-app-container bundle exec rspec # or your preferred testing command
+      ports:
+        - 3000:3000
+
+    - name: Clean up
+      run: |
+        docker stop my-rails-app-container
+        docker rm my-rails-app-container
+    
