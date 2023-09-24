@@ -7,13 +7,7 @@ on:
 
 jobs:
   cucumber_test:
-    runs-on: ubuntu-latest
-    env:
-        DEV_DB_NAME: dev_db
-        DB_USERNAME: postgres_dev
-        DB_PASSWORD: 543221
-        TEST_DB_NAME: test_db
-
+    runs-on: ubuntu-lates
     services:
         postgres:
           image: postgres:latest
@@ -27,10 +21,16 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Stop and remove existing containers
+      run: |
+        docker-compose -f docker-compose-cucumber.yml down
+        docker-compose -f docker-compose-rspec.yml down
+
     - name: Install Docker Compose
       run: |
           sudo apt-get update
           sudo apt-get install -y docker-compose
+        
 
     - name: Build and test with Docker Compose
       run: |
