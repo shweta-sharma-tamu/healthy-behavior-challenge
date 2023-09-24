@@ -1,46 +1,40 @@
-name: Build and Test Rails App
+name: Build and test
 
 on:
-  push:
+  pull_request:
     branches:
-      - develop # Change this to your default branch name
-      - main
+      - develop
 
 jobs:
-  build:
+  cucumber_test:
     runs-on: ubuntu-latest
 
     services:
-      postgres:
-        image: postgres:latest
-        env:
-          POSTGRES_DB: myapp_test
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        ports:
-          - 5432:5432
-
+        postgres:
+          image: postgres:latest
+          env:
+            POSTGRES_DB: myapp_test
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+          ports:
+            - 5432:5432
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 3.1.0
-
-      - name: Install Docker Compose
-        run: |
+    - name: Install Docker Compose
+      run: |
           sudo apt-get update
           sudo apt-get install -y docker-compose
 
-      - name: Build and test with Docker Compose
-        run: |
-          docker-compose build
-          docker-compose up -d
-          docker-compose exec web bundle exec rake db:create db:migrate
-          docker-compose exec web bundle exec rspec # or your preferred testing command
+    - name: Build and test with Docker Compose
+      run: |
+        docker-compose build
+        docker-compose up -d
+        docker-compose exec web bundle exec rake db:create db:migrate
+        docker-compose exec web bundle exec rspec # or your preferred testing command
 
-      - name: Clean up
-        run: |
-          docker-compose down
+    - name: Clean up
+      run: |
+        docker-compose down
+    
