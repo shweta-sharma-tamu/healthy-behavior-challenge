@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "healthbehaviorchallenge@gmail.com"
+  default from: "${{secrets.PROJECT_MAILID}}"
   layout "mailer"
 end
