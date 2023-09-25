@@ -1,0 +1,21 @@
+<!-- app/views/password_resets/edit.html.erb -->
+<h1>Reset Password</h1>
+
+<%= form_with model: @user, url: password_reset_edit_path(token: params[:token]) do |form| %>
+    <% if @user.errors.any? %>
+    <div class="alert alert-danger">
+      <ul>
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= form.label :password %>
+  <%= form.password_field :password %><br>
+  
+  <%= form.label :password_confirmation %>
+  <%= form.password_field :password_confirmation %><br>
+
+  <%= form.submit 'Reset Password' %>
+<% end %>
