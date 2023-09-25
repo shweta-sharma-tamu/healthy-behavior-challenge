@@ -4,7 +4,11 @@ Rails.application.routes.draw do
     resources :sessions
   # Defines the root path route ("/")
   # root "articles#index"
-  root 'sessions#new'
+  root "sessions#new"
   get "/login", to: "sessions#new", as: "login"
-  post '/login', to: 'sessions#create'
+  post "/login", to: "sessions#create"
+
+  get "/signup_user", to: "signup_user#new", as: "signup_user"
+  post "/signup_user", to: "signup_user#create"
+
 end
