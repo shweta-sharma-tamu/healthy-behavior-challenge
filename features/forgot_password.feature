@@ -11,14 +11,14 @@ Feature: Forgot Password
     When I click on the "Forgot Password" link
     And I fill in my email address with "user@example.com"
     And I click the "Reset Password" button
-    Then I should see a message "If an account with email was found, we have a sent a link to reset your password"
+    Then I should see a message "If an account with email was found, we have sent a link to reset your password."
 
   Scenario: Request a password reset email for a non-existing email
     Given I am on the login page
     When I click on the "Forgot Password" link
     And I fill in my email address with "nonexistent@example.com"
     And I click the "Reset Password" button
-    Then I should see an error message "If an account with email was found, we have a sent a link to reset your password"
+    Then I should see an error message "If an account with email was found, we have sent a link to reset your password."
 
   Scenario: Request a password reset email with an invalid email format
     Given I am on the login page

@@ -6,7 +6,7 @@ RSpec.describe PasswordResetsController, type: :controller do
   it 'sends a password reset email' do
     post :create, params: { email: user.email }
     expect(response).to redirect_to(root_path) # Adjust the path as needed
-    expect(flash[:notice]).to eq('If an account with email was found, we have a sent a link to reset your password')
+    expect(flash[:notice]).to eq('If an account with email was found, we have sent a link to reset your password.')
   end
 end
 

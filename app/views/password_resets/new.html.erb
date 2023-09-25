@@ -3,12 +3,12 @@
 <% elsif flash[:alert] %>
   <%= content_tag :h1, flash[:alert] %>
 <% else %>
-  <%= content_tag :h1, "Forgot Password Reset" %>
+  <%= content_tag :h1, "Forgot Password" %>
 <% end %>
 
 <%= form_with url: password_reset_path do |form| %>
   <%= form.label :email %>
   <%= form.email_field :email, autofocus: true %>
 
-  <%= form.submit 'Reset Password' %>
+  <%= form.submit "Reset Password" %>
 <% end %>

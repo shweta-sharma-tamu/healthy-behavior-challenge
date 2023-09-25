@@ -20,13 +20,6 @@ Given('there is a registered user with the email {string}') do |email|
     fill_in 'Email', with: email # Assuming the input field has a label or name "Email"
   end
   
-  When('I click the "Reset Password" button') do
-    click_button 'Reset Password' # Adjust the button text as needed
-  end
-  
-  Then('I should see a message {string}') do |message|
-    expect(page).to have_content(message)
-  end
   
   Then('I should be on the login page') do
     expect(current_path).to eq(root_path) # Adjust the path based on your application
