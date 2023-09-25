@@ -45,3 +45,9 @@ jobs:
           heroku_app_name: fitxtdev #Must be unique in Heroku
           heroku_email: ${{secrets.HEROKU_EMAIL}}
           stack: "container"
+      - name: Add Heroku remote
+        run: heroku git:remote --app fitxtdev
+        env:
+          HEROKU_APP_NAME: fitxtdev
+      - name: Migrate DB if needed
+        run: heroku run rails db:migrate
