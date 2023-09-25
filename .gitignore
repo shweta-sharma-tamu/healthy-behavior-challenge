@@ -33,3 +33,10 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+#ignore db_env_setup.sh
+db_env_setup.sh
+.env
+
+#macos
+*DS_Store*

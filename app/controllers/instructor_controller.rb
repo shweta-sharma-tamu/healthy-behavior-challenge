@@ -7,7 +7,8 @@ class InstructorController < ApplicationController
     def create
         specific_user_params = {
             email: user_params[:email],
-            password: user_params[:password]
+            password: user_params[:password],
+            user_type: 
         }
         @user = User.new(specific_user_params)
         @instructor = Instructor.new(instructor_params)
