@@ -1,0 +1,72 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Form</title>
+    <style>
+        /* Center-align the container */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Adjust this to control the vertical alignment */
+        }
+        /* Style the box-like appearance */
+        .form-box {
+            background-color: #f4f4f4;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Style the "Sign Up" button */
+        .btn-signup {
+            background-color: #0074e4;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        /* Add spacing between form fields */
+        .form-field {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<div class="container">
+    <div class="form-box">
+        <% if flash[:success] %>
+            <%= content_tag :h3, flash[:success], class:'text-center' %>
+        <% elsif flash[:error] %>
+            <%= content_tag :h3, flash[:error], class:'text-center' %>
+        <% end %>
+        <h1>Sign up</h1>
+        <form method="post">
+            <div class="form-field">
+                <label for="email">Email</label>
+                <input type="email" name="user[email]" id="email">
+            </div>
+            <div class="form-field">
+                <label for="first_name">First Name</label>
+                <input type="text" name="instructor[first_name]" id="first_name">
+            </div>
+            <div class="form-field">
+                <label for="last_name">Last Name</label>
+                <input type="text" name="instructor[last_name]" id="last_name">
+            </div>
+            <div class="form-field">
+                <label for="password">Password</label>
+                <input type="password" name="user[password]" id="password">
+            </div>
+            <div class="form-field">
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" name="user[confirm_password]" id="confirm_password">
+            </div>
+
+        <input type="submit" value="Sign Up">
+        <div class="form-field">
+        </div>
+        </form>
+
+<%= link_to "Back to Home", root_path %>
