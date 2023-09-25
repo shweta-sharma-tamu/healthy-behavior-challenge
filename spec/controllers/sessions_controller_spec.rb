@@ -25,4 +25,17 @@ RSpec.describe SessionsController, type: :controller do
       end
     end
   end
+
+  describe 'GET #destroy' do
+    context 'with valid credentials' do
+     let(:user_params) { { email: 'Admin@gmail.com', password: 'Admin@123' } }
+
+      it 'logs out the user' do
+        get :destroy
+        allow(controller).to receive(:destroy).and_return(true)
+        expect(session[:user_id]).to be_nil
+        expect(response).to redirect_to(new_session_path)
+      end
+    end
+  end
 end

@@ -33,4 +33,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_24_204708) do
   end
 
   add_foreign_key "trainees", "users"
+
 end
