@@ -31,17 +31,15 @@ jobs:
       - name: List Docker images
         run: docker images
         
-      - name: Login to Docker Hub
-        run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
-
-      - name: Push Docker image to registry
-        run: docker tag fitxt khajifaizanali/fitxt
-      - name: Push Docker image to registry
-        run: docker push khajifaizanali/fitxt
-
       - uses: akhileshns/heroku-deploy@v3.12.14 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: fitxtdev #Must be unique in Heroku
           heroku_email: ${{secrets.HEROKU_EMAIL}}
           stack: "container"
+      - name: Add Heroku remote
+        run: heroku git:remote --app fitxtdev
+        env:
+          HEROKU_APP_NAME: fitxtdev
+      - name: Migrate DB if needed
+        run: heroku run rails db:migrate
