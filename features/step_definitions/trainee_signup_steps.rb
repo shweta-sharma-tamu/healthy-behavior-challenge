@@ -1,5 +1,5 @@
 Given('I am on the signup page') do
-    visit signup_user_path
+    visit trainee_signup_path
 end
 
 When('I fill in "full_name" with "new user"') do
@@ -30,8 +30,8 @@ When('I click the Sign Up button') do
     click_button "Sign Up"
 end
   
-Then('I should be on the homepage') do
-    expect(current_path).to eq(signup_user_path)
+Then('I should be on login page') do
+    expect(current_path).to eq(trainee_signup_path)
 end
 
 
@@ -45,7 +45,7 @@ end
 
   
 Then('I should stay on the signup page') do
-    expect(current_path).to eq(signup_user_path)
+    expect(current_path).to eq(trainee_signup_path)
 end
 
 

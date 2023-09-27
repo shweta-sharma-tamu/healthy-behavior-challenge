@@ -12,7 +12,7 @@ Feature: Trainee Signup
         And I fill in "height" with "175"
         And I fill in "weight" with "70"
         And I click the "Sign Up" button
-        Then I should be on the homepage
+        Then I should be on login page
 
     Scenario: Signs up with with empty name
         Given I am on the signup page
