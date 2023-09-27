@@ -13,5 +13,8 @@ Rails.application.routes.draw do
   post "password/reset", to: "password_resets#create"
   get   "password/reset/edit", to: "password_resets#edit"
   patch "password/reset/edit", to: "password_resets#update"
+
+  get "/trainee_signup", to: "trainee_signup#new", as: "trainee_signup"
+  post "/trainee_signup", to: "trainee_signup#create"
 end
 

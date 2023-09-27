@@ -1,0 +1,77 @@
+<div>
+  <%= render 'main/navbar' %>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3" style="margin-top: 12%;">
+        <% if flash[:notice] %>
+          <%= content_tag :h3, flash[:notice], class:'text-center' %>
+        <% elsif flash[:alert] %>
+          <%= content_tag :h3, flash[:alert], class:'text-center' %>
+        <% else %>
+          <%= content_tag :h3, "Trainee Signup", class:'text-center' %>
+        <% end %>
+
+        <%= form_with model: @user, url: trainee_signup_path, data: {turbo: false} do |f| %>
+            <div class="mb-3">
+                <%= f.label :full_name %>
+                <%= f.text_field :full_name, class: "form-control", placeholder: "John Smilga" %>
+            </div>
+
+            <div class="mb-3">
+                <%= f.label :email %>
+                <%= f.email_field :email, class: "form-control", placeholder: "user@example.com", autocomplete: true  %>
+            </div>
+
+            <div class="mb-3">
+                <%= f.label :password %>
+                <%= f.password_field :password, class: "form-control", placeholder: "password"  %>
+            </div>
+
+            <div class="mb-3">
+                <%= f.label :password_confirmation %>
+                <%= f.password_field :password_confirmation, class: "form-control", placeholder: "password"  %>
+            </div>
+
+            <div class="mb-3">
+                <%= f.label :height %>
+                <%= f.number_field :height, class: "form-control", placeholder: "165"  %>
+            </div>
+
+            <div class="mb-3">
+                <%= f.label :weight %>
+                <%= f.number_field :weight, class: "form-control", placeholder: "85"  %>
+            </div>
+
+            <div class="mb-3">
+                <%= f.submit 'Sign Up', class: "btn btn-primary btn-block" %>
+                <%= link_to "Already a user? Sign In", login_path , class: 'btn btn-primary btn-block'%>
+            </div>
+        <% end %>
+
+        <% if @user.errors.any? %>
+          <div id="error_explanation">
+            <h4><%= pluralize(@user.errors.count, "error") %> prohibited this user from signing up:</h4>
+            <ul>
+              <% @user.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <% if @trainee.errors.any? %>
+          <div id="error_explanation">
+            <h4><%= pluralize(@trainee.errors.count, "error") %> prohibited this user from signing up:</h4>
+            <ul>
+              <% @trainee.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+</div>
