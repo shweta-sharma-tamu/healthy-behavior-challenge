@@ -5,10 +5,10 @@ Feature: Forgot Password
     
 
   Scenario: Request a password reset email
-    Given there is a registered user with the email "userexists2@example.com"
+    Given there is a registered user with the email "userexists3@example.com"
     And I am on the login page
     When I click on the "Forgot Password" link
-    And I fill in my email address with "userexists2@example.com"
+    And I fill in my email address with "userexists3@example.com"
     And I click the "Reset Password" button
     Then I should see a message "If an account with email was found, we have sent a link to reset your password."
 
