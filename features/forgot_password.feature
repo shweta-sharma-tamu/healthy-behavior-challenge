@@ -2,14 +2,13 @@ Feature: Forgot Password
   As a user
   I want to reset my password
   So that I can regain access to my account
-
-  Background:
-    Given there is a registered user with the email "user@example.com"
+    
 
   Scenario: Request a password reset email
-    Given I am on the login page
+    Given there is a registered user with the email "userexists2@example.com"
+    And I am on the login page
     When I click on the "Forgot Password" link
-    And I fill in my email address with "user@example.com"
+    And I fill in my email address with "userexists2@example.com"
     And I click the "Reset Password" button
     Then I should see a message "If an account with email was found, we have sent a link to reset your password."
 
