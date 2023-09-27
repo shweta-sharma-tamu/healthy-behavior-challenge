@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SignupUserController, type: :controller do
+RSpec.describe TraineeSignupController, type: :controller do
     describe 'GET #new' do
         it 'renders the new template' do
             get :new
