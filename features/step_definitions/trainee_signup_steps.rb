@@ -31,7 +31,7 @@ When('I click the Sign Up button') do
 end
   
 Then('I should be on login page') do
-    expect(current_path).to eq(trainee_signup_path)
+    expect(current_path).to eq(login_path)
 end
 
 
