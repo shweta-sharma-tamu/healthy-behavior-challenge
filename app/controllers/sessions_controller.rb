@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
     else
         message = params[:email]
         message = "Incorrect email or password. Please try again."
-        redirect_to new_session_url, notice: message
+        redirect_to new_session_url, alert: message
     end
   end
 

@@ -31,7 +31,7 @@ Given("I am a logged-in user") do
   end
   
   When("I click the {string} button") do |button_text|
-    click_link button_text
+    click_on button_text
   end
   
   And("I should see a message {string}") do |message|

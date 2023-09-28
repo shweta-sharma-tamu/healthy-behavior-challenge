@@ -25,17 +25,13 @@ class InstructorController < ApplicationController
         @user = User.new(specific_user_params)
 
         if valid_inputs? 
+            puts "Valid email"
             if @user.save 
 
-               #referral_code = params.require(:user).permit(:referral_code)
                referral_code = user_params[:referral_code]
-               puts "USER success"
-               puts "#{referral_code}"
-               puts "hello....."
 
                if referral_code != 'ABC'
                    flash[:notice] = "You are not referred as Instructor!"
-                   #redirect_to instructor_signup_path
                    redirect_to root_path
                    return
                end
@@ -45,16 +41,15 @@ class InstructorController < ApplicationController
                     first_name: user_params[:first_name],
                     last_name: user_params[:last_name],
                 }
-                @instructor = Instructor.new(specific_instructor_params)
 
+               @instructor = Instructor.new(specific_instructor_params)
                if @instructor.save
                     flash[:notice] = "Welcome, #{@instructor.first_name}!"
-                    puts "Instructor success"
                     session[:user_id] = @user.id
-                    #redirect_to root_path
                     redirect_to user_path(session[:user_id])
                else
-                    #@user.destroy # Roll back the user creation if instructor creation fails
+                    flash[:notice] = "Signup failed!"
+                    @user.destroy
                     render 'new'
                end
             else

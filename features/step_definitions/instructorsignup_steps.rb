@@ -3,8 +3,8 @@
     expect(page).to have_content('Sign up')
   end
   
-  When('I fill in email with instructorsignup@gmail.com') do
-    fill_in 'Email', with: 'instructorsignup@gmail.com'
+  When('I fill in email with instructorsignup3@gmail.com') do
+    fill_in 'Email', with: 'instructorsignup3@gmail.com'
   end
 
   When('I fill in email with {string}') do |email|
@@ -12,11 +12,11 @@
   end
 
   When('I fill in email with instructorsignup') do
-    fill_in 'Email', with: 'Please enter valid email and try again.'
+    fill_in 'Email', with: 'instructorsignup'
   end
 
   When('I fill in email with '' ') do
-    fill_in 'Email', with: 'Incorrect email or password. Please try again.'
+    fill_in 'Email', with: ''
   end
 
   When('I fill in password with signup111') do
@@ -28,7 +28,7 @@
   end
 
   When('I fill in password with ''') do
-    fill_in 'Password', with: 'Incorrect email or password. Please try again.'
+    fill_in 'Password', with: ''
   end
 
   When('I fill in confirm_password with signup111') do

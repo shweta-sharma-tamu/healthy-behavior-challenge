@@ -23,6 +23,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_25_055152) do
     t.index ["user_id"], name: "index_instructors_on_user_id"
   end
 
+  create_table "trainees", force: :cascade do |t|
+    t.string "full_name"
+    t.float "height"
+    t.float "weight"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_trainees_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
@@ -32,4 +42,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_25_055152) do
   end
 
   add_foreign_key "instructors", "users"
+  add_foreign_key "trainees", "users"
 end
