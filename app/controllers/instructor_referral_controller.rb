@@ -16,9 +16,8 @@ class InstructorReferralController < ApplicationController
             flash.now[:alert] = "Error: "+ errors.join(",")
         else
             @referral.save
-            link = "#{ENV['ROOT_URL']}/signup/#{@token}"
-            InstructorReferralMailer.with(referral: @referral,email: params[:email],link: link).refer.deliver_now
-            flash.now[:notice] = "Copy this link: <a href='#{link}'>#{link}</a>"
+            InstructorReferralMailer.with(referral: @referral,email: params[:email],is_used: false).refer.deliver_now
+            flash.now[:notice] = "Copy this link: #{ENV['ROOT_URL']}#{instructor_signup_path(token: @referral.token)}"
         end
         render action: "index"
     end

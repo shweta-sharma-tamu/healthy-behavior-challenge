@@ -1,5 +1,12 @@
 class InstructorController < ApplicationController
     def new 
+        puts params[:token]
+        token = InstructorReferral.find_by(token: params[:token])
+        if !(token.present? && 
+             token.expires > DateTime.now &&
+             !token.is_used? )
+            @token_invalid = true
+        end
         @instructor = Instructor.new
         @user = User.new
     end
@@ -20,7 +27,7 @@ class InstructorController < ApplicationController
         specific_user_params = {
             email: user_params[:email],
             password: user_params[:password],
-            user_type: 'instructor'
+            user_type: 'Instructor'
         }
         @user = User.new(specific_user_params)
 
@@ -37,6 +44,7 @@ class InstructorController < ApplicationController
                @instructor = Instructor.new(specific_instructor_params)
                if @instructor.save
                     flash[:notice] = "Welcome, #{@instructor.first_name}!"
+                    InstructorReferral.find_by(token: params[:token]).update(is_used: true)
                     session[:user_id] = @user.id
                     redirect_to user_path(session[:user_id])
                else

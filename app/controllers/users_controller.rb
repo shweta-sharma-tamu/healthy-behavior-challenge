@@ -17,6 +17,7 @@ class UsersController < ApplicationController
     def show
         @user = User.find(params[:id])
         @user_id_from_session = @user.id
+        @is_instructor = @user.user_type == "Instructor"
         render :show
     end
 

@@ -74,7 +74,7 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
 
 
-  config.action_mailer.default_url_options = { host: "https://fitxtdev-41d849676354.herokuapp.com/" }
+  config.action_mailer.default_url_options = { host: "localhost:3000" }
   config.action_mailer.default_options = { from: ENV['PROJECT_MAILID'] , protocol: 'http'}
   config.action_mailer.delivery_method = :smtp
 
