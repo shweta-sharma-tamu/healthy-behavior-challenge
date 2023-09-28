@@ -1,5 +1,6 @@
 Given("there is a instructor registered with the email {string} and password {string}") do |email,password|
     @user = User.create!(email: email, password: password,user_type: "Instructor")
+    puts @user.email
 end
 
 Given("I am logged in as an instructor with email {string} and password {string}") do |email,password|
@@ -33,26 +34,46 @@ Given("I am logged in as an instructor with email {string} and password {string}
     # Implement the code to verify that a unique referral link was generated and sent to the recipient's email
     puts @user.email
     @token = InstructorReferral.where(email: @recipient_email).order(created_at: :desc).first.token
+    puts @token
     expect(page).to have_content(@token)
   end
   
-  And("the unique referral link should be sent to {string}") do |email|
-    # Implement the code to verify that a success message is displayed
-  end
-  
-  Given("I receive a referral email with a unique link") do
-    # Implement the code to simulate receiving a referral email with a unique link
+  Given("I receive a referral link from {string}") do |email|
+    @token = SecureRandom.uuid
+    user = User.find_by(email: email)
+    # Create a new referral associated with the user
+    referral = user.instructor_referrals.create(email: "example@example.com", token: @token, is_used: false,expires: Date.today+7.days)
+    @referral_link = instructor_signup_path(token: @token)
+    
   end
   
   When("I click the referral link") do
     # Implement the code to click the referral link
+    visit @referral_link
   end
   
   Then("I should be redirected to the signup page") do
     # Implement the code to verify that the user is redirected to the signup page
+    expect(page).to have_content("Sign up")
   end
-  
-  And("the referral code should be associated with my account") do
-    # Implement the code to verify that the referral code is associated with the user's account
+
+
+    Given("I have an invalid link") do
+    @token = SecureRandom.uuid
+    @referral_link = instructor_signup_path(token: @token) 
   end
+
+  Given("I have an expired link from {string}") do |email|
+     @token = SecureRandom.uuid
+    user = User.find_by(email: email)
+    referral = user.instructor_referrals.create(email: "example@example.com", token: @token, is_used: false,expires: Date.today-7.days)
+    @referral_link = instructor_signup_path(token: @token)
+  end
+
+
+  Then("I should see invalid error") do
+    # Implement the code to verify that the user is redirected to the signup page
+    expect(page).to have_content("Token is invalid")
+  end
+
   
