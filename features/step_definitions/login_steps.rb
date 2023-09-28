@@ -36,7 +36,7 @@ When('I enter abcd@123 as password') do
 end
 
 When('I click on submit') do
-  click_button 'Sign In!'
+  click_button 'Sign In'
 end
 
 Then('I should see {string}') do |arg|
