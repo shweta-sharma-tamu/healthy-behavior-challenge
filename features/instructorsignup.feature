@@ -24,7 +24,7 @@ Feature: Instructor SignUp
 
   Scenario: Instructor cannot signup with empty password
     Given I am on instructor signup page 
-    When I fill in email with instructorsignup3@gmail.com 
+    When I fill in email with instructorsignup4@gmail.com 
     And I fill in password with ''
     And I fill in confirm_password with signup111
     And I fill in first_name with Peter 

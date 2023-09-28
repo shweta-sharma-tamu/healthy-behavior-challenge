@@ -7,6 +7,10 @@
     fill_in 'Email', with: 'instructorsignup3@gmail.com'
   end
 
+  When('I fill in email with instructorsignup4@gmail.com') do
+    fill_in 'Email', with: 'instructorsignup4@gmail.com'
+  end
+
   When('I fill in email with {string}') do |email|
     fill_in 'Email', with: email
   end
