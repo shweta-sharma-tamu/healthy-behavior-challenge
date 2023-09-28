@@ -1,6 +1,6 @@
 Given(/^I am not currently Logged in$/) do
   visit login_path
-  expect(page).to have_content('Please Log in')
+  expect(page).to have_content('Please Sign in')
 end
 
 Given(/^I am on the Login page$/) do
@@ -36,7 +36,7 @@ When('I enter abcd@123 as password') do
 end
 
 When('I click on submit') do
-  click_button 'Sign In!'
+  click_button 'Sign In'
 end
 
 Then('I should see {string}') do |arg|
