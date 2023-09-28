@@ -1,6 +1,6 @@
 Given(/^I am not currently Logged in$/) do
   visit login_path
-  expect(page).to have_content('Please Log in')
+  expect(page).to have_content('Please Sign in')
 end
 
 Given(/^I am on the Login page$/) do
