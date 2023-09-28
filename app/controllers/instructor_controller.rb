@@ -5,45 +5,73 @@ class InstructorController < ApplicationController
     end
 
     def create
+        if user_params[:email] == '' or user_params[:password] == ''
+            flash[:error] = "Incorrect email or password. Please try again."
+            redirect_to instructor_signup_path
+            return
+        end
+
+        if user_params[:password] != user_params[:confirm_password]
+            flash[:error] = "Password Mismatch."
+            redirect_to instructor_signup_path
+            return
+        end
+
         specific_user_params = {
             email: user_params[:email],
             password: user_params[:password],
-            user_type: 
+            user_type: 'instructor'
         }
         @user = User.new(specific_user_params)
-        @instructor = Instructor.new(instructor_params)
 
         if valid_inputs? 
             if @user.save 
-               @instructor.user_id=@user.userid
+
+               #referral_code = params.require(:user).permit(:referral_code)
+               referral_code = user_params[:referral_code]
+               puts "USER success"
+               puts "#{referral_code}"
+               puts "hello....."
+
+               if referral_code != 'ABC'
+                   flash[:notice] = "You are not referred as Instructor!"
+                   #redirect_to instructor_signup_path
+                   redirect_to root_path
+                   return
+               end
+    
+               specific_instructor_params = {
+                    user_id: @user.id,
+                    first_name: user_params[:first_name],
+                    last_name: user_params[:last_name],
+                }
+                @instructor = Instructor.new(specific_instructor_params)
+
                if @instructor.save
-                    flash[:success] = "Welcome, #{@instructor.first_name}!"
-                    redirect_to root_path
+                    flash[:notice] = "Welcome, #{@instructor.first_name}!"
+                    puts "Instructor success"
+                    session[:user_id] = @user.id
+                    #redirect_to root_path
+                    redirect_to user_path(session[:user_id])
                else
-                    @user.destroy # Roll back the user creation if instructor creation fails
+                    #@user.destroy # Roll back the user creation if instructor creation fails
                     render 'new'
                end
             else
                 render 'new'
             end  
         else
-            flash.now[:error] = "Please check your inputs and try again." 
+            flash.now[:error] = "Please enter valid email and try again." 
             render 'new'
         end
     end
 
-    def instructor_params
-       params.require(:instructor).permit(:first_name, :last_name)
-    end
-
     def user_params
-        params.require(:user).permit(:email, :password, :confirm_password)
+        params.require(:user).permit(:email, :password, :confirm_password, :first_name, :last_name, :referral_code)
     end
 
     def valid_inputs?
-        email_valid = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.match?(instructor_params[:email])
-        password_match = instructor_params[:password] == instructor_params[:confirm_password]
-    
-        email_valid && password_match
+        email_valid = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.match?(user_params[:email])
+        email_valid
     end
 end

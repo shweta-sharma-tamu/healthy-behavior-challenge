@@ -7,8 +7,8 @@ Given(/^I am on the Login page$/) do
   visit login_path
 end
 
-When('I enter Admin@gmail.com as email') do
-  fill_in 'email', with: 'Admin@gmail.com'
+When('I enter Admin@gmail.com as Email') do
+  fill_in 'Email', with: 'Admin@gmail.com'
 end
 
 When('I enter {string} as email') do |string|

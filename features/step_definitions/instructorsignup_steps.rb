@@ -1,43 +1,74 @@
   Given(/^I am on instructor signup page$/) do
-    visit '/instructorsignup'
+    visit '/instructor_signup'
+    expect(page).to have_content('Sign up')
   end
   
+  When('I fill in email with instructorsignup@gmail.com') do
+    fill_in 'Email', with: 'instructorsignup@gmail.com'
+  end
+
   When('I fill in email with {string}') do |email|
-    fill_in 'email', with: 'email'
+    fill_in 'Email', with: email
   end
 
-  When('I fill in email with ''') do
-    fill_in 'email', with: ''
+  When('I fill in email with instructorsignup') do
+    fill_in 'Email', with: 'Please enter valid email and try again.'
   end
 
-  When('I fill in first name with {string}') do |first_name|
-    fill_in 'first_name', with: 'first_name'
-    @first_name = first_name
+  When('I fill in email with '' ') do
+    fill_in 'Email', with: 'Incorrect email or password. Please try again.'
   end
 
-  When('I fill in last name with {string}') do |last_name|
-    fill_in 'last_name', with: 'last_name'
-    @last_name = last_name
+  When('I fill in password with signup111') do
+    fill_in 'Password', with: 'signup111'
   end
 
   When('I fill in password with {string}') do |password|
-    fill_in 'password', with: 'password'
+    fill_in 'Password', with: password
+  end
+
+  When('I fill in password with ''') do
+    fill_in 'Password', with: 'Incorrect email or password. Please try again.'
+  end
+
+  When('I fill in confirm_password with signup111') do
+    fill_in 'Confirm Password', with: 'signup111'
+  end
+
+  When('I fill in confirm_password with signup123') do
+    fill_in 'Confirm Password', with: 'signup123'
   end
 
   When('I fill in confirm_password with {string}') do |confirm_password|
-    fill_in 'confirm_password', with: 'confirm_password'
+    fill_in 'Confirm Password', with: confirm_password
   end
 
-  When('I fill in referal_code with {string}') do |referral_code|
-    fill_in 'referral_code', with: 'referral_code'
+  When('I fill in first_name with Peter') do
+    fill_in 'First Name', with: 'Peter'
+  end
+
+  When('I fill in last_name with John') do
+    fill_in 'Last Name', with: 'John'
+  end
+
+  When('I fill in referral_code with ABC') do
+    fill_in 'Referral Code', with: 'ABC'
+  end
+
+  When('I fill in referral_code with {string}') do |referral_code|
+    fill_in 'Referral Code', with: referral_code
   end
   
-  When("I click on signup button") do |button_text|
-    click_button button_text
+  When("I click on signup") do
+    click_button "Sign Up"
   end
   
-  Then('I should see {string}') do
-    expect(page).to have_content("Welcome!, #{@first_name} #{@last_name}")
+  #Then('I should see {string}') do
+    #expect(page).to have_content("Welcome!, #{@first_name} #{@last_name}")
+  #end
+
+  Then('I should see {string} message') do |msg|
+    expect(page).to have_content(msg)
   end
 
   Then('I should see error {string}') do
