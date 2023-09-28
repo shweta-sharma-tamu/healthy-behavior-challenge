@@ -5,7 +5,6 @@
 # files.
 
 require 'cucumber/rails'
-require 'database_cleaner'
 
 # frozen_string_literal: true
 
@@ -38,14 +37,6 @@ begin
   DatabaseCleaner.allow_remote_database_url = true
 rescue NameError
   raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
-end
-
-Before do
-  DatabaseCleaner.clean
-end
-
-After do
-  DatabaseCleaner.clean
 end
 
 # You may also want to configure DatabaseCleaner to use different strategies for certain features and scenarios.
