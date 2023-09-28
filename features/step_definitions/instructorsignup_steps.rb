@@ -54,14 +54,6 @@
   When('I fill in last_name with John') do
     fill_in 'Last Name', with: 'John'
   end
-
-  When('I fill in referral_code with ABC') do
-    fill_in 'Referral Code', with: 'ABC'
-  end
-
-  When('I fill in referral_code with {string}') do |referral_code|
-    fill_in 'Referral Code', with: referral_code
-  end
   
   When("I click on signup") do
     click_button "Sign Up"

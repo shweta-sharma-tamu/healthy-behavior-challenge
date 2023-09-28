@@ -17,8 +17,7 @@ RSpec.describe InstructorController, type: :controller do
             password: 'password',
             confirm_password: 'password',
             first_name: 'John',
-            last_name: 'Doe',
-            referral_code: 'ABC'
+            last_name: 'Doe'
           }
         }
 
@@ -35,8 +34,7 @@ RSpec.describe InstructorController, type: :controller do
             password: 'password',
             confirm_password: 'password',
             first_name: 'John',
-            last_name: 'Doe',
-            referral_code: 'ABC'
+            last_name: 'Doe'
           }
         }
 
@@ -52,8 +50,7 @@ RSpec.describe InstructorController, type: :controller do
             password: 'password',
             confirm_password: 'different_password',
             first_name: 'John',
-            last_name: 'Doe',
-            referral_code: 'ABC'
+            last_name: 'Doe'
           }
         }
 
@@ -68,8 +65,7 @@ RSpec.describe InstructorController, type: :controller do
             password: 'password',
             confirm_password: 'password',
             first_name: 'John',
-            last_name: 'Doe',
-            referral_code: 'ABC'
+            last_name: 'Doe'
           }
         }
 

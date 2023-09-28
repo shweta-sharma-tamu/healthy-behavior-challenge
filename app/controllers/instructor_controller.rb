@@ -27,14 +27,6 @@ class InstructorController < ApplicationController
         if valid_inputs? 
             puts "Valid email"
             if @user.save 
-
-               referral_code = user_params[:referral_code]
-
-               if referral_code != 'ABC'
-                   flash[:notice] = "You are not referred as Instructor!"
-                   redirect_to root_path
-                   return
-               end
     
                specific_instructor_params = {
                     user_id: @user.id,
@@ -62,7 +54,7 @@ class InstructorController < ApplicationController
     end
 
     def user_params
-        params.require(:user).permit(:email, :password, :confirm_password, :first_name, :last_name, :referral_code)
+        params.require(:user).permit(:email, :password, :confirm_password, :first_name, :last_name)
     end
 
     def valid_inputs?

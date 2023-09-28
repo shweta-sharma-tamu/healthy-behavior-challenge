@@ -6,8 +6,7 @@ Feature: Instructor SignUp
     And I fill in password with signup111
     And I fill in confirm_password with signup111
     And I fill in first_name with Peter
-    And I fill in last_name with John   
-    And I fill in referral_code with ABC  
+    And I fill in last_name with John  
     And I click on signup
     Then I should see 'Welcome, Peter!' message
 
@@ -17,8 +16,7 @@ Feature: Instructor SignUp
     And I fill in password with signup111
     And I fill in confirm_password with signup111
     And I fill in first_name with Peter 
-    And I fill in last_name with John  
-    And I fill in referral_code with ABC
+    And I fill in last_name with John
     And I click on signup
     Then I should see 'Incorrect email or password. Please try again.' message
 
@@ -29,7 +27,6 @@ Feature: Instructor SignUp
     And I fill in confirm_password with signup111
     And I fill in first_name with Peter 
     And I fill in last_name with John  
-    And I fill in referral_code with ABC
     And I click on signup
     Then I should see 'Incorrect email or password. Please try again.' message
 
@@ -40,7 +37,6 @@ Scenario: Instructor cannot signup with invalid email
     And I fill in confirm_password with signup111
     And I fill in first_name with Peter 
     And I fill in last_name with John  
-    And I fill in referral_code with ABC
     And I click on signup
     Then I should see 'Please enter valid email and try again.' message    
   
@@ -51,7 +47,6 @@ Scenario: Instructor cannot signup with password mismatch
     And I fill in confirm_password with signup123
     And I fill in first_name with Peter 
     And I fill in last_name with John  
-    And I fill in referral_code with ABC
     And I click on signup
     Then I should see 'Password Mismatch.' message
     
