@@ -33,14 +33,28 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_25_055152) do
     t.index ["user_id"], name: "index_trainees_on_user_id"
   end
 
+  create_table "instructor_referrals", force: :cascade do |t|
+    t.string "token", limit: 40
+    t.datetime "expires"
+    t.boolean "is_used"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "email"
+    t.index ["token"], name: "index_instructor_referrals_on_token", unique: true
+    t.index ["user_id"], name: "index_instructor_referrals_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
     t.string "user_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   add_foreign_key "instructors", "users"
   add_foreign_key "trainees", "users"
+  add_foreign_key "instructor_referrals", "users"
 end

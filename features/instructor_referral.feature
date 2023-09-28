@@ -4,15 +4,15 @@ Feature: Instructor Referral
   So that new specified user can access the signup page
 
   Background:
-    Given there is a instructor registered user with the email "instructor@example.com"
+    Given there is a instructor registered with the email "instructor@example.com" and password "abcdef"
 
   Scenario: Sending a referral email with a unique link
-    Given I am logged in as an instructor with email "instructor@example.com" and password "password"
+    Given I am logged in as an instructor with email "instructor@example.com" and password "abcdef"
     When I navigate to the referral page
     And I fill in the recipient's email with "newuser@example.com"
-    And I click the "Send Referral Email" button
-    Then a unique referral link should be generated and sent to "newuser@example.com"
-    And I should see a success message
+    And Instructor Referral: I click the "Refer" button
+    Then a unique referral link should be generated and displayed
+    And the unique referral link should be sent to "newuser@example.com"
 
   Scenario: New user accessing the signup page through the referral link
     Given I receive a referral email with a unique link

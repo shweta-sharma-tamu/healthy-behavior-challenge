@@ -1,8 +1,8 @@
-Given('there is a registered user with the email {string} and password {string}') do |email,password|
-    User.create!(email: email, password: password,user_type: "Instructor") 
-  end
+Given("there is a instructor registered with the email {string} and password {string}") do |email,password|
+    @user = User.create!(email: email, password: password,user_type: "Instructor")
+end
 
-Given("Given I am logged in as an instructor with email {string} and password {string}") do |email,password|
+Given("I am logged in as an instructor with email {string} and password {string}") do |email,password|
     # Implement the code to log in as an instructor
     visit login_path
     expect(page).to have_content('Please Log in')
@@ -14,26 +14,29 @@ Given("Given I am logged in as an instructor with email {string} and password {s
   
   When("I navigate to the referral page") do
     # Implement the code to navigate to the referral page
-    click_button "Refer Instructor"
+    visit instructor_referral_path
     expect(page).to have_content("Please enter valid email to refer an instructor.")
   end
   
   And("I fill in the recipient's email with {string}") do |recipient_email|
     # Implement the code to fill in the recipient's email field with the provided email
+    @recipient_email = recipient_email
     fill_in 'email',with: recipient_email
   end
   
-  And("I click the {string} button") do |button_text|
+  And("Instructor Referral: I click the {string} button") do |button_text|
     # Implement the code to click the specified button
-    click_button "Refer"
+    find("#refer-button").click
   end
   
-  Then("a unique referral link should be generated and sent to {string}") do |recipient_email|
+  Then("a unique referral link should be generated and displayed") do
     # Implement the code to verify that a unique referral link was generated and sent to the recipient's email
-    expect
+    puts @user.email
+    @token = InstructorReferral.where(email: @recipient_email).order(created_at: :desc).first.token
+    expect(page).to have_content(@token)
   end
   
-  And("I should see a success message") do
+  And("the unique referral link should be sent to {string}") do |email|
     # Implement the code to verify that a success message is displayed
   end
   

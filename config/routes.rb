@@ -20,5 +20,8 @@ Rails.application.routes.draw do
 
   get "/trainee_signup", to: "trainee_signup#new", as: "trainee_signup"
   post "/trainee_signup", to: "trainee_signup#create"
+  get 'instructor_referral', to: 'instructor_referral#index'
+  post 'instructor_referral', to: 'instructor_referral#create'
+
 end
 
