@@ -13,20 +13,24 @@ RSpec.describe InstructorReferralController, type: :controller do
     end
   end
 
-    # describe 'POST #create' do
-    #     it 'creates a new referral link' do
-    #     post :create, params: {
-    #       user: {
-    #         email: 'test@example.com',
-    #       }
-    #     }, session :{
-    #         user_id: User.find_by(email: "user1@gmail.com")
-    #     }
+    describe 'POST #create' do
+        it 'creates a new referral link if email present' do
+        post :create, params: {
+            email: 'test@example.com',
+        }, session: {
+            user_id: User.find_by(email: "user1@gmail.com").id
+        }
+        expect(flash[:notice]).to be_present
+      end
+      it 'shows errors if email is not valid' do
+        post :create, params: {
+            email: '',
+        }, session: {
+            user_id: User.find_by(email: "user1@gmail.com").id
+        }
+        expect(flash[:error]).to be_present
+      end
 
-    #     expect(response).to redirect_to(user_path(assigns(:user).id))
-    #     expect(flash[:notice]).to be_present
-    #   end
-
-    # end 
+    end 
 
 end

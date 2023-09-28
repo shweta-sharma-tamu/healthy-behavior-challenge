@@ -13,7 +13,7 @@ class InstructorReferralController < ApplicationController
         errors = @referral.errors.full_messages
         p errors
         if errors.length != 0
-            flash.now[:alert] = "Error: "+ errors.join(",")
+            flash.now[:error] = "Error: "+ errors.join(", ")
         else
             @referral.save
             InstructorReferralMailer.with(referral: @referral,email: params[:email],is_used: false).refer.deliver_now
@@ -22,9 +22,4 @@ class InstructorReferralController < ApplicationController
         render action: "index"
     end
 
-    # private
-
-    def user_params
-        params.require(:user).permit(:email, :password, :user_type)
-    end
 end

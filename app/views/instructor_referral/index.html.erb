@@ -8,11 +8,12 @@
         <%= form.submit "Refer", id:"refer-button" %>
       <% end %>
       <br>
-      <% flash.each do |type, msg| %>
-        <div>
-          <%= msg.html_safe %>
-        </div>
-      <% end %>
+      <% if flash[:notice] %>
+        <%= content_tag :p, flash[:notice] %>
+    <% end %>
+    <% if flash[:error] %>
+        <%= content_tag :p, flash[:error] %>
+    <% end %>
   </div>
 
 </div>

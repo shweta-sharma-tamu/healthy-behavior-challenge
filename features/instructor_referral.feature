@@ -13,6 +13,13 @@ Feature: Instructor Referral
     And Instructor Referral: I click the "Refer" button
     Then a unique referral link should be generated and displayed
 
+      Scenario: Showing error when an invalid email is given
+    Given I am logged in as an instructor with email "instructor@example.com" and password "abcdef"
+    When I navigate to the referral page
+    And I fill in the recipient's email with " "
+    And Instructor Referral: I click the "Refer" button
+    Then Instructor Referral: Errors are displayed
+
   Scenario: New user accessing the signup page through the referral link
     Given I receive a referral link from "instructor@example.com"
     When I click the referral link

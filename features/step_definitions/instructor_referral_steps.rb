@@ -76,4 +76,10 @@ Given("I am logged in as an instructor with email {string} and password {string}
     expect(page).to have_content("Token is invalid")
   end
 
+Then("Instructor Referral: Errors are displayed") do
+    # Implement the code to verify that the user is redirected to the signup page
+    expect(page).to have_content("Error")
+  end
+  
+
   
