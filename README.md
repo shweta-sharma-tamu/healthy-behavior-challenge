@@ -13,5 +13,10 @@
 
 ## Testing locally
 
+0. Please make sure .env file is correct
 1. Run your test commands in the terminal of rails container.
-2. If the command starts test environment in rails, such as bundle exec rails test, it will access postgres_test service.
+2. Run cucumber tests with `RAILS_ENV=test cucumber -s`
+3. Run rspec tests with `bundle exec rspec`
+4. You can find coverage report in coverage/
+
+Note that the test db is cleaned before every Scenario in Cucumber and describe block in rspec.
