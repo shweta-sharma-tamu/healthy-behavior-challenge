@@ -34,6 +34,9 @@ RSpec.describe SessionsController, type: :controller do
   end
 
   describe 'POST #create' do
+    context 'when user is registered' do
+        let(:user) { create(:user) }
+    end
     context 'with valid credentials' do
      let(:user_params) { { email: 'Admin@gmail.com', password: 'Admin@123' } }
 
