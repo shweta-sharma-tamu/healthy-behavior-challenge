@@ -16,14 +16,42 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe 'POST #create' do
-    let(:valid_params) { { user: { name: 'John Doe', email: 'john@example.com', password: 'password' } } }
-    let(:invalid_params) { { user: { name: '', email: '', password: '' } } }
-
     context 'with valid parameters' do
+      let(:valid_params) do
+        { user: { email: 'valid@example.com', password: 'password', user_type: 'trainee' } }
+      end
+
       it 'creates a new user' do
-        expect {
+        expect do
           post :create, params: valid_params
-        }.to change(User, :count).by(1)
+        end.to change(User, :count).by(1)
+      end
+
+      it 'redirects to the root path' do
+        post :create, params: valid_params
+        expect(response).to redirect_to(root_path)
+      end
+
+      it 'sets the session[:user_id] to the new user id' do
+        post :create, params: valid_params
+        expect(session[:user_id]).to eq(User.last.id)
+      end
+    end
+
+    context 'with invalid parameters' do
+      let(:invalid_params) do
+        { user: { email: '', password: 'password', user_type: 'regular' } }
+      end
+
+      it 'does not create a new user' do
+        expect do
+          post :create, params: invalid_params
+        end.to change(User, :count).by(0)
+      end
+
+      it 'renders the sessions/new template on failure' do
+        post :create, params: invalid_params
+        expect(response).to render_template('sessions/new')
       end
     end
   end
