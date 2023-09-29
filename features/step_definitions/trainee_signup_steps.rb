@@ -27,7 +27,7 @@ When('I fill in "weight" with "70"') do
 end
   
 When('I click the Sign Up button') do
-    click_button "Sign Up"
+    click_link "New User? Sign Up as Trainee"
 end
   
 Then('I should be on login page') do
