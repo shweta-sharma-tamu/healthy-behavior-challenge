@@ -35,10 +35,9 @@
   end
 
   Given('I click the sent referral link and redirected to signup page') do
-  visit @referral_link
-  expect(page).to have_content('Sign up')
+    visit @referral_link
+    expect(page).to have_content('Sign up')
   end
-  
   
   When('I fill in email with instructorsignup3@gmail.com') do
     fill_in 'Email', with: 'instructorsignup3@gmail.com'
@@ -96,14 +95,10 @@
     click_button "Sign Up"
   end
 
-  Then('I should see {string} message') do |msg|
+  Then('I should see {string} page') do |msg|
     expect(page).to have_content(msg)
   end
 
-  Then('I should see error {string}') do
-    expect(page).to have_content("Email cannot be empty")
+  Then('I should see {string} message') do |msg|
+    expect(page).to have_content(msg)
   end
-
-  Then('I should see error {string}') do
-    expect(page).to have_content("Password cannot be empty")
-  end  

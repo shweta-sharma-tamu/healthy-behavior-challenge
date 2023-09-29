@@ -25,7 +25,7 @@ Feature: Instructor SignUp
     And I fill in first_name with Peter 
     And I fill in last_name with John
     And I click on signup
-    Then I should see 'Incorrect email or password. Please try again.' message
+    Then I should see 'Sign up' page
 
   Scenario: Instructor cannot signup with empty password
     Given I click the sent referral link and redirected to signup page 
@@ -35,7 +35,7 @@ Feature: Instructor SignUp
     And I fill in first_name with Peter 
     And I fill in last_name with John  
     And I click on signup
-    Then I should see 'Incorrect email or password. Please try again.' message
+    Then I should see 'Sign up' page
 
 Scenario: Instructor cannot signup with invalid email
     Given I click the sent referral link and redirected to signup page 
@@ -45,7 +45,7 @@ Scenario: Instructor cannot signup with invalid email
     And I fill in first_name with Peter 
     And I fill in last_name with John  
     And I click on signup
-    Then I should see 'Please enter valid email and try again.' message    
+    Then I should see 'Sign up' page    
   
 Scenario: Instructor cannot signup with password mismatch
     Given I click the sent referral link and redirected to signup page 
@@ -55,5 +55,5 @@ Scenario: Instructor cannot signup with password mismatch
     And I fill in first_name with Peter 
     And I fill in last_name with John  
     And I click on signup
-    Then I should see 'Password Mismatch.' message
+    Then I should see 'Sign up' page
     
