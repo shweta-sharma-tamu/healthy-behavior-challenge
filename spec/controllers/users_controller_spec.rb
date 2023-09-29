@@ -14,4 +14,17 @@ RSpec.describe UsersController, type: :controller do
       expect(response).to render_template(:show)
     end
   end
+
+  describe 'POST #create' do
+    let(:valid_params) { { user: { name: 'John Doe', email: 'john@example.com', password: 'password' } } }
+    let(:invalid_params) { { user: { name: '', email: '', password: '' } } }
+
+    context 'with valid parameters' do
+      it 'creates a new user' do
+        expect {
+          post :create, params: valid_params
+        }.to change(User, :count).by(1)
+      end
+    end
+  end
 end
