@@ -15,7 +15,7 @@ Given("I am a logged-in user") do
     #click_button 'Sign out'
     #visit login_path
     visit login_path
-    expect(page).to have_content('Please Sign in')
+    expect(page).to have_content('User Sign in')
     fill_in 'Email', with: 'Admin@gmail.com'
     fill_in 'Password', with: 'Admin@123'
     click_button 'Sign In'
@@ -23,7 +23,7 @@ Given("I am a logged-in user") do
   
   Given("I am not logged in") do
     visit login_path
-    expect(page).to have_content('Please Sign in')
+    expect(page).to have_content('User Sign in')
   end
   
   Then("I should see a {string} button") do |button_text|
