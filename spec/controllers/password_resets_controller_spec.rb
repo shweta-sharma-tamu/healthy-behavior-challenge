@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe PasswordResetsController, type: :controller do
-  let(:user) { create(:user) }
+  let(:user) { User.first || create(:user) }
 
   it 'sends a password reset email' do
     post :create, params: { email: user.email }
@@ -11,7 +11,7 @@ RSpec.describe PasswordResetsController, type: :controller do
 end
 
 RSpec.describe PasswordResetsController, type: :controller do
-    let(:user) { create(:user) }
+    let(:user) { User.first || create(:user) }
     let(:token) {  user.signed_id(purpose: "password_reset", expires_in: 360.minutes) }
   
     it 'resets the password' do
@@ -22,7 +22,7 @@ RSpec.describe PasswordResetsController, type: :controller do
   end
 
 RSpec.describe PasswordResetsController, type: :controller do
-  let(:user) { create(:user) }
+  let(:user) { User.first || create(:user) }
   let(:token) {  user.signed_id(purpose: "password_reset", expires_in: 360.minutes) }
 
   it 'throws error for password is not matching with password confirmation' do

@@ -10,42 +10,39 @@ jobs:
   cucumber_test:
     runs-on: ubuntu-latest
     services:
-        postgres:
-          image: postgres:latest
-          env:
-            POSTGRES_DB: test_db
-            POSTGRES_USER: postgres1
-            POSTGRES_PASSWORD: 54321
-          ports:
-            - 5432:5432
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: test_db
+          POSTGRES_USER: postgres1
+          POSTGRES_PASSWORD: 54321
+        ports:
+          - 5432:5432
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Copy .env file
-      run: |
-        cp .env.template .env
-    - name: Stop and remove existing containers
-      run: |
-        docker stop $(docker ps -aq)
-        docker rm $(docker ps -aq)
-    
+      - name: Copy .env file
+        run: |
+          cp .env.template .env
+      - name: Stop and remove existing containers
+        run: |
+          docker stop $(docker ps -aq)
+          docker rm $(docker ps -aq)
 
-    - name: Install Docker Compose
-      run: |
+      - name: Install Docker Compose
+        run: |
           sudo apt-get update
           sudo apt-get install -y docker-compose
-        
 
-    - name: Build and test with Docker Compose
-      run: |
-        docker-compose build
-        docker-compose up -d
-        docker-compose run web bundle exec rake db:create db:migrate db:seed
-        docker-compose run web bundle exec rspec # or your preferred testing command
-        docker-compose run web bundle exec cucumber
+      - name: Build and test with Docker Compose
+        run: |
+          docker-compose build
+          docker-compose up -d
+          docker-compose run web bundle exec rake db:create db:migrate db:seed
+          docker-compose run -e RAILS_ENV=test -e PROJECT_PASSWORD="qwne lrzr zvig heqp" web bundle exec rspec # or your preferred testing command
+          docker-compose run -e RAILS_ENV=test -e PROJECT_PASSWORD="qwne lrzr zvig heqp" web bundle exec cucumber
 
-    - name: Clean up
-      run: |
-        docker-compose down
-    
+      - name: Clean up
+        run: |
+          docker-compose down

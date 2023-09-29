@@ -1,4 +1,5 @@
 Given("there is a instructor registered with the email {string} and password {string}") do |email,password|
+  puts 
     @user = User.create!(email: email, password: password,user_type: "Instructor")
     puts @user.email
 end
@@ -6,10 +7,10 @@ end
 Given("I am logged in as an instructor with email {string} and password {string}") do |email,password|
     # Implement the code to log in as an instructor
     visit login_path
-    expect(page).to have_content('Please Log in')
+    expect(page).to have_content('User Sign in')
     fill_in 'email', with: email
     fill_in 'password', with: password
-    click_button 'Sign In!'
+    click_button 'Sign In'
     expect(page).to have_content("Welcome")
   end
   

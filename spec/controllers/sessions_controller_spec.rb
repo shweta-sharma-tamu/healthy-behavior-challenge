@@ -4,7 +4,7 @@ RSpec.describe SessionsController, type: :controller do
 
   describe 'GET #new' do
     context 'when user is logged in' do
-      let(:user) { create(:user) } 
+      let(:user) { User.first || create(:user) }
 
       before do
         session[:user_id] = user.id
@@ -34,6 +34,10 @@ RSpec.describe SessionsController, type: :controller do
   end
 
   describe 'POST #create' do
+    context 'when user is registered' do
+        user = FactoryBot.create(:user)
+    end
+
     context 'with valid credentials' do
      let(:user_params) { { email: 'Admin@gmail.com', password: 'Admin@123' } }
 

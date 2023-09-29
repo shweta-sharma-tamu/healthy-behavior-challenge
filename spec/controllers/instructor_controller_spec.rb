@@ -1,9 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe InstructorController, type: :controller do
+
+  before :each do
+    User.create(email: 'instructor@example.com', password: 'password',user_type:"Instructor")
+    @token = SecureRandom.uuid
+    @user = User.find_by(email: "instructor@example.com")
+    # Create a new referral associated with the user
+    @referral = @user.instructor_referrals.create(email: "example@example.com", token: @token, is_used: false,expires: Date.today+7.days)
+    @referral_link = "#{ENV['ROOT_URL']}#{instructor_signup_path(token: @token)}"
+  end
+
   describe 'GET #new' do
     it 'renders the new template' do
-      get :new
+      get :new, params: { token: @token }
       expect(response).to render_template(:new)
     end
   end
@@ -18,7 +28,7 @@ RSpec.describe InstructorController, type: :controller do
             confirm_password: 'password',
             first_name: 'John',
             last_name: 'Doe'
-          }
+          }, token: @token
         }
 
         expect(response).to redirect_to(user_path(assigns(:user).id))
@@ -35,10 +45,10 @@ RSpec.describe InstructorController, type: :controller do
             confirm_password: 'password',
             first_name: 'John',
             last_name: 'Doe'
-          }
+          }, token: @token
         }
 
-        expect(response).to redirect_to(instructor_signup_path)
+        expect(response).to redirect_to("#{instructor_signup_path(token: @token)}")
         expect(flash[:error]).to be_present
         #expect(flash[:error]).to "Incorrect email or password. Please try again."
       end
@@ -51,10 +61,10 @@ RSpec.describe InstructorController, type: :controller do
             confirm_password: 'different_password',
             first_name: 'John',
             last_name: 'Doe'
-          }
+          }, token: @token
         }
 
-        expect(response).to redirect_to(instructor_signup_path)
+        expect(response).to redirect_to("#{instructor_signup_path(token: @token)}")
         expect(flash[:error]).to be_present
       end
 
@@ -66,7 +76,7 @@ RSpec.describe InstructorController, type: :controller do
             confirm_password: 'password',
             first_name: 'John',
             last_name: 'Doe'
-          }
+          }, token: @token
         }
 
         expect(response).to render_template(:new)

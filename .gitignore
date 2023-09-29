@@ -40,3 +40,5 @@ db_env_setup.sh
 
 #macos
 *DS_Store*
+
+coverage/*
