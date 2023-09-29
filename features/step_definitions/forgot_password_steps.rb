@@ -3,26 +3,24 @@
 # features/step_definitions/password_reset_steps.rb
 
 Given('there is a registered user with the email {string}') do |email|
-    # Create a user with the given email in your test database or use FactoryBot or similar.
-    # Make sure the user is saved and can be used for testing.
-    User.create!(email: email, password: 'password') # Example assuming User is your model
+    User.create!(email: email, password: 'password') 
   end
   
   Given('I am on the login page') do
-    visit root_path # Adjust the path as needed
+    visit root_path 
   end
   
   When('I click on the "Forgot Password" link') do
-    click_link 'Forgot your password?' # Adjust the link text as needed
+    click_link 'Forgot your password?' 
   end
   
   When('I fill in my email address with {string}') do |email|
-    fill_in 'Email', with: email # Assuming the input field has a label or name "Email"
+    fill_in 'Email', with: email 
   end
   
   
   Then('I should be on the login page') do
-    expect(current_path).to eq(root_path) # Adjust the path based on your application
+    expect(current_path).to eq(root_path) 
   end
   
   Then('I should see an error message {string}') do |error_message|
@@ -31,20 +29,19 @@ Given('there is a registered user with the email {string}') do |email|
   
   
   When('I fill in a new password with {string}') do |new_password|
-    fill_in 'Password', with: new_password # Assuming your password field has the label or name "Password"
+    fill_in 'Password', with: new_password 
   end
   
   When('I fill in the password confirmation with {string}') do |password_confirmation|
-    fill_in 'Password Confirmation', with: password_confirmation # Adjust the field name as needed
+    fill_in 'Password Confirmation', with: password_confirmation
   end
 
 Given("a valid password reset token") do
-  @user = User.first || create(:user) 
+  @user = User.first || User.create!(email: email, password: 'password')
   @token = @user.signed_id(purpose: "password_reset")
 end
 
 Given("an expired password reset token") do
-  @user = User.first || create(:user)
   @token = 'fsafaf'
 end
 
@@ -77,7 +74,6 @@ end
 
 Then("I should see an error message on the edit page") do
   expect(page).to have_css(".alert")
-  # Add additional assertions if needed to check for specific error messages
 end
 
 When('I fill in password_confirmation with {string}') do |confirm_password|
