@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
   describe 'GET #show' do
-    let(:user) { create(:user) }
+    let(:user) { User.first || create(:user) }
 
     it 'assigns the correct user to @user' do
       get :show, params: { id: user.id }
