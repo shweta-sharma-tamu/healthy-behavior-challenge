@@ -37,7 +37,7 @@ Given('there is a registered user with the email {string}') do |email|
   end
 
 Given("a valid password reset token") do
-  @user = User.first || User.create!(email: email, password: 'password')
+  @user = User.first || User.create!(email: 'admin@gmail.com', password: 'password')
   @token = @user.signed_id(purpose: "password_reset")
 end
 
