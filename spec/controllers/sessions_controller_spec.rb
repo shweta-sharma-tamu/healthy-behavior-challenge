@@ -1,6 +1,38 @@
 require 'rails_helper'
 
 RSpec.describe SessionsController, type: :controller do
+
+  describe 'GET #new' do
+    context 'when user is logged in' do
+      let(:user) { create(:user) } 
+
+      before do
+        session[:user_id] = user.id
+      end
+
+      it 'redirects to the user profile' do
+        get :new
+        expect(response).to redirect_to(user_path(session[:user_id]))
+      end
+    end
+
+    context 'when user is not signed in' do
+      before do
+        allow(controller).to receive(:user_signed_in?).and_return(false)
+      end
+
+      it 'renders the new template' do
+        get :new
+        expect(response).to render_template(:new)
+      end
+
+      it 'assigns a new user' do
+        get :new
+        expect(assigns(:user)).to be_a_new(User)
+      end
+    end
+  end
+
   describe 'POST #create' do
     context 'with valid credentials' do
      let(:user_params) { { email: 'Admin@gmail.com', password: 'Admin@123' } }

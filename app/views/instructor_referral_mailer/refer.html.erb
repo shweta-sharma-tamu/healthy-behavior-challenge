@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Referral Link</title>
+</head>
+<body>
+  <h3>Hello, Here is your instructor referral link:
+  <br>
+  <%= link_to "Click here", instructor_signup_url(token: @referral.token), id:"referral-link" %>
+  </h3>
+</body>
+</html>

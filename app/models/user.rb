@@ -3,5 +3,7 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true
   validates :password, presence: true
+  has_many :instructor_referrals
+  validates_uniqueness_of :email
 
 end

@@ -11,7 +11,7 @@ Feature: Login
     And I click on submit
     Then I should see 'You have successfully signed in'
 
-  Scenario: Login using incorrect email and password
+  Scenario: Login using incorrect email or password
     Given I am not currently Logged in
     And I am on the Login page
     When I enter Admin@gmail.com as email
