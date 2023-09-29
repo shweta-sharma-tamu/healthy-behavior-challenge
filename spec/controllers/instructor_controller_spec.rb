@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe InstructorController, type: :controller do
 
   before :each do
-    User.create(email: 'user1@gmail.com', password: 'password',user_type:"Instructor")
+    User.create(email: 'instructor@example.com', password: 'password',user_type:"Instructor")
     @token = SecureRandom.uuid
     @user = User.find_by(email: "user1@gmail.com")
     # Create a new referral associated with the user
