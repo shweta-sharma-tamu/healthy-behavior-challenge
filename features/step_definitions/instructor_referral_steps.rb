@@ -6,10 +6,10 @@ end
 Given("I am logged in as an instructor with email {string} and password {string}") do |email,password|
     # Implement the code to log in as an instructor
     visit login_path
-    expect(page).to have_content('Please Log in')
+    expect(page).to have_content('Please Sign in')
     fill_in 'email', with: email
     fill_in 'password', with: password
-    click_button 'Sign In!'
+    click_button 'Sign In'
     expect(page).to have_content("Welcome")
   end
   
