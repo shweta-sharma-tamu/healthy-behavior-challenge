@@ -6,7 +6,7 @@
 <% if flash[:notice] %>
   <%= content_tag :h3, flash[:notice], class:'text-center' %>
 <% end %>
-  <%= content_tag :h3, "Please Sign in", class:'text-center' %>
+  <%= content_tag :h3, "User Sign in", class:'text-center' %>
 <%= form_with url: sessions_path do |f| %>
   <div class="form-group">
   <%= label_tag :email, 'Email' %><br>
@@ -16,10 +16,16 @@
   <%= label_tag :password, 'Password' %><br>
   <%= f.password_field :password , class: 'form-control', placeholder: 'Enter your password'%><br>
   </div>
-  <%= link_to "Forgot your password?", password_reset_path %>
+  <div class="row">
+      <div class="col-md-6">
+        <%= link_to "Forgot your password?", password_reset_path %>
+      </div>
+      <div class="col-md-6">
+        <%= link_to "New User? Sign Up As Trainee", trainee_signup_path %>
+      </div>
+  <br> </br>
   <div class="button-container">
   <%= f.submit "Sign In" , class: 'btn btn-primary btn-block' %>
-  <%= link_to "Sign Up", trainee_signup_path , class: 'btn btn-primary btn-block'%>
   </div>
 
 <% end %>
