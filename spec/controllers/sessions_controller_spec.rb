@@ -4,7 +4,7 @@ RSpec.describe SessionsController, type: :controller do
 
   describe 'GET #new' do
     context 'when user is logged in' do
-      let(:user) { create(:user) }  # Assuming you have a User factory set up
+      let(:user) { create(:user) } 
 
       before do
         session[:user_id] = user.id
