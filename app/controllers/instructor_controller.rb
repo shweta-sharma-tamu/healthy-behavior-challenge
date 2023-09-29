@@ -12,14 +12,19 @@ class InstructorController < ApplicationController
     end
 
     def create
+
+        """
+        Display customised error message if inputs are invalid
+        commenting them as of now
         if user_params[:email] == '' or user_params[:password] == ''
-            flash[:error] = "Incorrect email or password. Please try again."
+            flash[:error] = 'Incorrect email or password. Please try again.'
             redirect_to instructor_signup_path
             return
         end
+        """
 
         if user_params[:password] != user_params[:confirm_password]
-            flash[:error] = "Password Mismatch."
+            flash[:error] = 'Password Mismatch.'
             redirect_to instructor_signup_path
             return
         end
@@ -47,16 +52,10 @@ class InstructorController < ApplicationController
                     InstructorReferral.find_by(token: params[:token]).update(is_used: true)
                     session[:user_id] = @user.id
                     redirect_to user_path(session[:user_id])
-               else
-                    #flash[:notice] = "Signup failed!"
-                    @user.destroy
-                    render 'new'
                end
-            else
-                render 'new'
             end  
         else
-            flash.now[:error] = "Please enter valid email and try again." 
+            #flash.now[:error] = "Please enter valid email and try again." 
             render 'new'
         end
     end

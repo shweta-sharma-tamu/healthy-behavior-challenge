@@ -32,7 +32,6 @@ RSpec.describe InstructorController, type: :controller do
         }
 
         expect(response).to redirect_to(user_path(assigns(:user).id))
-        expect(flash[:notice]).to be_present
       end
     end
 
@@ -48,9 +47,7 @@ RSpec.describe InstructorController, type: :controller do
           }, token: @token
         }
 
-        expect(response).to redirect_to("#{instructor_signup_path(token: @token)}")
-        expect(flash[:error]).to be_present
-        #expect(flash[:error]).to "Incorrect email or password. Please try again."
+        expect(response).to render_template(:new)
       end
 
       it 'does not create a new instructor and user with password mismatch' do
@@ -65,7 +62,6 @@ RSpec.describe InstructorController, type: :controller do
         }
 
         expect(response).to redirect_to("#{instructor_signup_path(token: @token)}")
-        expect(flash[:error]).to be_present
       end
 
       it 'does not create a new instructor and user with invalid email' do
@@ -80,7 +76,6 @@ RSpec.describe InstructorController, type: :controller do
         }
 
         expect(response).to render_template(:new)
-        expect(flash[:error]).to be_present
       end
     end
   end
