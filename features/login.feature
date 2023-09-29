@@ -2,6 +2,8 @@ Feature: Login
   As a user,
   I want to login to my account
   To access my data
+  Background:
+    Given A user is registered with the email "Admin@gmail.com" and password "Admin@123"
 
   Scenario: Login using correct email and password
     Given I am not currently Logged in
