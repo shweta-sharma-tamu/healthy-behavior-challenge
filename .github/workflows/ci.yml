@@ -40,8 +40,8 @@ jobs:
           docker-compose build
           docker-compose up -d
           docker-compose run web bundle exec rake db:create db:migrate db:seed
-          docker-compose run -e RAILS_ENV=test -e PROJECT_PASSWORD=$PROJECT_PASSWORD web bundle exec rspec # or your preferred testing command
-          docker-compose run -e RAILS_ENV=test -e PROJECT_PASSWORD=$PROJECT_PASSWORD web bundle exec cucumber
+          docker-compose run -e RAILS_ENV=test -e PROJECT_PASSWORD=${{ secrets.PROJECT_PASSWORD }} web bundle exec rspec # or your preferred testing command
+          docker-compose run -e RAILS_ENV=test -e PROJECT_PASSWORD=${{ secrets.PROJECT_PASSWORD }} web bundle exec cucumber
 
       - name: Clean up
         run: |
