@@ -9,11 +9,7 @@
 # And I should not see a "Sign out" button
 
 Given("I am a logged-in user") do
-    # visit login_path
-    # fill_in 'Email', with: 'Admin@gmail.com'
-    # fill_in 'Password', with: 'Admin@123'
-    #click_button 'Sign out'
-    #visit login_path
+    User.create(email:'Admin@gmail.com', password:'Admin@123')
     visit login_path
     expect(page).to have_content('User Sign in')
     fill_in 'Email', with: 'Admin@gmail.com'

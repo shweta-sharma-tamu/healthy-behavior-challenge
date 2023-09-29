@@ -2,6 +2,10 @@ require 'rails_helper'
 
 RSpec.describe SessionsController, type: :controller do
 
+  after(:all) do
+    User.destroy_all
+  end
+
   describe 'GET #new' do
     context 'when user is logged in' do
       let(:user) { User.first || create(:user) }
