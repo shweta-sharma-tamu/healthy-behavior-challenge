@@ -3,9 +3,7 @@
 # features/step_definitions/password_reset_steps.rb
 
 Given('there is a registered user with the email {string}') do |email|
-    # Create a user with the given email in your test database or use FactoryBot or similar.
-    # Make sure the user is saved and can be used for testing.
-    User.create!(email: email, password: 'password') # Example assuming User is your model
+    User.create!(email: email, password: 'password')
   end
   
   Given('I am on the login page') do
@@ -39,12 +37,11 @@ Given('there is a registered user with the email {string}') do |email|
   end
 
 Given("a valid password reset token") do
-  @user = User.first || create(:user) 
+  @user = User.first || User.create!(email: 'admin@gmail.com', password: 'password')
   @token = @user.signed_id(purpose: "password_reset")
 end
 
 Given("an expired password reset token") do
-  @user = User.first || create(:user)
   @token = 'fsafaf'
 end
 
