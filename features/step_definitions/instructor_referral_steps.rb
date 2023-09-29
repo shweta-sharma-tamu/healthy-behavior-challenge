@@ -1,4 +1,5 @@
 Given("there is a instructor registered with the email {string} and password {string}") do |email,password|
+  puts 
     @user = User.create!(email: email, password: password,user_type: "Instructor")
     puts @user.email
 end
