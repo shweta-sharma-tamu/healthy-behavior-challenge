@@ -5,9 +5,9 @@ RSpec.describe InstructorController, type: :controller do
   before :each do
     User.create(email: 'user1@gmail.com', password: 'password',user_type:"Instructor")
     @token = SecureRandom.uuid
-    user = User.find_by(email: "instructor@example.com")
+    @user = User.find_by(email: "instructor@example.com")
     # Create a new referral associated with the user
-    referral = user.instructor_referrals.create(email: "example@example.com", token: @token, is_used: false,expires: Date.today+7.days)
+    @referral = @user.instructor_referrals.create(email: "example@example.com", token: @token, is_used: false,expires: Date.today+7.days)
     @referral_link = "#{ENV['ROOT_URL']}#{instructor_signup_path(token: @token)}"
   end
 
