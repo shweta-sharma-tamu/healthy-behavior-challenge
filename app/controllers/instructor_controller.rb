@@ -48,7 +48,7 @@ class InstructorController < ApplicationController
                     session[:user_id] = @user.id
                     redirect_to user_path(session[:user_id])
                else
-                    flash[:notice] = "Signup failed!"
+                    #flash[:notice] = "Signup failed!"
                     @user.destroy
                     render 'new'
                end

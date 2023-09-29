@@ -9,9 +9,8 @@ Rails.application.routes.draw do
   root 'sessions#new'
   get "/login", to: "sessions#new", as: "login"
   post '/login', to: 'sessions#create'
-  get "/instructor_signup/", to: "instructor#new", as: "instructor_signup_empty"
-  get "/instructor_signup/:token", to: "instructor#new", as: "instructor_signup"
-  post '/instructor_signup/:token', to: 'instructor#create'
+  get "/instructor_signup/:token/", to: "instructor#new", as: "instructor_signup"
+  post '/instructor_signup/:token/', to: 'instructor#create'
   get '/signout', to: 'sessions#destroy', as: 'signout'
 
   get "password/reset", to: "password_resets#new"
