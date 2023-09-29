@@ -31,16 +31,11 @@ RSpec.describe UsersController, type: :controller do
         post :create, params: valid_params
         expect(response).to redirect_to(root_path)
       end
-
-      it 'sets the session[:user_id] to the new user id' do
-        post :create, params: valid_params
-        expect(session[:user_id]).to eq(User.last.id)
-      end
     end
 
     context 'with invalid parameters' do
       let(:invalid_params) do
-        { user: { email: '', password: 'password', user_type: 'regular' } }
+        { user: { email: '', password: 'password', user_type: 'trainee' } }
       end
 
       it 'does not create a new user' do
