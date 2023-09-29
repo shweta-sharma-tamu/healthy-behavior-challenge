@@ -35,8 +35,9 @@ RSpec.describe SessionsController, type: :controller do
 
   describe 'POST #create' do
     context 'when user is registered' do
-        let(:user) { create(:user) }
+        user = FactoryBot.create(:user)
     end
+
     context 'with valid credentials' do
      let(:user_params) { { email: 'Admin@gmail.com', password: 'Admin@123' } }
 
