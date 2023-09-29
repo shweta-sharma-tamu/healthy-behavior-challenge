@@ -31,4 +31,33 @@ Feature: Forgot Password
     When I click on the "Forgot Password" link
     And I click the "Reset Password" button
     Then I should see an error message "Email can't be blank."
+  
+  Scenario: Editing a Password Reset
+    Given a valid password reset token
+    When I visit the password reset edit page with the token
+    Then I should see the password reset form
+    And I should see a field labeled "Password"
+    And I should see a field labeled "Password confirmation"
+    And I should see a button labeled "Reset Password"
+
+  Scenario: Expired Token
+    Given an expired password reset token
+    When I visit the password reset edit page with the token
+    Then I should be redirected to the root page with an error message
+
+  Scenario: Updating the Password
+    Given a valid password reset token
+    When I visit the password reset edit page with the token
+    And I fill in password with "new_password"
+    And I fill in password_confirmation with "new_password"
+    And I click the "Reset Password" button
+    Then I should be redirected to the root page with a success message
+
+  Scenario: Invalid Password Confirmation
+    Given a valid password reset token
+    When I visit the password reset edit page with the token
+    And I fill in password with "new_password"
+    And I fill in password_confirmation with "new_password12"
+    And I click the "Reset Password" button
+    Then I should see an error message on the edit page
 
