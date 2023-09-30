@@ -6,7 +6,9 @@
 
 require 'cucumber/rails'
 require 'simplecov'
-SimpleCov.start 'rails'
+SimpleCov.start do
+  add_filter 'app/helpers'
+end
 SimpleCov.coverage_dir 'coverage/cucumber'
 
 # frozen_string_literal: true

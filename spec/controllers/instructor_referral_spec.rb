@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.describe InstructorReferralController, type: :controller do
 
     before :each do
-        puts "EMAIL SMTP :" +  ENV['PROJECT_MAILID']
-        puts "EMAIL PW :" + ENV['PROJECT_PASSWORD']
         User.create(email: 'user1@gmail.com', password: 'password',user_type:"Instructor")
     end
 
