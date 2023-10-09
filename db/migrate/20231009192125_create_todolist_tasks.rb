@@ -6,7 +6,6 @@ class CreateTodolistTasks < ActiveRecord::Migration[7.0]
       t.references :trainee, null: false, foreign_key: true
       t.references :challenge, null: false, foreign_key: true
       t.date :date
-
       t.timestamps
     end
   end

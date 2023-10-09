@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :challenge_genericlist do
-    Task { nil }
+    task { nil }
     challenge { nil }
   end
 end
