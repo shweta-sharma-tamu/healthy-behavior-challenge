@@ -10,9 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_28_025144) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_09_204035) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "challenge_genericlists", force: :cascade do |t|
+    t.bigint "task_id", null: false
+    t.bigint "challenge_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["challenge_id"], name: "index_challenge_genericlists_on_challenge_id"
+    t.index ["task_id"], name: "index_challenge_genericlists_on_task_id"
+  end
+
+  create_table "challenge_trainees", force: :cascade do |t|
+    t.bigint "trainee_id", null: false
+    t.bigint "challenge_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["challenge_id"], name: "index_challenge_trainees_on_challenge_id"
+    t.index ["trainee_id"], name: "index_challenge_trainees_on_trainee_id"
+  end
+
+  create_table "challenges", force: :cascade do |t|
+    t.string "name"
+    t.date "startDate"
+    t.date "endDate"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "instructor_referrals", force: :cascade do |t|
     t.string "token", limit: 40
@@ -35,6 +61,25 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_025144) do
     t.index ["user_id"], name: "index_instructors_on_user_id"
   end
 
+  create_table "tasks", force: :cascade do |t|
+    t.string "taskName"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "todolist_tasks", force: :cascade do |t|
+    t.bigint "task_id", null: false
+    t.string "status"
+    t.bigint "trainee_id", null: false
+    t.bigint "challenge_id", null: false
+    t.date "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["challenge_id"], name: "index_todolist_tasks_on_challenge_id"
+    t.index ["task_id"], name: "index_todolist_tasks_on_task_id"
+    t.index ["trainee_id"], name: "index_todolist_tasks_on_trainee_id"
+  end
+
   create_table "trainees", force: :cascade do |t|
     t.string "full_name"
     t.float "height"
@@ -54,7 +99,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_025144) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "challenge_genericlists", "challenges"
+  add_foreign_key "challenge_genericlists", "tasks"
+  add_foreign_key "challenge_trainees", "challenges"
+  add_foreign_key "challenge_trainees", "trainees"
   add_foreign_key "instructor_referrals", "users"
   add_foreign_key "instructors", "users"
+  add_foreign_key "todolist_tasks", "challenges"
+  add_foreign_key "todolist_tasks", "tasks"
+  add_foreign_key "todolist_tasks", "trainees"
   add_foreign_key "trainees", "users"
 end
