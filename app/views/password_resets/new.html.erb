@@ -1,14 +1,28 @@
+<div>
+<%= render 'main/navbar' %>
+<div class="container">
+<div class="row">
+<div class="col-md-6 col-md-offset-3" style="margin-top: 20%;">
 <% if flash[:notice] %>
-  <%= content_tag :h1, flash[:notice] %>
+  <%= content_tag :h3, flash[:notice], class:'text-center' %>
 <% elsif flash[:alert] %>
-  <%= content_tag :h1, flash[:alert] %>
-<% else %>
-  <%= content_tag :h1, "Forgot Password" %>
+  <%= content_tag :h3, flash[:alert], class:'text-center' %>
 <% end %>
+  <%= content_tag :h3, "Forgot Password", class:'text-center' %>
 
 <%= form_with url: password_reset_path do |form| %>
-  <%= form.label :email %>
-  <%= form.email_field :email, autofocus: true %>
 
-  <%= form.submit "Reset Password" %>
+  <div class="form-group">
+  <%= label_tag :email, 'Email' %><br>
+  <%= form.email_field :email , class: 'form-control', placeholder: 'Enter your email'%><br>
+  </div>
+  <br> </br>
+  <div class="button-container">
+  <%= form.submit "Reset Password" , class: 'btn btn-primary btn-block' %>
+  </div>
 <% end %>
+
+  </div>
+  </div>
+  </div>
+</div>
