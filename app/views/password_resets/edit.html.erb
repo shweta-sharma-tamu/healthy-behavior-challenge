@@ -1,5 +1,11 @@
 <!-- app/views/password_resets/edit.html.erb -->
-<h1>Reset Password</h1>
+<div>
+<%= render 'main/navbar' %>
+<div class="container">
+<div class="row">
+<div class="col-md-6 col-md-offset-3" style="margin-top: 20%;">
+
+<%= content_tag :h3, "Reset Password", class:'text-center' %>
 
 <%= form_with model: @user, url: password_reset_edit_path(token: params[:token]) do |form| %>
     <% if @user.errors.any? %>
@@ -11,11 +17,23 @@
       </ul>
     </div>
   <% end %>
+   <div class="form-group">
   <%= form.label :password %>
-  <%= form.password_field :password %><br>
-  
+  <%= form.password_field :password, class: 'form-control', placeholder: 'Enter your password'%><br>
+  </div>
+  <br> </br>
+  <div class="form-group">
   <%= form.label :password_confirmation %>
-  <%= form.password_field :password_confirmation %><br>
+  <%= form.password_field :password_confirmation , class: 'form-control', placeholder: 'Enter your confirmation password'%><br>
+  </div>
+  <br> </br>
 
-  <%= form.submit 'Reset Password' %>
+  <div class="button-container">
+  <%= form.submit 'Reset Password', class: 'btn btn-primary btn-block' %>
+  </div>
 <% end %>
+
+  </div>
+  </div>
+  </div>
+</div>
