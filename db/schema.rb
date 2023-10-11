@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_09_204035) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_10_235340) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -33,11 +33,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_09_204035) do
   end
 
   create_table "challenges", force: :cascade do |t|
-    t.string "name"
-    t.date "startDate"
-    t.date "endDate"
+    t.string "name", null: false
+    t.date "startDate", null: false
+    t.date "endDate", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "instructor_id"
+    t.index ["instructor_id"], name: "index_challenges_on_instructor_id"
   end
 
   create_table "instructor_referrals", force: :cascade do |t|
@@ -103,6 +105,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_09_204035) do
   add_foreign_key "challenge_genericlists", "tasks"
   add_foreign_key "challenge_trainees", "challenges"
   add_foreign_key "challenge_trainees", "trainees"
+  add_foreign_key "challenges", "instructors"
   add_foreign_key "instructor_referrals", "users"
   add_foreign_key "instructors", "users"
   add_foreign_key "todolist_tasks", "challenges"
