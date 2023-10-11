@@ -23,5 +23,8 @@ Rails.application.routes.draw do
   get 'instructor_referral', to: 'instructor_referral#index'
   post 'instructor_referral', to: 'instructor_referral#create'
 
+  resources :challenges
+
+
 end
 
