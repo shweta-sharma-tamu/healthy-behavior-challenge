@@ -65,6 +65,32 @@ RSpec.describe ChallengesController, type: :controller do
     end
   end
 
+  describe 'GET #show' do
+    it 'renders the show template' do
+      get :show, params: { id: challenge.id }
+      expect(response).to render_template(:show)
+    end
+
+    it 'assigns the requested challenge' do
+      get :show, params: { id: challenge.id }
+      expect(assigns(:challenge)).to eq(challenge)
+    end
+
+    it 'redirects to the challenges path if the challenge is not found' do
+      get :show, params: { id: 'invalid_id' }
+      expect(flash[:alert]).to eq('Challenge not found.')
+      expect(response).to redirect_to(challenges_path)
+    end
+
+    it 'redirects to the root path if the user is not an instructor' do
+      # Simulate a non-instructor user
+      allow(controller).to receive(:current_instructor).and_return(nil)
+      get :show, params: { id: challenge.id }
+      expect(flash[:alert]).to eq('You are not an instructor.')
+      expect(response).to redirect_to(root_path)
+    end
+  end
+
   private
 
   def valid_params
