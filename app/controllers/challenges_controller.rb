@@ -57,7 +57,22 @@ class ChallengesController < ApplicationController
       end
     end
   
-    # Other actions...
+  def add_trainees
+    @challenge = Challenge.find(params[:id])
+    @challenge_trainees = ChallengeTrainee.where(challenge_id: params[:id])
+    trainee_ids = @challenge_trainees.pluck(:trainee_id)
+    @trainees = Trainee.where.not(id: trainee_ids)
+  end
+
+  def update_trainees
+    @challenge = Challenge.find(params[:id])
+    @challenge.trainees << Trainee.where(id: params[:trainee_ids])
+    @message = 'Trainees added to the challenge successfully.'
+    @challenge_trainees = ChallengeTrainee.where(challenge_id: params[:id])
+    trainee_ids = @challenge_trainees.pluck(:trainee_id)
+    @trainees = Trainee.where.not(id: trainee_ids)
+    render 'add_trainees'
+  end
   
     private
   
