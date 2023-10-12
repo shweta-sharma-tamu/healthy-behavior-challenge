@@ -1,5 +1,7 @@
  # app/controllers/challenges_controller.rb
 class ChallengesController < ApplicationController
+  include ChallengesHelper
+
     def new
       @challenge = Challenge.new
       @instructor = Instructor.find_by(user_id: session[:user_id])
@@ -58,6 +60,22 @@ class ChallengesController < ApplicationController
     end
   
     # Other actions...
+    def show
+      @instructor = Instructor.find_by(user_id: session[:user_id])
+      Rails.logger.debug(@instructor)
+      unless @instructor
+        flash[:notice] = "You are not an instructor."
+        redirect_to root_path
+        return
+      end
+
+      begin
+        @challenge = Challenge.find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+        flash[:alert] = "Challenge not found."
+        redirect_to challenges_path
+      end
+    end
   
     private
   
