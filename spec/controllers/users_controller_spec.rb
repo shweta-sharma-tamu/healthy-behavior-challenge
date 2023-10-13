@@ -2,17 +2,26 @@ require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
   describe 'GET #show' do
-    let(:user) { User.first || create(:user) }
+    let(:user) { create(:user, email: 'trainee@gmail.com', user_type: "Trainee") }
+    let(:instructor_user) { create(:user, email: 'instructor@gmail.com', user_type: "Instructor") }
+    let(:instructor) { create(:instructor, user: instructor_user) }
+    let(:trainee) { create(:instructor, user: user) }
 
     it 'assigns the correct user to @user' do
       get :show, params: { id: user.id }
       expect(assigns(:user)).to eq(user)
     end
 
-    it 'renders the show template' do
+    it 'renders the show template if user is trainee' do
       get :show, params: { id: user.id }
       expect(response).to render_template(:show)
     end
+
+    it 'redirects to instructor path if user is instructor' do
+      get :show, params: { id: user.id }
+      expect(response).to render_template(:show)
+    end
+
   end
 
   describe 'POST #create' do
