@@ -1,0 +1,33 @@
+<%= render 'main/navbar' %>
+
+
+<div class="container mt-4" style="margin-top: 5%;">
+  <div class="row">
+    <div class="col-xs-4">
+        <h1>Trainee List</h1>
+    </div>
+    <div class="col-xs-4">
+        <h1>Challange: <%= @challenge.name %> </h1>
+    </div>
+    <div class="col-xs-4">
+        <h1>Total Count: <%= @trainees.size %></h1>
+    </div>
+    </div>
+    <div>
+   
+    </div>
+    <%= render @trainees %>
+    <%= paginate @trainees, params: { page: @pg}  %>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

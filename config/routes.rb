@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     member do
       get 'add_trainees', to: "challenges#add_trainees" # This defines the "Add Users" action for a specific challenge
       post 'update_trainees', to: "challenges#update_trainees"  # This defines the action to handle form submission
+      get "/trainees", controller:'challenges' ,action: 'trainees_list', constraints: { query_string: /(.+)?/ }, as: "list_trainees"
     end
   end
 

@@ -1,0 +1,17 @@
+  <%# Used by challenge#trainee_list  %>
+  
+  <div class="row">
+    <div class="col-12">
+      <div class="row">
+        <% @trainees.each do |trainee| %>
+<div class="card" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); border: 1px solid #000;">
+    <div class="card-body" style="padding: 10px">
+        <h3 class="card-title"><%= trainee.user.id %>. <%= trainee.full_name %></h3>
+    </div>
+</div>
+
+
+        <% end %>
+      </div>
+    </div>
+  </div>

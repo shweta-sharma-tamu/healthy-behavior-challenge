@@ -74,6 +74,12 @@ class ChallengesController < ApplicationController
         flash[:notice] = "You are not an instructor."
         redirect_to root_path
       end
+    def trainees_list
+      @challenge = Challenge.find(params[:challenge_id])
+      trainees = Trainee.joins(:challenge_trainees).where(challenge_trainees: { challenge_id: params[:challenge_id]})
+      page = params[:page].presence || 1
+      @pg = page
+      @trainees = trainees.page(page).per(1)
     end
   
     def add_trainees
@@ -104,7 +110,7 @@ class ChallengesController < ApplicationController
     private
   
     def challenge_params
-      params.require(:challenge).permit(:name, :startDate, :endDate, tasks_attributes: [:id, :taskName, :_destroy])
+      params.require(:challenge).permit(:name, :id, :startDate, :endDate, tasks_attributes: [:id, :taskName, :_destroy])
     end
   end
   

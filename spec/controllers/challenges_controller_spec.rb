@@ -133,6 +133,26 @@ RSpec.describe ChallengesController, type: :controller do
         get :show, params: { id: @challenge.id }
         expect(assigns(:challenge)).to eq(@challenge)
       end
+  describe 'list trainees for a challenge' do
+    it 'displays trainees for a challenge' do
+      # session[:user_id] = @instructor.user_id
+      @challenge = Challenge.create!(name: 'ex chall', startDate: '2023-10-15', endDate: '2023-10-30', instructor: @instructor, tasks_attributes: {
+        '0' => { taskName: 'Task 1' },
+        '1' => { taskName: 'Task 1' } 
+      })
+      user1 = User.create!(email: 'trainee22@example.com', password: 'abcdef', user_type: "Trainee")
+      user2 = User.create!(email: 'trainee233@example.com', password: 'abcdef', user_type: "Trainee")
+      user3 = User.create!(email: 'trainee322@example.com', password: 'abcdef', user_type: "Trainee")
+      @trainee1 = Trainee.create!(full_name: "blah 1",user: user1,height:120,weight:120)
+      @trainee2 = Trainee.create!(full_name: "blah 2",user: user2,height:120,weight:120)
+      @trainee3 = Trainee.create!(full_name: "blah 3",user: user3,height:120,weight:120)
+      @challenge.trainees << [@trainee1,@trainee2,@trainee3]
+      get :trainees_list, params: {
+            challenge_id: @challenge.id
+        }, session: {
+            user_id: @instructor.user_id
+        }
+      expect(response).to render_template(:trainees_list)
     end
   end
 
