@@ -336,7 +336,6 @@ DEPENDENCIES
   faker
   importmap-rails
   jbuilder
-  kaminari
   letter_opener
   pg (~> 1.5, >= 1.5.4)
   puma (~> 5.0)
