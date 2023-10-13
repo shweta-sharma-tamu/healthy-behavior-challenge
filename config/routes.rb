@@ -23,8 +23,13 @@ Rails.application.routes.draw do
   get 'instructor_referral', to: 'instructor_referral#index'
   post 'instructor_referral', to: 'instructor_referral#create'
 
-  resources :challenges
-
+ 
+  resources :challenges do
+    member do
+      get 'add_trainees', to: "challenges#add_trainees" # This defines the "Add Users" action for a specific challenge
+      post 'update_trainees', to: "challenges#update_trainees"  # This defines the action to handle form submission
+    end
+  end
 
 end
 

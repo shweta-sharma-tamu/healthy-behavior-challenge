@@ -1,6 +1,15 @@
 require 'rails_helper'
+require 'spec_helper'
 
 RSpec.describe ChallengesController, type: :controller do
+
+  after(:all) do
+    ChallengeTrainee.destroy_all
+    ChallengeGenericlist.destroy_all
+    Challenge.destroy_all
+    Trainee.destroy_all
+  end
+
   before(:each) do
     @user = User.create(email: 'instructor@example.com', password: 'password', user_type: 'Instructor')
 
@@ -8,6 +17,7 @@ RSpec.describe ChallengesController, type: :controller do
 
     # Create an instructor instance
     @instructor = Instructor.create(user: @user, first_name: 'John', last_name: 'Doe')
+  
 
     @trainee = Trainee.create(user: @user, full_name: 'John Doe', height: 160, weight: 65)
   end
@@ -68,6 +78,39 @@ RSpec.describe ChallengesController, type: :controller do
         expect(response).to redirect_to(new_challenge_path)
     end
   end
+
+  describe 'GET #add_trainees' do
+
+    it 'assigns @challenge if the challenge has not started' do
+      session[:user_id] = @instructor.user_id
+      @challenge = Challenge.create(name: 'Test Challenge', startDate: Date.tomorrow, endDate: Date.tomorrow + 1)
+      @challenge.instructor = @instructor
+      @challenge.save
+      get :add_trainees, params: { id: @challenge.id }
+      expect(assigns(:challenge)).to eq(@challenge)
+    end
+
+  end
+
+  describe 'POST #update_trainees' do
+
+    it 'assigns @challenge if the challenge has not started' do
+      session[:user_id] = @instructor.user_id
+      @challenge = Challenge.create(name: 'Test Challenge', startDate: Date.tomorrow, endDate: Date.tomorrow + 1)
+      @challenge.instructor = @instructor
+      @challenge.save
+      @trainee1 = Trainee.create(full_name: 'Trainee 1', height:1.5, weight: 1.5)
+      @trainee2 = Trainee.create(full_name: 'Trainee 2', height:1.5, weight: 1.5)
+      @trainee1.save
+      @trainee2.save
+      
+      get :add_trainees, params: { id: @challenge.id }
+      expect(assigns(:challenge)).to eq(@challenge)
+      post :update_trainees, params: {id: @challenge.id, trainee_ids: [@trainee1.id, @trainee2.id]}
+      expect(flash.now[:notice]).to eq('Trainees were successfully added to the challenge.')
+    end
+  end
+
 
   describe 'GET #show' do
     context 'when the user is an instructor' do
