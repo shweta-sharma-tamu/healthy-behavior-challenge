@@ -24,7 +24,7 @@
     puts @user.id
   end
   
-  When('I click on {string}') do |string|
+  When('I click on link {string}') do |string|
     click_link(string)
   end
   
