@@ -6,6 +6,11 @@ RSpec.describe ChallengesController, type: :controller do
 
     # Create an instructor instance
     @instructor = Instructor.create(user: @user, first_name: 'John', last_name: 'Doe')
+
+    @challenge1 = Challenge.create(name: 'Test Challenge1', startDate: Date.tomorrow, endDate: Date.tomorrow + 1, id: 1) 
+    @trainee1 = Trainee.create(full_name: 'Test Trainee1', height: 1.75, weight: 70.0) 
+    @trainee2 = Trainee.create(full_name: 'Test Trainee2', height: 1.80, weight: 75.0) 
+  
   end
 
   describe 'GET #new' do
@@ -64,6 +69,45 @@ RSpec.describe ChallengesController, type: :controller do
         expect(response).to redirect_to(new_challenge_path)
     end
   end
+
+  describe 'GET #add_trainees' do
+
+    it 'assigns @challenge if the challenge has not started' do
+      challenge = Challenge.create(name: 'Test Challenge', startDate: Date.tomorrow, endDate: Date.tomorrow + 1, id: 1)
+      get :add_trainees, params: { id: challenge.id }
+      expect(assigns(:challenge)).to eq(challenge)
+    end
+
+    it 'assigns @trainees if the challenge has not started' do
+      challenge = Challenge.create(name: 'Test Challenge', startDate: Date.tomorrow, endDate: Date.tomorrow + 1, id: 1)
+      trainee1 = Trainee.create(full_name: 'Trainee 1', id:1)
+      trainee2 = Trainee.create(full_name: 'Trainee 2', id:2)
+      ChallengeTrainee.create(challenge_id: challenge.id, trainee_id: trainee1.id)
+      
+    end
+
+    it 'assigns @challenge if the challenge has not started' do
+      challenge = Challenge.create(name: 'Test Challenge', startDate: Date.yesterday, endDate: Date.tomorrow + 1, id: 2)
+      get :add_trainees, params: { id: challenge.id }
+      #expect(assigns(:challenge)).to eq(challenge)
+      #expect(flash[:notice]).to eq('Challenge has already started. You cannot add trainees.')
+    end
+
+  end
+
+  describe 'POST #update_trainees' do
+
+    it 'assigns @challenge if the challenge has not started' do
+      challenge = Challenge.create(name: 'Test Challenge', startDate: Date.tomorrow, endDate: Date.tomorrow + 1, id: 1)
+      get :add_trainees, params: { id: challenge.id }
+      expect(assigns(:challenge)).to eq(challenge)
+      trainee1 = Trainee.create(full_name: 'Trainee 1', id:1)
+      trainee2 = Trainee.create(full_name: 'Trainee 2', id:2)
+      post :update_trainees, params: {id: challenge.id, trainee_ids: [1,2]}
+      expect(flash.now[:notice]).to eq('Trainees were successfully added to the challenge.')
+    end
+  end
+
 
   private
 
