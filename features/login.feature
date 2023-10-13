@@ -36,3 +36,12 @@ Feature: Login
     And I enter '' as password
     And I click on submit
     Then I should see 'Incorrect email or password. Please try again.'
+
+  Scenario: Login as trainee
+    Given I am not currently Logged in
+    And A trainee is registered with the email "trainee@gmail.com" and password "trainee@123"
+    And I am on the Login page
+    When I enter 'trainee@gmail.com' as email
+    And I enter 'trainee@123' as password
+    And I click on submit
+    Then I should see 'Welcome, User'

@@ -2,27 +2,49 @@ require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
   describe 'GET #show' do
-    let(:user) { create(:user, email: 'trainee@gmail.com', user_type: "Trainee") }
-    let(:instructor_user) { create(:user, email: 'instructor@gmail.com', user_type: "Instructor") }
-    let(:instructor) { create(:instructor, user: instructor_user) }
-    let(:trainee) { create(:instructor, user: user) }
+    context 'when trainee is logged in' do
+      let(:user) { create(:user, email: 'trainee@gmail.com', user_type: "Trainee") }
+      let(:trainee) { create(:trainee, user: user) }
+    
+    
+      before do
+        session[:user_id] = user.id
+      end
 
-    it 'assigns the correct user to @user' do
-      session[:user_id] = user.id
-      get :show, params: { id: user.id }
-      expect(assigns(:user)).to eq(user)
-    end
+      it 'assigns the correct user to @user' do
+        get :show, params: { id: user.id }
+        expect(assigns(:user)).to eq(user)
+      end
 
-    it 'renders the show template if user is trainee' do
-      session[:user_id] = user.id
-      get :show, params: { id: user.id }
-      expect(response).to render_template(:show)
-    end
+      it 'renders the show template if user is trainee' do
+        get :show, params: { id: user.id }
+        expect(response).to render_template(:show)
+      end
 
-    it 'redirects to instructor path if user is instructor' do
-      session[:user_id] = user.id
-      get :show, params: { id: user.id }
-      expect(response).to render_template(:show)
+      it 'assigns is_instructor to false for a trainee' do
+        get :show, params: { id: user.id }
+        expect(assigns(:is_instructor)).to be_falsey
+      end
+    end  
+
+    context 'when instructor is logged in' do
+      let(:instructor_user) { create(:user, email: 'instructor2@gmail.com', user_type: 'Instructor') }
+
+      before do
+        session[:user_id] = instructor_user.id
+      end
+
+      it 'assigns the correct user to @user' do
+        get :show, params: { id: instructor_user.id }
+        expect(assigns(:user)).to eq(instructor_user)
+      end
+
+      it 'redirects to instructor path if user is instructor' do
+        instructor = create(:instructor, user: instructor_user)
+        session[:user_id] = instructor_user.id
+        get :show, params: { id: instructor_user.id }
+        expect(response).to redirect_to(instructor_path(instructor.id))
+      end
     end
 
   end
@@ -37,6 +59,11 @@ RSpec.describe UsersController, type: :controller do
         expect do
           post :create, params: valid_params
         end.to change(User, :count).by(1)
+      end
+
+      it 'sets the session[:user_id]' do
+        post :create, params: valid_params
+        expect(session[:user_id]).to eq(User.last.id)
       end
 
       it 'redirects to the root path' do

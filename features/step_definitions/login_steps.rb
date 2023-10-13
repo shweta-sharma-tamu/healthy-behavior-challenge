@@ -2,6 +2,11 @@ Given(/^A user is registered with the email "Admin@gmail.com" and password "Admi
   User.create(email:'Admin@gmail.com', password:'Admin@123')
 end
 
+Given(/^A trainee is registered with the email "trainee@gmail.com" and password "trainee@123"$/) do
+  user = User.create(email:'trainee@gmail.com', password:'trainee@123', user_type:'Trainee')
+  Trainee.create(user: user)
+end
+
 Given(/^I am not currently Logged in$/) do
   visit login_path
   expect(page).to have_content('User Sign in')
