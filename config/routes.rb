@@ -23,6 +23,9 @@ Rails.application.routes.draw do
   get 'instructor_referral', to: 'instructor_referral#index'
   post 'instructor_referral', to: 'instructor_referral#create'
 
+  get "/todo_list" , to: "todo_list#show", as: "todo_list"
+  patch "/todo_list" , to: "todo_list#update", as: "mark_as_complete"
+
   resources :challenges
 
 

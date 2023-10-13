@@ -10,6 +10,9 @@
       </div>
     <% end %>
     <div class="button-container">
+      <%= link_to "My TODO List" , todo_list_path(user_id: @user_id_from_session), method: :get , class: 'btn btn-secondary btn-block' %>
+    </div>
+    <div class="button-container">
     <%= link_to "Sign Out" , signout_path, method: :get , class: 'btn btn-primary btn-block' %>
     </div>
 </div>
