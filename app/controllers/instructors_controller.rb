@@ -67,16 +67,20 @@ class InstructorsController < ApplicationController
     end
 
     def show
-        today = Date.today
-        @instructor = Instructor.find(params[:instructor_id])
-        @user_name_from_session = @instructor.first_name
-        instructor_id = params[:instructor_id]  # Replace with your actual way of obtaining the instructor ID
-        @challenges = Challenge.where('"instructor_id" = ? AND "startDate" <= ? AND "endDate" >= ?', instructor_id, today, today).order('"endDate" ASC')
-        @challenges = @challenges.paginate(page: params[:page], per_page: 7)
-        if @instructor
-            @is_instructor = true
-        end 
-        render :show, challenges: @challenges
+        if session[:user_id]
+            today = Date.today
+            @instructor = Instructor.find(params[:instructor_id])
+            @user_name_from_session = @instructor.first_name
+            instructor_id = params[:instructor_id]  # Replace with your actual way of obtaining the instructor ID
+            @challenges = Challenge.where('"instructor_id" = ? AND "startDate" <= ? AND "endDate" >= ?', instructor_id, today, today).order('"endDate" ASC')
+            @challenges = @challenges.paginate(page: params[:page], per_page: 7)
+            if @instructor
+                @is_instructor = true
+            end 
+            render :show, challenges: @challenges
+        else
+            redirect_to root_path
+        end
     end
 
     def user_params

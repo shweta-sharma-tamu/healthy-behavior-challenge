@@ -8,16 +8,19 @@ RSpec.describe UsersController, type: :controller do
     let(:trainee) { create(:instructor, user: user) }
 
     it 'assigns the correct user to @user' do
+      session[:user_id] = user.id
       get :show, params: { id: user.id }
       expect(assigns(:user)).to eq(user)
     end
 
     it 'renders the show template if user is trainee' do
+      session[:user_id] = user.id
       get :show, params: { id: user.id }
       expect(response).to render_template(:show)
     end
 
     it 'redirects to instructor path if user is instructor' do
+      session[:user_id] = user.id
       get :show, params: { id: user.id }
       expect(response).to render_template(:show)
     end
