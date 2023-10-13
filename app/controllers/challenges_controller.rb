@@ -74,6 +74,8 @@ class ChallengesController < ApplicationController
         flash[:notice] = "You are not an instructor."
         redirect_to root_path
       end
+    end
+    
     def trainees_list
       @challenge = Challenge.find(params[:challenge_id])
       trainees = Trainee.joins(:challenge_trainees).where(challenge_trainees: { challenge_id: params[:challenge_id]})

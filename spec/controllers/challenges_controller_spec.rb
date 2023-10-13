@@ -59,7 +59,7 @@ RSpec.describe ChallengesController, type: :controller do
       end
     end
 
-    it 'sets a flash message and redirects to the new challenge page' do
+      it 'sets a flash message and redirects to the new challenge page' do
         session[:user_id] = @instructor.user_id
 
         # Prepare invalid challenge data with start date > end date
@@ -76,9 +76,10 @@ RSpec.describe ChallengesController, type: :controller do
         # Expect flash message and redirection
         expect(flash[:alert]).to eq('start date is greater than end date')
         expect(response).to redirect_to(new_challenge_path)
-    end
+      end
   end
 
+<<<<<<< HEAD
   describe 'GET #add_trainees' do
 
     it 'assigns @challenge if the challenge has not started' do
@@ -111,6 +112,8 @@ RSpec.describe ChallengesController, type: :controller do
     end
   end
 
+=======
+>>>>>>> f2a1db9 (merge conflict)
 
   describe 'GET #show' do
     context 'when the user is an instructor' do
@@ -133,9 +136,12 @@ RSpec.describe ChallengesController, type: :controller do
         get :show, params: { id: @challenge.id }
         expect(assigns(:challenge)).to eq(@challenge)
       end
+    end
+  end
+  
   describe 'list trainees for a challenge' do
     it 'displays trainees for a challenge' do
-      # session[:user_id] = @instructor.user_id
+      session[:user_id] = @instructor.user_id
       @challenge = Challenge.create!(name: 'ex chall', startDate: '2023-10-15', endDate: '2023-10-30', instructor: @instructor, tasks_attributes: {
         '0' => { taskName: 'Task 1' },
         '1' => { taskName: 'Task 1' } 
