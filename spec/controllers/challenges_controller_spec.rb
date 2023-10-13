@@ -5,10 +5,10 @@ RSpec.describe ChallengesController, type: :controller do
     @user = User.create(email: 'instructor@example.com', password: 'password', user_type: 'Instructor')
 
     # Create an instructor instance
-    @instructor = Instructor.create(user_id: @user, first_name: 'John', last_name: 'Doe')
+    @instructor = Instructor.create(user: @user, first_name: 'John', last_name: 'Doe')
 
-    @challenge = Challenge.create(name: 'Test Challenge', startDate: Date.tomorrow, endDate: Date.tomorrow + 1, id:1) 
-    @challenge1 = Challenge.create(name: 'Test Challenge1', startDate: Date.yesterday, endDate: Date.tomorrow + 1, id: 2)
+    @challenge = Challenge.create(name: 'Test Challenge', startDate: Date.tomorrow, endDate: Date.tomorrow + 1) 
+    @challenge1 = Challenge.create(name: 'Test Challenge1', startDate: Date.yesterday, endDate: Date.tomorrow + 1)
     @trainee1 = Trainee.create(full_name: 'Test Trainee1', height: 1.75, weight: 70.0, id:1) 
     @trainee2 = Trainee.create(full_name: 'Test Trainee2', height: 1.80, weight: 75.0, id:2) 
   
