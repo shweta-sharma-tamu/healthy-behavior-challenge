@@ -11,8 +11,8 @@
       <ul class="nav navbar-nav navbar-right">
       <% if @is_instructor %>
       <%= link_to 'Refer Instructor', instructor_referral_path, class: 'btn btn-primary' %>
-      <%= link_to 'Create A challenge', new_challenge_path, class: 'btn btn-primary' %>
       <% end %>
+      <%= link_to "Sign Out" , signout_path, method: :get , class: 'btn btn-primary' %>
         <button type="button" class="btn btn-default navbar-btn">
         <span class="glyphicon glyphicon-menu-hamburger"></span>
         </button>
