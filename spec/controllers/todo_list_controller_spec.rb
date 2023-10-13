@@ -22,14 +22,12 @@ RSpec.describe TodoListController, type: :controller do
   describe 'GET #show' do
     it 'renders the show template' do
       get :show
-      expect(response).to render_template(:show)
+      expect(response).to render_template(todo_list_path(@user.id))
     end
   end
 
   describe 'PATCH #update' do
     it 'updates tasks' do
-      # Add test code here to simulate updating tasks
-      # Then, test that the tasks are updated
     end
   end
 end

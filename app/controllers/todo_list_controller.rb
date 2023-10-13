@@ -13,11 +13,7 @@ class TodoListController < ApplicationController
         puts trainee_id
         puts trainee
         trainee_challenge = ChallengeTrainee.find_by(trainee_id: trainee_id)
-        #if !trainee_challenge.present?
-            #puts "EMPTY "
-        #else
-          trainee_challenge_id = trainee_challenge.challenge_id
-        #end
+        trainee_challenge_id = trainee_challenge.challenge_id
         puts trainee_challenge_id
         current_date = Date.today
         @todo_list = TodolistTask.where(trainee_id: trainee_id, challenge_id: trainee_challenge_id, date: current_date).pluck(:task_id, :status)
@@ -41,8 +37,6 @@ class TodoListController < ApplicationController
 
     private
 
-    # Making "internal" methods private is not required, but is a common practice.
-    # This helps make clear which methods respond to requests, and which ones do not.
     def movie_params
         params.require(:todo).permit(:user_id, :task_name, :status, :trainee_id, :challenge_id, :date, :tasks)
     end
