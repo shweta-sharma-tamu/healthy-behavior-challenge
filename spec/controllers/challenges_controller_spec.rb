@@ -100,9 +100,7 @@ RSpec.describe ChallengesController, type: :controller do
       @trainee1.save
       @trainee2.save
       
-      testchallenge_1 = Challenge.find(@challenge.id)
-
-      get :add_trainees, params: { id: testchallenge_1.id }
+      get :add_trainees, params: { id: @challenge.id }
       expect(assigns(:challenge)).to eq(@challenge)
       post :update_trainees, params: {id: @challenge.id, trainee_ids: [@trainee1.id, @trainee2.id]}
       expect(flash.now[:notice]).to eq('Trainees were successfully added to the challenge.')
