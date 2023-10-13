@@ -13,9 +13,13 @@ RSpec.describe ChallengesController, type: :controller do
   before(:each) do
     @user = User.create(email: 'instructor@example.com', password: 'password', user_type: 'Instructor')
 
+    @user2 = User.create(email: 'trainee@example.com', password: 'password', user_type: 'Trainee')
+
     # Create an instructor instance
     @instructor = Instructor.create(user: @user, first_name: 'John', last_name: 'Doe')
   
+
+    @trainee = Trainee.create(user: @user, full_name: 'John Doe', height: 160, weight: 65)
   end
 
   describe 'GET #new' do
@@ -107,6 +111,30 @@ RSpec.describe ChallengesController, type: :controller do
     end
   end
 
+
+  describe 'GET #show' do
+    context 'when the user is an instructor' do
+      it 'renders the show template' do
+        session[:user_id] = @instructor.user_id
+        @challenge = Challenge.create(name: 'Example Challenge', startDate: Date.today, endDate: Date.tomorrow)
+        @challenge.instructor = @instructor
+        @challenge.save
+
+        get :show, params: { id: @challenge.id }
+        expect(response).to render_template(:show)
+      end
+
+      it 'assigns the requested challenge' do
+        session[:user_id] = @instructor.user_id
+        @challenge = Challenge.create(name: 'Example Challenge', startDate: Date.today, endDate: Date.tomorrow)
+        @challenge.instructor = @instructor
+        @challenge.save
+
+        get :show, params: { id: @challenge.id }
+        expect(assigns(:challenge)).to eq(@challenge)
+      end
+    end
+  end
 
   private
 
