@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe InstructorController, type: :controller do
+RSpec.describe InstructorsController, type: :controller do
 
   before :each do
     User.create(email: 'instructor@example.com', password: 'password',user_type:"Instructor")
@@ -17,6 +17,37 @@ RSpec.describe InstructorController, type: :controller do
       expect(response).to render_template(:new)
     end
   end
+
+  describe "GET #show" do
+    let(:instructor) { create(:instructor, user: @user) }
+    let(:challenge) { create(:challenge, instructor: instructor) }
+    it "assigns the correct challenges" do
+      session[:user_id] = @user.id
+      get :show, params: { instructor_id: instructor.id }
+      expect(assigns(:challenges)).to eq([challenge])
+    end
+
+    it "paginates the challenges" do
+      session[:user_id] = @user.id
+      create_list(:challenge, 10, instructor: instructor) # Create 10 challenges for the instructor
+
+      get :show, params: { instructor_id: instructor.id, page: 2 }
+      expect(assigns(:challenges).count).to eq(10) # 10 challenges per page
+    end
+
+    it "sets @is_instructor to true for a valid instructor" do
+      session[:user_id] = @user.id
+      get :show, params: { instructor_id: instructor.id }
+      expect(assigns(:is_instructor)).to be_truthy
+    end
+
+    it "renders the show template" do
+      session[:user_id] = @user.id
+      get :show, params: { instructor_id: instructor.id }
+      expect(response).to render_template("show")
+    end
+  end
+
 
   describe 'POST #create' do
     context 'with valid parameters' do

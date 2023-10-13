@@ -1,0 +1,46 @@
+<%= render 'main/navbar' %>
+
+<div class="container" style="margin-top: 10%;">
+    <div class="row" style="text-align: center; margin-bottom: 2%">
+        <h1 style="font-size: 40px; text-decoration: underline;"><%= @challenge.name %></h1>
+    </div>
+
+    <div class="row" style="margin-bottom: 2%">
+        <div class="col-md-6">
+            <p style="font-size: 20px"><strong>Duration:</strong> <%= calculate_duration_in_days(@challenge.startDate, @challenge.endDate) %> days</p>
+            <p style="font-size: 20px"><strong>Participants:</strong> <%= @challenge.trainees.count %></p>
+            <p style="font-size: 20px"><strong>Start Date:</strong> <%= @challenge.startDate.strftime('%B %d, %Y') %></p>
+            <p style="font-size: 20px"><strong>End Date:</strong> <%= @challenge.endDate.strftime('%B %d, %Y') %></p>
+            <p style="font-size: 20px"><strong>No of Tasks:</strong> <%= @challenge.tasks.count %></p>
+        </div>
+        <div class="col-md-6" style="height: 300px; overflow-y: auto; border: 3px solid #ccc; border-radius: 10px;">
+            <p style="font-size: 25px; text-align: center">To-do List</p>
+            <ol>
+            <% @challenge.tasks.each do |task| %>
+                <li style="font-size: 18px"><%= task.taskName %></li>
+            <% end %>
+            </ol>
+        </div>
+    </div>
+
+    <div class="text-center row">
+        <div class="col-md-6">
+            <button type="button" id="show-participants" class="btn btn-primary btn-block">Show Participants</button>
+        </div>
+        <div class="col-md-6">
+            <button type="button" class="btn btn-primary btn-block">Edit Challenge</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function() {
+    const redirectButton = document.getElementById('show-participants');
+
+    if (redirectButton) {
+      redirectButton.addEventListener('click', function() {
+        window.location.href = "<%= challenge_list_trainees_path @challenge.id %>";
+      });
+    }
+  });
+</script>
