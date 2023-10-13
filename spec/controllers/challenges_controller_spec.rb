@@ -78,7 +78,9 @@ RSpec.describe ChallengesController, type: :controller do
   describe 'GET #add_trainees' do
 
     it 'assigns @challenge if the challenge has not started' do
-      @challenge = Challenge.create(name: 'Test Challenge', startDate: Date.tomorrow, endDate: Date.tomorrow + 1, id:1)
+      session[:user_id] = @instructor.user_id
+      @challenge = Challenge.create(name: 'Test Challenge', startDate: Date.tomorrow, endDate: Date.tomorrow + 1)
+      @challenge.instructor = @instructor
       @challenge.save
       get :add_trainees, params: { id: @challenge.id }
       expect(assigns(:challenge)).to eq(@challenge)
@@ -89,13 +91,18 @@ RSpec.describe ChallengesController, type: :controller do
   describe 'POST #update_trainees' do
 
     it 'assigns @challenge if the challenge has not started' do
-      @challenge = Challenge.create(name: 'Test Challenge', startDate: Date.tomorrow, endDate: Date.tomorrow + 1, id:1)
+      session[:user_id] = @instructor.user_id
+      @challenge = Challenge.create(name: 'Test Challenge', startDate: Date.tomorrow, endDate: Date.tomorrow + 1)
+      @challenge.instructor = @instructor
       @challenge.save
-      @trainee1 = Trainee.create(full_name: 'Trainee 1', id:1)
-      @trainee2 = Trainee.create(full_name: 'Trainee 2', id:2)
+      @trainee1 = Trainee.create(full_name: 'Trainee 1', height:1.5, weight: 1.5)
+      @trainee2 = Trainee.create(full_name: 'Trainee 2', height:1.5, weight: 1.5)
       @trainee1.save
       @trainee2.save
-      get :add_trainees, params: { id: @challenge.id }
+      
+      testchallenge_1 = Challenge.find(@challenge.id)
+
+      get :add_trainees, params: { id: testchallenge_1.id }
       expect(assigns(:challenge)).to eq(@challenge)
       post :update_trainees, params: {id: @challenge.id, trainee_ids: [@trainee1.id, @trainee2.id]}
       expect(flash.now[:notice]).to eq('Trainees were successfully added to the challenge.')
