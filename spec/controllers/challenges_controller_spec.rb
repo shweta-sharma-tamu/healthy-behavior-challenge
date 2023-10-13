@@ -12,7 +12,7 @@ RSpec.describe ChallengesController, type: :controller do
     @user = User.create(email: 'instructor@example.com', password: 'password', user_type: 'Instructor')
 
     # Create an instructor instance
-    @instructor = Instructor.create(user_id: @user, first_name: 'John', last_name: 'Doe')
+    @instructor = Instructor.create(user: @user, first_name: 'John', last_name: 'Doe')
 
     @challenge = FactoryBot.create(:challenge)
     @trainee = FactoryBot.create(:trainee)
