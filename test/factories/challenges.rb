@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :challenge do
-    Challenge_id { "" }
-    Name { "MyString" }
-    startDate { "2023-10-09" }
-    EndDate { "2023-10-09" }
+    name { "MyString" }
+    startDate { Date.today }  
+    endDate { Date.today + 1.week }  
+    instructor_id { nil }  
   end
 end

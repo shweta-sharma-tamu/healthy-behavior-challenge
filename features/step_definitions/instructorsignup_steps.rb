@@ -1,5 +1,6 @@
   Given("I received email with referral link") do
     @user = User.create!(email: 'instructor@example.com', password: 'abcdef',user_type: "Instructor")
+    @instructor = Instructor.create!(first_name: 'instructor', last_name: 'instructor', user: @user)
     puts @user.email
     
     visit login_path

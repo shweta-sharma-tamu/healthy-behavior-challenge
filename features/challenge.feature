@@ -45,3 +45,14 @@ Feature: Challenges Controller
     Then I should see "Welcome, User"
 
   # Add more scenarios for other controller actions as needed
+  Scenario: View challenge details
+    Given I am an instructor
+    When I click on the challenge "ex chall"
+    Then I should see the heading "ex chall"
+    And I should see the "Duration: 15 days"
+    And I should see the "Participants: 0"
+    And I should see the "Start Date: October 15, 2023"
+    And I should see the "End Date: October 30, 2023"
+    And I should see the "No of Tasks: 2"
+    And I should see the "Show Participants" button
+    And I should see the "Edit Challenge" button

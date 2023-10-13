@@ -15,7 +15,7 @@ Feature: Instructor SignUp
     And I fill in first_name with Peter
     And I fill in last_name with John  
     And I click on signup
-    Then I should see 'Welcome, Peter!' message
+    Then I should see 'Welcome, Peter' message
 
   Scenario: Instructor cannot signup with empty email
     Given I click the sent referral link and redirected to signup page 

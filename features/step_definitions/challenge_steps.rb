@@ -1,5 +1,5 @@
 # features/step_definitions/challenge_steps.rb
-Given("I am an instructor") do
+  Given("I am an instructor") do
     user = User.create!(email: 'instructor@example.com', password: 'abcdef', user_type: "Instructor")
     instructor = Instructor.create(user: user, first_name: 'John', last_name: 'Doe')
   
@@ -59,9 +59,25 @@ Given("I am an instructor") do
   end
   
   # Implement additional step definitions as needed
-
-  
   And("I fill in the task name field with {string}") do |task_name|
     task_field = find('input[type="text"][name^="challenge[tasks_attributes]"]')
     task_field.set(task_name)
   end
+
+  When("I click on the challenge {string}") do |string|
+    challenge = Challenge.find_by(name: string)
+    visit challenge_path(challenge)
+  end
+
+  Then('I should see the heading {string}') do |string|
+    expect(page).to have_content("#{string}")
+  end
+
+  Then("I should see the {string}") do |string|
+    expect(page).to have_content("#{string}")
+  end  
+
+  Then("I should see the {string} button") do |label|
+    button = find_button(label)
+    expect(button).to be_present
+  end 
