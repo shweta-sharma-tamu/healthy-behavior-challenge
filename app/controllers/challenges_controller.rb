@@ -75,13 +75,14 @@ class ChallengesController < ApplicationController
         redirect_to root_path
       end
     end
-    
+
     def trainees_list
       @challenge = Challenge.find(params[:challenge_id])
       trainees = Trainee.joins(:challenge_trainees).where(challenge_trainees: { challenge_id: params[:challenge_id]})
       page = params[:page].presence || 1
-      @pg = page
-      @trainees = trainees.page(page).per(1)
+      @trainees_ct = trainees.size
+      @trainees = trainees.page(page).per(10)
+      puts @trainees
     end
   
     def add_trainees

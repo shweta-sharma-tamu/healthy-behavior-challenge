@@ -10,15 +10,15 @@
         <h1>Challange: <%= @challenge.name %> </h1>
     </div>
     <div class="col-xs-4">
-        <h1>Total Count: <%= @trainees.size %></h1>
+        <h1>Total Count: <%= @trainees_ct %></h1>
     </div>
     </div>
     <div>
    
     </div>
-    <%= render @trainees %>
-    <%= paginate @trainees, params: { page: @pg}  %>
-</div>
+    <%= render 'trainees/trainee' %>
+    <%= paginate @trainees %>
+    </div>
 
 
 
