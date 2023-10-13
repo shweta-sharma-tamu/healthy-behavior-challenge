@@ -62,18 +62,17 @@ class ChallengesController < ApplicationController
     # Other actions...
     def show
       @instructor = Instructor.find_by(user_id: session[:user_id])
-      Rails.logger.debug(@instructor)
-      unless @instructor
+
+      if @instructor
+        begin
+          @challenge = Challenge.find(params[:id])
+        rescue ActiveRecord::RecordNotFound
+          flash[:alert] = "Challenge not found."
+          redirect_to challenges_path
+        end
+      else
         flash[:notice] = "You are not an instructor."
         redirect_to root_path
-        return
-      end
-
-      begin
-        @challenge = Challenge.find(params[:id])
-      rescue ActiveRecord::RecordNotFound
-        flash[:alert] = "Challenge not found."
-        redirect_to challenges_path
       end
     end
   
