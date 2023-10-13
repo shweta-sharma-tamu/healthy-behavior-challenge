@@ -75,6 +75,15 @@ class ChallengesController < ApplicationController
         redirect_to root_path
       end
     end
+
+    def trainees_list
+      @challenge = Challenge.find(params[:challenge_id])
+      trainees = Trainee.joins(:challenge_trainees).where(challenge_trainees: { challenge_id: params[:challenge_id]})
+      page = params[:page].presence || 1
+      @trainees_ct = trainees.size
+      @trainees = trainees.paginate(page: params[:page], per_page: 10)
+      puts @trainees
+    end
   
     def add_trainees
       @challenge = Challenge.find(params[:id])
@@ -104,7 +113,7 @@ class ChallengesController < ApplicationController
     private
   
     def challenge_params
-      params.require(:challenge).permit(:name, :startDate, :endDate, tasks_attributes: [:id, :taskName, :_destroy])
+      params.require(:challenge).permit(:name, :id, :startDate, :endDate, tasks_attributes: [:id, :taskName, :_destroy])
     end
   end
   

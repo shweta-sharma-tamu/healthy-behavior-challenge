@@ -31,5 +31,9 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :challenges do
+      get "/trainees", controller:'challenges' ,action: 'trainees_list', constraints: { query_string: /(.+)?/ }, as: "list_trainees"
+  end
+
 end
 

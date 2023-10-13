@@ -43,6 +43,12 @@ Feature: Challenges Controller
     Given I am not an instructor
     When I visit the new challenge page
     Then I should see "Welcome, User"
+  
+    Scenario: View trainees of a challenge
+    Given I am an instructor and There exists a challenge "New Challenge"
+    And there are trainees in the challenge "New Challenge"
+    When I visit the list trainees page
+    Then I should see list of trainees of that challenge
 
   # Add more scenarios for other controller actions as needed
   Scenario: View challenge details

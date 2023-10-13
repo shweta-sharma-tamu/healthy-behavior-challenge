@@ -16,7 +16,7 @@
   end
   
   Given("I am not an instructor") do
-    user = User.create!(email: 'trainee@example.com', password: '123456', user_type: "Trainee")
+    user = User.create!(email: 'trainee1@example.com', password: '123456', user_type: "Trainee1")
 
     # Use Capybara to log in as the user
     visit root_path
@@ -36,11 +36,12 @@
     fill_in 'Password', with: user.password
     click_button 'Sign In'
 
-    Challenge.create!(name: challenge, startDate: '2023-10-15', endDate: '2023-10-30', instructor: instructor, tasks_attributes: {
+    @challenge = Challenge.create!(name: challenge, startDate: '2023-10-15', endDate: '2023-10-30', instructor: instructor, tasks_attributes: {
         '0' => { taskName: 'Task 1' },
         '1' => { taskName: 'Task 1' }  # Use a different name for the second task
       })
-        end
+  end
+  
   Given("I am on the new challenge page") do
     visit new_challenge_path
   end
@@ -81,3 +82,20 @@
     button = find_button(label)
     expect(button).to be_present
   end 
+  And("there are trainees in the challenge {string}") do |challenge|
+    user1 = User.create!(email: 'trainee22@example.com', password: 'abcdef', user_type: "Trainee")
+    user2 = User.create!(email: 'trainee2@example.com', password: 'abcdef', user_type: "Trainee")
+    user3 = User.create!(email: 'trainee3@example.com', password: 'abcdef', user_type: "Trainee")
+    @trainee1 = Trainee.create!(full_name: "blah 1",user: user1,height:120,weight:120)
+    @trainee2 = Trainee.create!(full_name: "blah 2",user: user2,height:120,weight:120)
+    @trainee3 = Trainee.create!(full_name: "blah 3",user: user3,height:120,weight:120)
+    Challenge.find_by(name: challenge).trainees << [@trainee1,@trainee2,@trainee3]
+  end
+
+  When('I visit the list trainees page') do
+    visit challenge_list_trainees_path(challenge_id: @challenge.id)
+  end
+
+  Then('I should see list of trainees of that challenge') do
+    expect(page).to have_content(@trainee1.full_name)
+  end
