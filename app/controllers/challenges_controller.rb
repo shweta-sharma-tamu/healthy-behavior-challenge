@@ -57,30 +57,30 @@ class ChallengesController < ApplicationController
       end
     end
   
-  def add_trainees
-    @challenge = Challenge.find(params[:id])
-    if @challenge.startDate <= Date.today
-      flash[:alert] = "Challenge has already started. You cannot add trainees."
-      @trainees = []
-    else
+    def add_trainees
+      @challenge = Challenge.find(params[:id])
+      if @challenge.startDate <= Date.today
+        flash.now[:alert] = "Challenge has already started. You cannot add trainees."
+        @trainees = []
+      else
+        @challenge_trainees = ChallengeTrainee.where(challenge_id: params[:id])
+        trainee_ids = @challenge_trainees.pluck(:trainee_id)
+        @trainees = Trainee.where.not(id: trainee_ids)
+      end
+    end
+
+    def update_trainees
+      @challenge = Challenge.find(params[:id])
+      if @challenge.trainees << Trainee.where(id: params[:trainee_ids])
+        flash.now[:notice] = "Trainees were successfully added to the challenge."
+      else
+        flash.now[:alert] = "Something went wrong. Challenge was not updated."
+      end
       @challenge_trainees = ChallengeTrainee.where(challenge_id: params[:id])
       trainee_ids = @challenge_trainees.pluck(:trainee_id)
       @trainees = Trainee.where.not(id: trainee_ids)
+      render 'add_trainees'
     end
-  end
-
-  def update_trainees
-    @challenge = Challenge.find(params[:id])
-    if @challenge.trainees << Trainee.where(id: params[:trainee_ids])
-      flash.now[:notice] = "Trainees were successfully added to the challenge."
-    else
-      flash.now[:alert] = "Something went wrong. Challenge was not updated."
-    end
-    @challenge_trainees = ChallengeTrainee.where(challenge_id: params[:id])
-    trainee_ids = @challenge_trainees.pluck(:trainee_id)
-    @trainees = Trainee.where.not(id: trainee_ids)
-    render 'add_trainees'
-  end
   
     private
   
