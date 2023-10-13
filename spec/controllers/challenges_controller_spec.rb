@@ -1,16 +1,21 @@
 require 'rails_helper'
+require 'spec_helper'
 
 RSpec.describe ChallengesController, type: :controller do
+
+  after(:all) do
+    Challenge.destroy_all
+    Trainee.destroy_all
+  end
+
   before(:each) do
     @user = User.create(email: 'instructor@example.com', password: 'password', user_type: 'Instructor')
 
     # Create an instructor instance
-    @instructor = Instructor.create(user: @user, first_name: 'John', last_name: 'Doe')
+    @instructor = Instructor.create(user_id: @user, first_name: 'John', last_name: 'Doe')
 
-    @challenge = Challenge.create(name: 'Test Challenge', startDate: Date.tomorrow, endDate: Date.tomorrow + 1) 
-    @challenge1 = Challenge.create(name: 'Test Challenge1', startDate: Date.yesterday, endDate: Date.tomorrow + 1)
-    @trainee1 = Trainee.create(full_name: 'Test Trainee1', height: 1.75, weight: 70.0, id:1) 
-    @trainee2 = Trainee.create(full_name: 'Test Trainee2', height: 1.80, weight: 75.0, id:2) 
+    @challenge = FactoryBot.create(:challenge)
+    @trainee = FactoryBot.create(:trainee)
   
   end
 
@@ -85,7 +90,7 @@ RSpec.describe ChallengesController, type: :controller do
     it 'assigns @challenge if the challenge has not started' do
       get :add_trainees, params: { id: @challenge.id }
       expect(assigns(:challenge)).to eq(@challenge)
-      post :update_trainees, params: {id: @challenge.id, trainee_ids: [@trainee1.id,@trainee2.id]}
+      post :update_trainees, params: {id: @challenge.id, trainee_ids: [@trainee.id]}
       expect(flash.now[:notice]).to eq('Trainees were successfully added to the challenge.')
     end
   end
