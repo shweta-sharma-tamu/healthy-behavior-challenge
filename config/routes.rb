@@ -23,9 +23,7 @@ Rails.application.routes.draw do
   get 'instructor_referral', to: 'instructor_referral#index'
   post 'instructor_referral', to: 'instructor_referral#create'
 
-  #get '/challenge/:challenge_id/add_trainees', to: 
-
-
+ 
   resources :challenges do
     member do
       get 'add_trainees'  # This defines the "Add Users" action for a specific challenge
