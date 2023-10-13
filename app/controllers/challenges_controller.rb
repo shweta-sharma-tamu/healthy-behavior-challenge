@@ -81,7 +81,7 @@ class ChallengesController < ApplicationController
       trainees = Trainee.joins(:challenge_trainees).where(challenge_trainees: { challenge_id: params[:challenge_id]})
       page = params[:page].presence || 1
       @trainees_ct = trainees.size
-      @trainees = trainees.page(page).per(10)
+      @trainees = trainees.paginate(page: params[:page], per_page: 10)
       puts @trainees
     end
   

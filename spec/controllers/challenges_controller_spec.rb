@@ -79,7 +79,6 @@ RSpec.describe ChallengesController, type: :controller do
       end
   end
 
-<<<<<<< HEAD
   describe 'GET #add_trainees' do
 
     it 'assigns @challenge if the challenge has not started' do
@@ -112,8 +111,6 @@ RSpec.describe ChallengesController, type: :controller do
     end
   end
 
-=======
->>>>>>> f2a1db9 (merge conflict)
 
   describe 'GET #show' do
     context 'when the user is an instructor' do

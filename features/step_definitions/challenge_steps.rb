@@ -40,7 +40,8 @@
         '0' => { taskName: 'Task 1' },
         '1' => { taskName: 'Task 1' }  # Use a different name for the second task
       })
-        end
+  end
+  
   Given("I am on the new challenge page") do
     visit new_challenge_path
   end
@@ -92,7 +93,7 @@
   end
 
   When('I visit the list trainees page') do
-    visit challenge_list_trainees_path @challenge
+    visit challenge_list_trainees_path(challenge_id: @challenge.id)
   end
 
   Then('I should see list of trainees of that challenge') do
