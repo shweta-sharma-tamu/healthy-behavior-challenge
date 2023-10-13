@@ -1,0 +1,64 @@
+<!-- app/views/challenges/add_users.html.erb -->
+<%= render 'main/navbar' %>
+
+<div class="container">
+  <div class="form-box">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3" style="margin-top: 20%; text-align:center">
+      <!-- Display the success message if present -->
+        <% if flash[:notice] %>
+        <div class="alert alert-success text-center">
+            <%= flash[:notice] %>
+        </div>
+        <% elsif flash[:alert] %>
+        <div class="alert alert-danger text-center">
+            <%= flash[:alert] %>
+        </div>
+        <% end %>
+        <h3>Add Trainees to <%= @challenge.name %></h3>
+
+        <%= form_with url: update_trainees_challenge_path(@challenge) do |form| %>
+
+            <div class="form-field">
+            <!-- Search input for filtering trainees -->
+            <input type="text" id="traineeSearch" class="form-control" placeholder="Search for Trainees">
+            <br>
+            <!-- Select box for trainee selection -->
+            <p>Hold down the Control (Ctrl) key to select multiple trainees.</p>
+            <%= form.collection_select(:trainee_ids, @trainees, :id, :full_name, {}, { multiple: true, class: "form-control", id: "traineeSelect" }) %>
+          </div>
+        <br/>
+
+        <div class="button-container">
+        <% if @challenge.startDate >= Date.today %>
+            <%= form.submit 'Add Trainees', class: 'btn btn-primary btn-block' %>
+        <% else %>
+            <%= form.submit 'Add Trainees', class: 'btn btn-primary btn-block', disabled: true %>
+        <% end %>
+        </div>
+        <% end %>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const traineeSearch = document.getElementById("traineeSearch");
+    const traineeSelect = document.getElementById("traineeSelect");
+
+    traineeSearch.addEventListener("input", function() {
+      const searchTerm = traineeSearch.value.toLowerCase();
+      const options = traineeSelect.getElementsByTagName("option");
+
+      for (let option of options) {
+        const traineeName = option.text.toLowerCase();
+        if (traineeName.includes(searchTerm)) {
+          option.style.display = "block";
+        } else {
+          option.style.display = "none";
+        }
+      }
+    });
+  });
+</script>
