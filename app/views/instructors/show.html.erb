@@ -1,0 +1,16 @@
+<%= render 'main/navbar' %>
+<div class="container d-flex justify-content-center align-items-center vh-100 vw-100" style="margin-top:10vh">
+  <h1>Ongoing Challenges</h1>
+
+  <div class="d-flex flex-wrap justify-content-center">
+    <% @challenges.each do |challenge| %>
+      <a href="<%= challenge_path(challenge) %>" class="challenge-tile">
+        <h3>Challenge Name: <%= challenge.name %></h3>
+        <p>Start Date: <%= challenge.startDate %></p>
+        <p>End Date: <%= challenge.endDate %></p>
+      </a>
+    <% end %>
+  </div>
+
+  <%= will_paginate @challenges %>
+</div>

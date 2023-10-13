@@ -56,7 +56,7 @@ class ChallengesController < ApplicationController
         return
       end
     end
-  
+
     # Other actions...
   
     private

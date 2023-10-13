@@ -15,10 +15,20 @@ class UsersController < ApplicationController
     end
 
     def show
-        @user = User.find(params[:id])
+        user_id =  params[:id]
+        @user = User.find(user_id)
         @user_id_from_session = @user.id
         @is_instructor = @user.user_type == "Instructor"
-        render :show
+        if @is_instructor
+            @instructor = Instructor.find_by(user_id: user_id)
+            if @instructor
+                redirect_to instructor_path(@instructor)
+              else
+                render plain: 'Instructor not found', status: :not_found
+              end
+        else
+            render :show
+        end
     end
 
     private
