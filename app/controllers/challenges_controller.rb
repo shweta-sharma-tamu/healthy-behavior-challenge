@@ -58,7 +58,7 @@ class ChallengesController < ApplicationController
         return
       end
     end
-  
+
     # Other actions...
     def show
       @instructor = Instructor.find_by(user_id: session[:user_id])
