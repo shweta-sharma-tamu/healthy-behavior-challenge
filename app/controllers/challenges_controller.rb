@@ -109,7 +109,34 @@ class ChallengesController < ApplicationController
       @trainees = Trainee.where.not(id: trainee_ids)
       render 'add_trainees'
     end
-  
+
+    def task_progress
+      task_completed_counts = TodolistTask.where(trainee_id: params[:trainee_id], challenge_id: params[:id], status: "completed").group(:date).count
+      task_not_completed_counts = TodolistTask.where(trainee_id: params[:trainee_id], challenge_id: params[:id], status: "not_completed").group(:date).count
+    
+      # Get the union of all dates from both completed and not completed tasks
+      all_dates = task_completed_counts.keys | task_not_completed_counts.keys
+    
+      # Initialize arrays for dates and counts with zero counts
+      @dates_completed = []
+      @counts_completed = []
+      @dates_not_completed = []
+      @counts_not_completed = []
+      @counts_total=[]
+    
+      # Populate arrays with dates and counts, filling in zeros for missing dates
+      all_dates.each do |date|
+        @dates_completed << date
+        @counts_completed << task_completed_counts[date].to_i
+        @dates_not_completed << date
+        @counts_not_completed << task_not_completed_counts[date].to_i
+        @counts_total<<task_completed_counts[date].to_i+task_not_completed_counts[date].to_i
+      end
+
+      @trainee = Trainee.find_by(id: params[:trainee_id])
+      @trainee_name = @trainee.full_name if @trainee.present?
+    end
+    
     private
   
     def challenge_params
