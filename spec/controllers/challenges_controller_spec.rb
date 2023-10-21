@@ -158,6 +158,29 @@ RSpec.describe ChallengesController, type: :controller do
       expect(response).to render_template(:trainees_list)
     end
   end
+    describe 'GET task_progress' do
+      it 'populates the required instance variables' do
+        @challenge = Challenge.create!(name: 'ex chall', startDate: '2023-10-15', endDate: '2023-10-30', instructor: @instructor, tasks_attributes: {
+          '0' => { taskName: 'Task 1' },
+          '1' => { taskName: 'Task 1' } 
+        })
+
+        user1 = User.create!(email: 'trainee22dfas@example.com', password: 'abcdef', user_type: "Trainee")
+        @trainee1 = Trainee.create!(full_name: "blah 1dsad",user: user1,height:120,weight:120)
+        @task=Task.create!(taskName:"drink water")
+        @challenge.trainees << @trainee1
+        TodolistTask.create!(trainee_id: @trainee1.id, task_id: @task.id, challenge_id: @challenge.id, date: Date.today+1,status:"not_completed")
+        get :task_progress, params: { trainee_id: @trainee1.id, id: @challenge } 
+  
+        expect(assigns(:dates_completed)).not_to be_nil
+        expect(assigns(:counts_completed)).not_to be_nil
+        expect(assigns(:dates_not_completed)).not_to be_nil
+        expect(assigns(:counts_not_completed)).not_to be_nil
+        expect(assigns(:counts_total)).not_to be_nil
+        expect(assigns(:trainee)).not_to be_nil
+        expect(assigns(:trainee_name)).not_to be_nil
+      end
+    end
 
   private
 

@@ -16,7 +16,7 @@ Given("I am an instructor trying to add trainees to a challenge") do
     fill_in 'Password', with: user.password
     click_button 'Sign In'
 
-    challenge_1 = Challenge.create(name: 'Sample Challenge', startDate: '2023-10-15', endDate: '2023-10-30', instructor: instructor, tasks_attributes: {
+    challenge_1 = Challenge.create(name: 'Sample Challenge', startDate: Date.today+2, endDate: Date.today+5, instructor: instructor, tasks_attributes: {
         '0' => { taskName: 'Task 1' },
         '1' => { taskName: 'Task 1' }  # Use a different name for the second task
       })
