@@ -62,3 +62,9 @@ Feature: Challenges Controller
     And I should see the "No of Tasks: 2"
     And I should see the "Show Participants" button
     And I should see the "Edit Challenge" button
+
+  Scenario: Display task progress for a trainee
+    Given I am an instructor
+    And a trainee is present in a challenge "ex chall"
+    When I visit the task progress page
+    Then I should see the task progress chart
