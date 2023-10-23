@@ -20,6 +20,7 @@ RSpec.describe ChallengesController, type: :controller do
   
 
     @trainee = Trainee.create(user: @user, full_name: 'John Doe', height: 160, weight: 65)
+    session[:user_id] = @user.id
   end
 
   describe 'GET #new' do
@@ -29,6 +30,7 @@ RSpec.describe ChallengesController, type: :controller do
     end
 
     it 'redirects to root_path if the user is not an instructor' do
+      session[:user_id] = @user2.id
       get :new
       expect(response).to redirect_to(root_path)
       expect(flash[:alert]).to eq('You are not an instructor.')
@@ -181,6 +183,60 @@ RSpec.describe ChallengesController, type: :controller do
         expect(assigns(:trainee_name)).not_to be_nil
       end
     end
+
+  describe 'GET show_challenge_trainee' do
+
+    it 'assigns the challenge and trainee variables' do
+      session[:user_id] = @instructor.user_id
+      @challenge = Challenge.create!(name: 'ex chall', startDate: '2023-10-15', endDate: '2023-10-30', instructor: @instructor, tasks_attributes: {
+        '0' => { taskName: 'Task 1' },
+        '1' => { taskName: 'Task 1' } 
+      })
+  
+      user1 = User.create!(email: 'trainee22dfas@example.com', password: 'abcdef', user_type: "Trainee")
+      @trainee1 = Trainee.create!(full_name: "blah 1dsad",user: user1,height:120,weight:120)
+      @task=Task.create!(taskName:"drink water")
+      @challenge.trainees << @trainee1
+      TodolistTask.create!(trainee_id: @trainee1.id, task_id: @task.id, challenge_id: @challenge.id, date: Date.today+1,status:"not_completed")  
+      get :show_challenge_trainee, params: { challenge_id: @challenge.id, trainee_id: @trainee1.id }
+      expect(assigns(:challenge)).to eq(@challenge)
+      expect(assigns(:trainee)).to eq(@trainee1)
+    end
+
+    it 'assigns the todo_list with filtered data' do
+      session[:user_id] = @instructor.user_id
+      @challenge = Challenge.create!(name: 'ex chall', startDate: '2023-10-15', endDate: '2024-10-30', instructor: @instructor, tasks_attributes: {
+        '0' => { taskName: 'Task 1' },
+        '1' => { taskName: 'Task 1' } 
+      })
+  
+      user1 = User.create!(email: 'trainee22dfas@example.com', password: 'abcdef', user_type: "Trainee")
+      @trainee1 = Trainee.create!(full_name: "blah 1dsad",user: user1,height:120,weight:120)
+      @task=Task.create!(taskName:"drink water")
+      @challenge.trainees << @trainee1
+      @todolist = TodolistTask.create!(trainee_id: @trainee1.id, task_id: @task.id, challenge_id: @challenge.id, date: Date.today,status:"not_completed")  
+      get :show_challenge_trainee, params: { challenge_id: @challenge.id, trainee_id: @trainee1.id }
+      actual_task_names = assigns(:todo_list).pluck(:taskName)
+      expect(actual_task_names).to include(@task.taskName)
+    end
+
+    it 'renders the show_challenge_trainee template' do
+      session[:user_id] = @instructor.user_id
+      @challenge = Challenge.create!(name: 'ex chall', startDate: '2023-10-15', endDate: '2024-10-30', instructor: @instructor, tasks_attributes: {
+        '0' => { taskName: 'Task 1' },
+        '1' => { taskName: 'Task 1' } 
+      })
+  
+      user1 = User.create!(email: 'trainee22dfas@example.com', password: 'abcdef', user_type: "Trainee")
+      @trainee1 = Trainee.create!(full_name: "blah 1dsad",user: user1,height:120,weight:120)
+      @task=Task.create!(taskName:"drink water")
+      @challenge.trainees << @trainee1
+      @todolist = TodolistTask.create!(trainee_id: @trainee1.id, task_id: @task.id, challenge_id: @challenge.id, date: Date.today,status:"not_completed")  
+      get :show_challenge_trainee, params: { challenge_id: @challenge.id, trainee_id: @trainee1.id }
+      expect(response).to render_template('show_challenge_trainee')
+    end
+  end
+
 
   private
 
