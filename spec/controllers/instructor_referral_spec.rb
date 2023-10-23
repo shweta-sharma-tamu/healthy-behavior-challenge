@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe InstructorReferralController, type: :controller do
 
     before :each do
-        User.create(email: 'user1@gmail.com', password: 'password',user_type:"Instructor")
+        user = User.create(email: 'user1@gmail.com', password: 'password',user_type:"Instructor")
+        session[:user_id] = user.id
     end
 
     describe 'GET #index' do
