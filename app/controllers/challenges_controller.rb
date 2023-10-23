@@ -105,7 +105,6 @@ class ChallengesController < ApplicationController
           tasks = @challenge.tasks
           tasks.each do |task|
             (@challenge.startDate..@challenge.endDate).each do |date|
-              # Create a new todolist_task for the current date
               tasktodo = TodolistTask.new(
                 task: task,
                 trainee: trainee,      

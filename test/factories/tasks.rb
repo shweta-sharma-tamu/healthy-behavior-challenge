@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :task do
-    Task_id { "" }
-    TaskName { "MyString" }
+    task_id { "id" }
+    taskName { "MyString" }
   end
 end
