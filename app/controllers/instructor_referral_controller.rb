@@ -1,6 +1,9 @@
 require 'securerandom'
 
 class InstructorReferralController < ApplicationController
+    
+    before_action :require_user
+
     def index
         # Add any logic needed for the instructor referral page here
 
@@ -21,5 +24,15 @@ class InstructorReferralController < ApplicationController
         end
         render action: "index"
     end
+
+    private
+
+    def require_user
+      unless user_signed_in? 
+        flash[:alert] = "You must be signed in to access this page."
+        redirect_to login_path
+      end
+    end
+
 
 end
