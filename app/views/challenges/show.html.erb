@@ -25,10 +25,22 @@
 
     <div class="text-center row">
         <div class="col-md-6">
-            <button type="button" class="btn btn-primary btn-block">Show Participants</button>
+            <button type="button" id="show-participants" class="btn btn-primary btn-block">Show Participants</button>
         </div>
         <div class="col-md-6">
             <button type="button" class="btn btn-primary btn-block">Edit Challenge</button>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function() {
+    const redirectButton = document.getElementById('show-participants');
+
+    if (redirectButton) {
+      redirectButton.addEventListener('click', function() {
+        window.location.href = "<%= challenge_list_trainees_path @challenge.id %>";
+      });
+    }
+  });
+</script>

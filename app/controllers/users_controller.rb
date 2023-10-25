@@ -27,7 +27,7 @@ class UsersController < ApplicationController
                 render plain: 'Instructor not found', status: :not_found
               end
         else
-            redirect_to todo_list_path
+            redirect_to todo_list_path(user_id)
         end
     end
 

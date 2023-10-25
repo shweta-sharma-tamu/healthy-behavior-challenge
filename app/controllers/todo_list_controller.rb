@@ -1,4 +1,8 @@
 class TodoListController < ApplicationController
+    before_action :require_user
+
+
+    
     def new 
         @user = User.new
         @trainee = Trainee.new
@@ -60,6 +64,13 @@ class TodoListController < ApplicationController
 
     private
 
+    def require_user
+      unless user_signed_in? 
+        flash[:alert] = "You must be signed in to access this page."
+        redirect_to login_path
+      end
+    end
+    
     def movie_params
         params.require(:todo).permit(:user_id, :task_name, :status, :trainee_id, :challenge_id, :date, :tasks)
     end

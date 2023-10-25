@@ -25,13 +25,20 @@ Rails.application.routes.draw do
 
   get "/todo_list" , to: "todo_list#show", as: "todo_list"
   patch "/todo_list" , to: "todo_list#update", as: "mark_as_complete"
- 
+  get "/trainees/:trainee_id", to: "challenges#show_challenge_trainee", as: "show_challenge_trainee"
+
   resources :challenges do
     member do
       get 'add_trainees', to: "challenges#add_trainees" # This defines the "Add Users" action for a specific challenge
       post 'update_trainees', to: "challenges#update_trainees"  # This defines the action to handle form submission
     end
   end
+
+  resources :challenges do
+      get "/trainees", controller:'challenges' ,action: 'trainees_list', constraints: { query_string: /(.+)?/ }, as: "list_trainees"
+      get 'task_progress', on: :member, as: "graph"
+  end
+  post 'filter_data' => 'challenges#filter_data'
 
 end
 

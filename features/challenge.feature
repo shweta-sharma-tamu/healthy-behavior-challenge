@@ -43,6 +43,12 @@ Feature: Challenges Controller
     Given I am not an instructor
     When I visit the new challenge page
     Then I should see "Welcome, User"
+  
+    Scenario: View trainees of a challenge
+    Given I am an instructor and There exists a challenge "New Challenge"
+    And there are trainees in the challenge "New Challenge"
+    When I visit the list trainees page
+    Then I should see list of trainees of that challenge
 
   # Add more scenarios for other controller actions as needed
   Scenario: View challenge details
@@ -56,3 +62,9 @@ Feature: Challenges Controller
     And I should see the "No of Tasks: 2"
     And I should see the "Show Participants" button
     And I should see the "Edit Challenge" button
+
+  Scenario: Display task progress for a trainee
+    Given I am an instructor
+    And a trainee is present in a challenge "ex chall"
+    When I visit the task progress page
+    Then I should see the task progress chart
