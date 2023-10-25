@@ -55,7 +55,7 @@ Feature: Challenges Controller
     Given I am an instructor
     When I click on the challenge "ex chall"
     Then I should see the heading "ex chall"
-    And I should see the "Duration: 15 days"
+    And I should see the "Duration: 16 days"
     And I should see the "Participants: 0"
     And I should see the "Start Date: October 15, 2023"
     And I should see the "End Date: October 30, 2023"
