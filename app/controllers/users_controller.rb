@@ -27,7 +27,7 @@ class UsersController < ApplicationController
                 render plain: 'Instructor not found', status: :not_found
               end
         else
-            render :show
+            redirect_to todo_list_path
         end
     end
 
@@ -37,3 +37,4 @@ class UsersController < ApplicationController
         params.require(:user).permit(:email, :password, :user_type)
     end
 end
+

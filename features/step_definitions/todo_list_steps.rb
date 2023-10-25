@@ -20,7 +20,7 @@
     fill_in 'email', with: 'traineetest@example.com'
     fill_in 'password', with: 'asdf'
     click_button 'Sign In'
-    expect(page).to have_content("Welcome")
+    expect(page).to have_content("Daily To-Do List")
     puts @user.id
   end
   

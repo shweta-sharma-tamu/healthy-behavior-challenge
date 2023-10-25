@@ -17,10 +17,8 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6 col-md-offset-3" style="margin-top: 20%;">
-      <% @challenge_to_do_lists.each do |challenge_todo| %>
       <div class="content-box">
-      <div class="content-box">
-        <h3><%= challenge_todo[:challenge].name %> Daily To-Do List</h3>
+        <h3>Daily To-Do List</h3>
         <p>Date: <%= @date.strftime("%B %d, %Y") %></p>
         <% if flash[:notice].present? %>
           <div>
@@ -36,7 +34,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% challenge_todo[:todo_list].each do |task_id, status| %>
+                    <% @todo_list.each do |task_id, status| %>
                         <tr>
                         <td class="checkbox-cell">
                             <%= check_box_tag "tasks[#{task_id}][completed]", "1", (status == "completed") %>
@@ -64,8 +62,6 @@
 
         </div>
       </div>
-      <% end %>
-      </div>
-      </div>
+    </div>
   </div>
 </div>
