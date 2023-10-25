@@ -27,6 +27,9 @@ Rails.application.routes.draw do
   patch "/todo_list" , to: "todo_list#update", as: "mark_as_complete"
   get "/trainees/:trainee_id", to: "challenges#show_challenge_trainee", as: "show_challenge_trainee"
 
+  get "/trainees/:trainee_id/edit_todo_list/:challenge_id", to: "todo_list#edit", as: "edit_trainee_todo_list"
+  patch "/trainees/:trainee_id/challenges/:challenge_id", to: "todo_list#update", as: "update_trainee_todo_list"
+
   resources :challenges do
     member do
       get 'add_trainees', to: "challenges#add_trainees" # This defines the "Add Users" action for a specific challenge
