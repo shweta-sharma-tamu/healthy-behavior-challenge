@@ -32,6 +32,8 @@ Rails.application.routes.draw do
 
   resources :challenges do
     member do
+      get 'edit_todo_list', to: "challenges#edit_todo_list"
+      post 'update_todo_list', to: "challenges#update_todo_list"
       get 'add_trainees', to: "challenges#add_trainees" # This defines the "Add Users" action for a specific challenge
       post 'update_trainees', to: "challenges#update_trainees"  # This defines the action to handle form submission
     end
