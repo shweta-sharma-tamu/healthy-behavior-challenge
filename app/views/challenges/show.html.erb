@@ -7,7 +7,7 @@
 
     <div class="row" style="margin-bottom: 2%">
         <div class="col-md-6">
-            <p style="font-size: 20px"><strong>Duration:</strong> <%= calculate_duration_in_days(@challenge.startDate, @challenge.endDate) %> days</p>
+            <p style="font-size: 20px"><strong>Duration:</strong> <%= calculate_duration_in_days(@challenge.startDate, @challenge.endDate) + 1 %> days</p>
             <p style="font-size: 20px"><strong>Participants:</strong> <%= @challenge.trainees.count %></p>
             <p style="font-size: 20px"><strong>Start Date:</strong> <%= @challenge.startDate.strftime('%B %d, %Y') %></p>
             <p style="font-size: 20px"><strong>End Date:</strong> <%= @challenge.endDate.strftime('%B %d, %Y') %></p>
@@ -23,11 +23,17 @@
         </div>
     </div>
 
-    <div class="text-center row">
+    <div class="text-center row" style="margin-bottom: 1%">
         <div class="col-md-6">
             <button type="button" id="show-participants" class="btn btn-primary btn-block">Show Participants</button>
         </div>
         <div class="col-md-6">
+            <%= link_to "Add Trainees", add_trainees_challenge_path(@challenge), class: "btn btn-primary btn-block" %>
+        </div>
+    </div>
+
+    <div class="text-center row">
+        <div class="col-md-12">
             <button type="button" class="btn btn-primary btn-block">Edit Challenge</button>
         </div>
     </div>

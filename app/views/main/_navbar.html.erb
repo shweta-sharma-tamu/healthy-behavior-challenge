@@ -1,11 +1,14 @@
 <nav class="navbar navbar-fixed-top navbar-light bg-primary">
   <div class="container-fluid">
     <div class="navbar-header">
-        <div class="container-fluid">
-        <a class="navbar-brand" href="#" style="color:white"><b>HBC</b></a>
+      <div class="container-fluid">
+        <% if @is_instructor  %>
+          <%= link_to 'HBC', instructor_path(current_user), class: 'navbar-brand', style: 'color: white' %>
+        <% elsif current_user.present? %>
+          <%= link_to 'HBC', user_path(current_user), class: 'navbar-brand', style: 'color: white' %>
+        <% end %>
       </div>
-        </div>
-   
+    </div>
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
