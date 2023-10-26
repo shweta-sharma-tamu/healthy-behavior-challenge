@@ -18,8 +18,8 @@ Feature: Edit Challenge Genric To-Do list
         And I am logged in as an Instructor
         When I visit the edit page for challenge "Temp Challenge 1"
         Then I should see the title "Current todo list for Temp Challenge 1"
-        And I should see the Start Date as "October 02, 2024"
-        And I should see the End Date as "October 31, 2024"
+        And I should see the Challenge Start Date as "October 02, 2024"
+        And I should see the Challenge End Date as "October 31, 2024"
 
     Scenario: Unauthorized access redirects
         Given there is a challenge "Temp Challenge 1" with a trainee "tempTrainee1" and following details:

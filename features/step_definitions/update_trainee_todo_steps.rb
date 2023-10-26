@@ -12,6 +12,8 @@ Given('there is a challenge {string} with the trainee {string} with the followin
           })
 
         challenge_create.trainees << Trainee.where(id: trainee.id)
+        challenge_trainee = ChallengeTrainee.new(challenge: @challenge, trainee: trainee)
+        challenge_trainee.save
 
         tasks = challenge_create.tasks
         tasks.each do |task|

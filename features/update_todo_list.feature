@@ -6,7 +6,7 @@ Feature: Updating Tasks
             | Temp Challenge 1 | 2023-10-02  | 2023-10-31  | Task 1, Task 2  |
         And I am logged in as an Instructor
         When I visit the edit page for challenge "Temp Challenge 1"
-        And I update the task list with the following tasks:
+        And I update the challenge task list with the following tasks:
             | tasks        |
             | New Task 1   |
             | New Task 2   |
@@ -20,7 +20,7 @@ Feature: Updating Tasks
             | Temp Challenge 2 | 2024-10-02  | 2024-10-31  | Task 2, Task 3  |
         And I am logged in as an Instructor
         When I visit the edit page for challenge "Temp Challenge 2"
-        And I update the task list with the following tasks:
+        And I update the challenge task list with the following tasks:
             | tasks        |
             | New Task 1   |
             | New Task 2   |
@@ -35,7 +35,7 @@ Feature: Updating Tasks
         And I am logged in as an Instructor
         When I visit the edit page for challenge "Temp Challenge 2"
         And I click on "Add Task"
-        And I update the task list with the following tasks:
+        And I update the challenge task list with the following tasks:
             | tasks        |
             | New Task 5   |
             | New Task 6   |

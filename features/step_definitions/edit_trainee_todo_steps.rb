@@ -1,9 +1,9 @@
-Given('there is a challenge {string} with a trainee {string} and following details:') do |string, string2, table|
+Given('there is a challenge {string} with a trainee {string} and following details:') do |challenge_name, trainee_name, table|
     user = User.create!(email: 'testInstructor@gmail.com', password: 'abcdef', user_type: "Instructor")
     trainee_user = User.create!(email: 'tempTrainee1@gmail.com', password: 'abcdef', user_type: "Trainee")
 
     instructor = Instructor.create!(user: user, first_name: 'John', last_name: 'Doe')
-    trainee = Trainee.create!(user: trainee_user, full_name: string2, height: 150, weight: 55)
+    trainee = Trainee.create!(user: trainee_user, full_name: trainee_name, height: 150, weight: 55)
 
     table.hashes.each do |challenge|
         challenge_create = Challenge.create!(name: challenge['name'], startDate: challenge['startDate'], endDate: challenge['endDate'], instructor: instructor, tasks_attributes: {
@@ -12,6 +12,8 @@ Given('there is a challenge {string} with a trainee {string} and following detai
           })
 
         challenge_create.trainees << Trainee.where(id: trainee.id)
+        challenge_trainee = ChallengeTrainee.new(challenge: @challenge, trainee: trainee)
+        challenge_trainee.save
 
         tasks = challenge_create.tasks
         tasks.each do |task|
@@ -24,6 +26,11 @@ Given('there is a challenge {string} with a trainee {string} and following detai
               )
                 tasktodo.save   
             end
+            genericlist = ChallengeGenericlist.new(
+                task: task,
+                challenge: @challenge,
+            )
+            genericlist.save
         end           
     end
   end
