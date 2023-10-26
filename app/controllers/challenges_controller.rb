@@ -179,6 +179,104 @@ class ChallengesController < ApplicationController
       render 'show_challenge_trainee'
     end
 
+    def edit_todo_list
+      @user = User.find(session[:user_id])
+      @instructor = Instructor.find_by(user_id: session[:user_id])
+      Rails.logger.debug(@instructor)
+      unless @instructor
+          flash[:alert] = "You are not an instructor."
+          redirect_to root_path
+          return
+      end
+      @challenge = Challenge.find(params[:id])
+      task_ids = ChallengeGenericlist.where(challenge_id: @challenge.id).pluck(:task_id)
+      @todo_list = Task.where(id: task_ids)
+    end
+
+    def update_todo_list
+      current_date = Date.today
+      @challenge = Challenge.find(params[:id])
+      @user = User.find(session[:user_id])
+      @instructor = Instructor.find_by(user_id: session[:user_id])
+
+      if @challenge.startDate <= Date.today
+        flash[:alert] = "Challenge has already started. You cannot edit to do list."
+        redirect_to challenge_path
+        return
+      end
+      
+      # Parse the start and end dates from the form
+      start_date = @challenge.startDate
+      end_date = @challenge.endDate
+
+      trainee_ids = ChallengeTrainee.where(challenge_id: params[:id]).pluck(:trainee_id)
+      @trainees = Trainee.where(id: trainee_ids)
+
+      @trainees.each do |trainee_val|
+        TodolistTask.where(trainee: trainee_val, challenge: @challenge, date: start_date..end_date).destroy_all 
+      end
+
+      ChallengeGenericlist.where(challenge_id: @challenge.id).destroy_all
+
+
+      # Process submitted tasks
+      if params.has_key?(:task)
+        task_from_params = params[:task][:tasks]
+        task_from_params.each do |id, task_params|
+          existing_task = Task.find(id)
+  
+          if existing_task.taskName != task_params[:taskName]
+            # Name changed, make a new task
+            task = Task.create(taskName: task_params[:taskName])
+            id = task.id # Update the id
+          else
+            task = existing_task  
+          end
+  
+          @trainees.each do |trainee_val|
+            (start_date..end_date).each do |date|
+              TodolistTask.create(
+                trainee: trainee_val, 
+                challenge: @challenge,
+                task: task,
+                date: date
+              )
+            end
+          end
+  
+          ChallengeGenericlist.create(task: task, challenge: @challenge)
+        end
+      end
+      
+      new_tasks = params[:tasks]
+      if new_tasks && !new_tasks.empty?
+        new_tasks.each do |id, task_params|
+          existing_task = Task.find_by(taskName: task_params[:taskName])
+
+          if existing_task
+            # Use existing task
+            task = existing_task 
+          else
+            # Create new task
+            task = Task.create(taskName: task_params[:taskName])
+          end
+          @trainees.each do |trainee_val|
+            (start_date..end_date).each do |date|
+              TodolistTask.create(
+                trainee: trainee_val, 
+                challenge: @challenge,
+                task: task,
+                date: date
+              )
+            end
+          end
+          ChallengeGenericlist.create(task: task, challenge: @challenge)
+        end
+      end
+      flash[:notice] = "The Generic Todo List was sucessfully updated"
+      redirect_to edit_todo_list_challenge_path
+    end
+
     private
   
     def challenge_params
