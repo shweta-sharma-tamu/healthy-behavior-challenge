@@ -74,7 +74,6 @@ class TodoListController < ApplicationController
         
             if task
                 if status == "completed" 
-                    #if current_date 
                   task.update(status: status)
                 end
             end
