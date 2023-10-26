@@ -191,9 +191,9 @@ RSpec.describe ChallengesController, type: :controller do
 
   describe 'POST #update_todo_list' do
 
-    it 'cannot update challenge if it has already started' do
+    it 'cannot update challenge if it has already ended' do
       session[:user_id] = @instructor.user_id
-      @challenge = Challenge.create(name: 'Test Challenge', startDate: Date.today - 2, endDate: Date.tomorrow + 1)
+      @challenge = Challenge.create(name: 'Test Challenge', startDate: Date.today - 4, endDate: Date.today - 1)
       @challenge.instructor = @instructor
       @challenge.save
       @task = Task.create(taskName: 'Task 1')
@@ -202,12 +202,12 @@ RSpec.describe ChallengesController, type: :controller do
       @challengeGenList.save
       post :update_todo_list, params: { id: @challenge.id }
       expect(assigns(:challenge)).to eq(@challenge)
-      expect(flash[:alert]).to eq('Challenge has already started. You cannot edit to do list.')
+      expect(flash[:alert]).to eq('Challenge has already ended. You cannot edit to do list.')
     end
 
-    it 'cannot update challenge if it has already started' do
+    it 'update challenge if it has already started' do
       session[:user_id] = @instructor.user_id
-      @challenge = Challenge.create(name: 'Test Challenge', startDate: Date.today+1, endDate: Date.tomorrow + 1)
+      @challenge = Challenge.create(name: 'Test Challenge', startDate: Date.today-1, endDate: Date.tomorrow + 1)
       @challenge.instructor = @instructor
       @challenge.save
       @task = Task.create(taskName: 'Task 1')
@@ -218,9 +218,15 @@ RSpec.describe ChallengesController, type: :controller do
       @chall_trainee.save
       task_params = { taskName: 'New Task' }
 
+      @task2 = Task.create(taskName: 'Task 2')
+      @task2.save
+
+      task_params_2 = { taskName: 'New Task 2' }
+
       post :update_todo_list, params: {
         id: @challenge.id,
-        task: { tasks: { @task.id => task_params } }
+        task: { tasks: { @task.id => task_params } },
+        tasks: { @task2.id => task_params_2 }
       }
 
       expect(response).to redirect_to(edit_todo_list_challenge_path)

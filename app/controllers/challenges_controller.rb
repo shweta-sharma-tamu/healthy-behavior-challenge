@@ -199,14 +199,14 @@ class ChallengesController < ApplicationController
       @user = User.find(session[:user_id])
       @instructor = Instructor.find_by(user_id: session[:user_id])
 
-      if @challenge.startDate <= Date.today
-        flash[:alert] = "Challenge has already started. You cannot edit to do list."
+      if @challenge.endDate <= Date.today
+        flash[:alert] = "Challenge has already ended. You cannot edit to do list."
         redirect_to challenge_path
         return
       end
 
       # Parse the start and end dates from the form
-      start_date = @challenge.startDate
+      start_date = (@challenge.startDate > Date.today ? @challenge.startDate : Date.today)
       end_date = @challenge.endDate
 
       trainee_ids = ChallengeTrainee.where(challenge_id: params[:id]).pluck(:trainee_id)
