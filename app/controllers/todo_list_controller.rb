@@ -1,8 +1,6 @@
 class TodoListController < ApplicationController
     before_action :require_user
 
-
-    
     def new 
         @user = User.new
         @trainee = Trainee.new
@@ -26,52 +24,78 @@ class TodoListController < ApplicationController
         trainee_id = trainee.id
         puts trainee_id
         puts trainee
-        """
-        trainee_challenge = ChallengeTrainee.find_by(trainee_id: trainee_id)
-        trainee_challenge_id = trainee_challenge.challenge_id
-        puts trainee_challenge_id
-        current_date = Date.today
-        @todo_list = TodolistTask.where(trainee_id: trainee_id, challenge_id: trainee_challenge_id, date: current_date).pluck(:task_id, :status)
-        @date = current_date
-        """
+
         @challenge_to_do_lists = []
         @trainee_challenges = ChallengeTrainee.where(trainee_id: trainee_id)
         @trainee_challenges.each do |trainee_challenge|
             trainee_challenge_id = trainee_challenge.challenge_id
             @challenge = Challenge.find_by(id: trainee_challenge_id)
             puts trainee_challenge_id
-            current_date = Date.today
+
+            selected_date = params[:selected_date]
+            if selected_date.blank?
+                selected_date = params.dig(:user, :selected_date)
+                if selected_date.blank?
+                    current_date = Date.today
+                else
+                    current_date = Date.parse(selected_date)
+                end
+            else
+                current_date = Date.parse(selected_date)
+            end
+
             @todo_list = TodolistTask.where(trainee_id: trainee_id, challenge_id: trainee_challenge_id, date: current_date).pluck(:task_id, :status)
             @date = current_date
             @challenge_to_do_lists << { challenge: @challenge, todo_list: @todo_list }
         end
     end
-
-    def update
+      
+    def mark_as_completed
+        user_tasks = params[:user][:tasks]
+        today_date = Date.today
         @user = User.find(session[:user_id])
         trainee = Trainee.find_by(user_id: @user.id)
         trainee_id = trainee.id
-        trainee_challenge_id = ChallengeTrainee.find_by(trainee_id: trainee_id).challenge_id
-        current_date = Date.today
-        task_params = params[:tasks] || {} 
-        task_params.each do |task_id, status|
-            TodolistTask.find_by(id: task_id, date: @date).update(status: status)
+
+        user_tasks.each do |task_id, task_data|
+            task_id = task_data[:task_id]
+            challenge_id = task_data[:challenge_id]
+            completed = task_data[:completed]
+            current_date = task_data[:date]
+            status = completed == '1' ? 'completed' : 'not_completed'
+
+            @date = current_date
+            task = TodolistTask.find_by(
+                trainee_id: trainee_id,
+                task_id: task_id,
+                challenge_id: challenge_id,
+                date: current_date
+            )
+        
+            if task
+                if status == "completed" 
+                    #if current_date 
+                  task.update(status: status)
+                end
+            end
         end
-        @todo_list = TodolistTask.where(trainee_id: trainee_id, challenge_id: trainee_challenge_id, date: current_date).pluck(:task_id, :status)
-        @date = current_date
-        redirect_to todo_list_path, notice: 'Tasks have been updated.'
-    end
+        
+        redirect_to todo_list_path(selected_date: @date), notice: 'Tasks have been updated.'
+    end   
 
     private
-
     def require_user
       unless user_signed_in? 
         flash[:alert] = "You must be signed in to access this page."
         redirect_to login_path
       end
     end
-    
-    def movie_params
+
+    def params_list
         params.require(:todo).permit(:user_id, :task_name, :status, :trainee_id, :challenge_id, :date, :tasks)
     end
+
+    def params_listt
+        params.require(:user).permit(:selected_date, tasks: %i[task_id challenge_id completed])
+      end
 end
