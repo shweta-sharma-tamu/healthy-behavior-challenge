@@ -28,7 +28,7 @@
             <button type="button" id="show-participants" class="btn btn-primary btn-block">Show Participants</button>
         </div>
         <div class="col-md-6">
-            <button type="button" href="<%= add_trainees_challenge_path %>" class="btn btn-primary btn-block">Add Trainees</button>
+            <%= link_to "Add Trainees", add_trainees_challenge_path(@challenge), class: "btn btn-primary btn-block" %>
         </div>
     </div>
 
