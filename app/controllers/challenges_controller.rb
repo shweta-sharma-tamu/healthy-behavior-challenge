@@ -184,7 +184,7 @@ class ChallengesController < ApplicationController
       @instructor = Instructor.find_by(user_id: session[:user_id])
       Rails.logger.debug(@instructor)
       unless @instructor
-          flash[:alert] = "You are not an instructor."
+          flash[:notice] = "You are not an instructor."
           redirect_to root_path
           return
       end
@@ -204,7 +204,7 @@ class ChallengesController < ApplicationController
         redirect_to challenge_path
         return
       end
-      
+
       # Parse the start and end dates from the form
       start_date = @challenge.startDate
       end_date = @challenge.endDate
@@ -273,7 +273,7 @@ class ChallengesController < ApplicationController
           ChallengeGenericlist.create(task: task, challenge: @challenge)
         end
       end
-      flash[:notice] = "The Generic Todo List was sucessfully updated"
+      flash[:notice] = "The Generic Todo List was successfully updated"
       redirect_to edit_todo_list_challenge_path
     end
 
