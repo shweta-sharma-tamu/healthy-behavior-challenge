@@ -159,6 +159,101 @@ RSpec.describe ChallengesController, type: :controller do
 
   end
 
+  describe 'GET #edit_todo_list' do
+
+    it 'assigns @challenge and @todo_list for a challenge' do
+      session[:user_id] = @instructor.user_id
+      @challenge = Challenge.create(name: 'Test Challenge', startDate: Date.today, endDate: Date.tomorrow + 1)
+      @challenge.instructor = @instructor
+      @challenge.save
+      @task = Task.create(taskName: 'Task 1')
+      @task.save
+      @challengeGenList = ChallengeGenericlist.create(task: @task, challenge: @challenge)
+      @challengeGenList.save
+      get :edit_todo_list, params: { id: @challenge.id }
+      expect(assigns(:challenge)).to eq(@challenge)
+      task = Task.where(id: @task.id)
+      expect(assigns(:todo_list)).to eq(task)
+    end
+
+    it 'redirects to root_path if the user is not an instructor' do
+      session[:user_id] = @instructor.user_id
+      @challenge = Challenge.create(name: 'Test Challenge', startDate: Date.tomorrow, endDate: Date.tomorrow + 1)
+      @challenge.instructor = @instructor
+      @challenge.save
+      session[:user_id] = @user2.id
+      get :edit_todo_list, params: { id: @challenge.id }
+      expect(response).to redirect_to(root_path)
+      expect(flash[:notice]).to eq('You are not an instructor.')
+    end
+
+  end
+
+  describe 'POST #update_todo_list' do
+
+    it 'cannot update challenge if it has already ended' do
+      session[:user_id] = @instructor.user_id
+      @challenge = Challenge.create(name: 'Test Challenge', startDate: Date.today - 4, endDate: Date.today - 1)
+      @challenge.instructor = @instructor
+      @challenge.save
+      @task = Task.create(taskName: 'Task 1')
+      @task.save
+      @challengeGenList = ChallengeGenericlist.create(task: @task, challenge: @challenge)
+      @challengeGenList.save
+      post :update_todo_list, params: { id: @challenge.id }
+      expect(assigns(:challenge)).to eq(@challenge)
+      expect(flash[:alert]).to eq('Challenge has already ended. You cannot edit to do list.')
+    end
+
+    it 'update challenge if it has already started' do
+      session[:user_id] = @instructor.user_id
+      @challenge = Challenge.create(name: 'Test Challenge', startDate: Date.today-1, endDate: Date.tomorrow + 1)
+      @challenge.instructor = @instructor
+      @challenge.save
+      @task = Task.create(taskName: 'Task 1')
+      @task.save
+      @challengeGenList = ChallengeGenericlist.create(task: @task, challenge: @challenge)
+      @challengeGenList.save
+      @chall_trainee = ChallengeTrainee.create(challenge: @challenge, trainee: @trainee)
+      @chall_trainee.save
+      task_params = { taskName: 'New Task' }
+
+      @task2 = Task.create(taskName: 'Task 2')
+      @task2.save
+
+      task_params_2 = { taskName: 'New Task 2' }
+
+      post :update_todo_list, params: {
+        id: @challenge.id,
+        task: { tasks: { @task.id => task_params } },
+        tasks: { @task2.id => task_params_2 }
+      }
+
+      expect(response).to redirect_to(edit_todo_list_challenge_path)
+      expect(flash[:notice]).to eq("The Generic Todo List was successfully updated")
+    end
+
+    it 'deletes existing tasks' do
+      # Assuming you have existing tasks
+      session[:user_id] = @instructor.user_id
+      @challenge = Challenge.create(name: 'Test Challenge', startDate: Date.today+1, endDate: Date.tomorrow + 1)
+      @challenge.instructor = @instructor
+      @challenge.save
+      @task = Task.create(taskName: 'Task 1')
+      @task.save
+      @challengeGenList = ChallengeGenericlist.create(task: @task, challenge: @challenge)
+      @challengeGenList.save
+      @chall_trainee = ChallengeTrainee.create(challenge: @challenge, trainee: @trainee)
+      @chall_trainee.save
+      @todo_list = TodolistTask.create(trainee: @trainee, challenge: @challenge, task: @task, date: @challenge.startDate)
+      @todo_list.save
+      post :update_todo_list, params: { id: @challenge.id }
+
+      expect(TodolistTask.where(trainee: @trainee, challenge: @challenge).count).to eq(0)
+    end
+
+  end
+
 
   describe 'GET #show' do
     context 'when the user is an instructor' do
