@@ -1,6 +1,16 @@
 <%= render 'main/navbar' %>
 
 <div class="container" style="margin-top: 10%;">
+      <!-- Display the success message if present -->
+        <% if flash[:notice] %>
+        <div class="alert alert-success text-center">
+            <%= flash[:notice] %>
+        </div>
+        <% elsif flash[:alert] %>
+        <div class="alert alert-danger text-center">
+            <%= flash[:alert] %>
+        </div>
+        <% end %>
     <div class="row" style="text-align: center; margin-bottom: 2%">
         <h1 style="font-size: 40px; text-decoration: underline;"><%= @challenge.name %></h1>
     </div>
@@ -34,7 +44,7 @@
 
     <div class="text-center row">
         <div class="col-md-12">
-            <button type="button" class="btn btn-primary btn-block">Edit Challenge</button>
+            <button type="button" id="edit-challenge" class="btn btn-primary btn-block">Edit Challenge</button>
         </div>
     </div>
 </div>
@@ -46,6 +56,14 @@
     if (redirectButton) {
       redirectButton.addEventListener('click', function() {
         window.location.href = "<%= challenge_list_trainees_path @challenge.id %>";
+      });
+    }
+
+    const redirectChallengeButton = document.getElementById('edit-challenge');
+
+    if (redirectChallengeButton) {
+        redirectChallengeButton.addEventListener('click', function() {
+        window.location.href = "<%=  edit_todo_list_challenge_path @challenge.id %>";
       });
     }
   });

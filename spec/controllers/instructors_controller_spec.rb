@@ -46,8 +46,70 @@ RSpec.describe InstructorsController, type: :controller do
       get :show, params: { instructor_id: instructor.id }
       expect(response).to render_template("show")
     end
+    it "redirects to root path if not signed in" do
+      get :show, params: { instructor_id: instructor.id }
+      expect(response).to redirect_to(root_path)
+    end
   end
 
+  describe "GET #show_prev_challenges" do
+    let(:instructor) { create(:instructor, user: @user) }
+    let(:challenge) { create(:challenge,startDate: Date.today-2.week, endDate: Date.today-1.week,instructor: instructor) }
+    
+    it "assigns the correct challenges" do
+      session[:user_id] = @user.id
+      get :show_prev_challenges, params: { instructor_id: instructor.id }
+      expect(assigns(:challenges)).to eq([challenge])
+    end
+
+    it "paginates the challenges" do
+      session[:user_id] = @user.id
+      create_list(:challenge, 10,startDate: Date.today-2.week, endDate: Date.today-1.week, instructor: instructor) # Create 10 challenges for the instructor
+
+      get :show_prev_challenges, params: { instructor_id: instructor.id, page: 2 }
+      expect(assigns(:challenges).count).to eq(10) # 10 challenges per page
+    end
+
+    it "renders the show template" do
+      session[:user_id] = @user.id
+      get :show_prev_challenges, params: { instructor_id: instructor.id }
+      expect(response).to render_template("show_prev_challenges")
+    end
+
+    it "redirects to root path if not signed in" do
+      get :show_prev_challenges, params: { instructor_id: instructor.id }
+      expect(response).to redirect_to(root_path)
+    end
+  end
+
+   describe "GET #show_future_challenges" do
+    let(:instructor) { create(:instructor, user: @user) }
+    let(:challenge) { create(:challenge,startDate: Date.today+2.week, endDate: Date.today+3.week,instructor: instructor) }
+    
+    it "assigns the correct challenges" do
+      session[:user_id] = @user.id
+      get :show_future_challenges, params: { instructor_id: instructor.id }
+      expect(assigns(:challenges)).to eq([challenge])
+    end
+
+    it "paginates the challenges" do
+      session[:user_id] = @user.id
+      create_list(:challenge, 10,startDate: Date.today+2.week, endDate: Date.today+3.week, instructor: instructor) # Create 10 challenges for the instructor
+      get :show_future_challenges, params: { instructor_id: instructor.id, page: 2 }
+      expect(assigns(:challenges).count).to eq(10) # 10 challenges per page
+    end
+
+    it "renders the show future template" do
+      session[:user_id] = @user.id
+      get :show_future_challenges, params: { instructor_id: instructor.id }
+      expect(response).to render_template("show_future_challenges")
+    end
+
+    it "redirects to root path if not signed in" do
+      get :show_future_challenges, params: { instructor_id: instructor.id }
+      expect(response).to redirect_to(root_path)
+    end
+  end
 
   describe 'POST #create' do
     context 'with valid parameters' do

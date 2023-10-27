@@ -27,11 +27,6 @@ Given('there is a challenge {string} with the trainee {string} with the followin
         end           
     end
 end
-  
-Given('today is {string}') do |current_date|
-    # Set the current date for testing purposes
-    # This can be used to simulate the current date in your scenarios
-end
 
 Given('I am logged in as Instructor') do
     visit login_path
@@ -60,19 +55,10 @@ When('I update the task list with the following tasks:') do |table|
 
     click_button 'Update'
 end
-  
-  
-  # Scenario 2: Invalid date range
-  When('I update the task list with an invalid date range') do
-    # Implement the step to update the task list with an invalid date range
-    # This may involve submitting a form with an invalid date range
-  end
-  
-  # Scenario 3: Challenge already started
-  When('I update the task list with a start date before today') do
-    # Implement the step to update the task list with a start date before today
-    # This may involve submitting a form with a start date before the current date
-  end
+
+When('I select the end date as {string}') do |date|
+    fill_in 'end_date', with: date
+end
   
 Then('I should be redirected to the edit page for {string} and {string}') do |trainee_name, challenge_name|
     trainee = Trainee.find_by(full_name: trainee_name)
@@ -84,4 +70,3 @@ end
 Then('I should see a flash notice with the message {string}') do |message|
     expect(page).to have_content("#{message}")
 end
-  

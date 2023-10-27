@@ -101,42 +101,46 @@ class TodoListController < ApplicationController
 
         # Check if the provided dates are within the challenge's start and end dates
         if start_date < @challenge.startDate || end_date > @challenge.endDate
-            flash[:notice] = "Date range must be within the challenge's start and end dates."
-            redirect_to edit_trainee_todo_list_path(@trainee, @challenge)
-            return
-        elsif @challenge.startDate <= start_date && start_date <= Date.today
-            flash[:notice] = "Challenge has already started! Choose a start date from tomorrow onwards."
-            redirect_to edit_trainee_todo_list_path(@trainee, @challenge)
-            return
+          flash[:notice] = "Date range must be within the challenge's start and end dates."
+          redirect_to edit_trainee_todo_list_path(@trainee, @challenge)
+          return
+        elsif start_date <= Date.today
+          flash[:notice] = "Challenge has already started! Choose a start date from tomorrow onwards."
+          redirect_to edit_trainee_todo_list_path(@trainee, @challenge)
+          return
         end
 
         TodolistTask.where(trainee: @trainee, challenge: @challenge, date: start_date..end_date).destroy_all 
 
         # Process submitted tasks
-        task_from_params = params[:task][:tasks]
-        new_tasks = params[:tasks]
-            
-          task_from_params.each do |id, task_params|
-            existing_task = Task.find(id)
+        if params.has_key?(:task)
+          task_from_params = params.dig(:task, :tasks)
 
-            if existing_task.taskName != task_params[:taskName]
+          if task_from_params.present?
+            task_from_params.each do |id, task_params|
+              existing_task = Task.find(id)
+
+              if existing_task.taskName != task_params[:taskName]
                 # Name changed, make a new task
                 task = Task.create(taskName: task_params[:taskName])
                 id = task.id # Update the id
-            else
-                task = existing_task  
-            end
+              else
+                task = existing_task
+              end
 
-            (start_date..end_date).each do |date|
-              TodolistTask.create(
-                trainee: @trainee, 
-                challenge: @challenge,
-                task: task,
-                date: date
-            )
+              (start_date..end_date).each do |date|
+                TodolistTask.create(
+                  trainee: @trainee, 
+                  challenge: @challenge,
+                  task: task,
+                  date: date
+                )
+              end
+            end
           end
         end
 
+        new_tasks = params[:tasks]
         if new_tasks && !new_tasks.empty?
           new_tasks.each do |id, task_params|
             existing_task = Task.find_by(taskName: task_params[:taskName])
