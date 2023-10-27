@@ -17,6 +17,11 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6 col-md-offset-3" style="margin-top: 20%;">
+        <% if flash[:notice].present? %>
+          <div class="content-box">
+            <h5><%= flash[:notice] %></h5>
+          </div>
+        <% end %>
       <div class="content-box">
         <%= form_with model: @user, url: todo_list_path, method: :get, data: { turbo: false } do |f| %>
           <div class="form-group">
@@ -31,11 +36,6 @@
       <div class="content-box">
         <h3><%= challenge_todo[:challenge].name %> Daily To-Do List</h3>
         <p>Date: <%= @date.strftime("%B %d, %Y") %></p>
-        <% if flash[:notice].present? %>
-          <div>
-            <h5><%= flash[:notice] %></h5>
-          </div>
-        <% end %>
         
         <%= form_with model: @user, url: mark_as_complete_path, method: :patch, data: { turbo: false } do |f| %>
         <ul class="list-group">
