@@ -1,6 +1,7 @@
 require 'will_paginate/array'
 
 class InstructorsController < ApplicationController
+    
     def new 
         puts params[:token]
         token = InstructorReferral.find_by(token: params[:token])
@@ -67,7 +68,7 @@ class InstructorsController < ApplicationController
     end
 
     def show
-        if session[:user_id]
+        if user_signed_in?
             today = Date.today
             @instructor = Instructor.find(params[:instructor_id])
             @user_name_from_session = @instructor.first_name

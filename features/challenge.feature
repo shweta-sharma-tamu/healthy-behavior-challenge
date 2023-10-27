@@ -55,10 +55,16 @@ Feature: Challenges Controller
     Given I am an instructor
     When I click on the challenge "ex chall"
     Then I should see the heading "ex chall"
-    And I should see the "Duration: 15 days"
+    And I should see the "Duration: 16 days"
     And I should see the "Participants: 0"
     And I should see the "Start Date: October 15, 2023"
     And I should see the "End Date: October 30, 2023"
     And I should see the "No of Tasks: 2"
     And I should see the "Show Participants" button
     And I should see the "Edit Challenge" button
+
+  Scenario: Display task progress for a trainee
+    Given I am an instructor
+    And a trainee is present in a challenge "ex chall"
+    When I visit the task progress page
+    Then I should see the task progress chart

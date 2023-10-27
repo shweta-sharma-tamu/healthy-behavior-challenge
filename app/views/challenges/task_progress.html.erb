@@ -1,0 +1,68 @@
+<%= render 'main/navbar' %>
+
+<div class="container mt-4" style="display: flex; justify-content: center; margin-top: 10%; margin-below:10%">
+  <h1>Trainee <%= @trainee_name %> progress</h1>
+</div>
+
+<!-- Container for the graph following the navbar -->
+<div class="container mt-4" style="flex-direction: column; justify-content: center;  height: 100vh;margin-top: 10%;">
+
+  <div id="chart-container" style="max-width: 100%; min-height: 300px; display: flex; justify-content: center; align-items: center;">
+    <canvas id="taskCountChart"></canvas>
+  </div>
+</div>
+
+
+<script>
+  var dates = <%= @dates_completed.to_json.html_safe %>;
+  var counts = <%= @counts_completed.to_json.html_safe %>;
+
+  var dates_not_completed = <%= @dates_not_completed.to_json.html_safe %>;
+  var counts_not_completed = <%= @counts_not_completed.to_json.html_safe %>;
+  var counts_total = <%= @counts_total.to_json.html_safe %>;
+
+  var container = document.getElementById('chart-container');
+  var canvas = document.getElementById('taskCountChart');
+  canvas.width = container.clientWidth;
+  canvas.height = container.clientHeight;
+
+  var ctx = canvas.getContext('2d');
+  var taskCountChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: dates,
+      datasets: [{
+        label: 'Tasks completed',
+        data: counts,
+        fill: false,
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 2
+      },
+      {
+        label: 'Tasks not completed',
+        data: counts_not_completed,
+        fill: false,
+        borderColor: 'red',
+        borderWidth: 2
+      },
+      {
+        label: 'Total number of tasks',
+        data: counts_total,
+        fill: false,
+        borderColor: 'black',
+        borderWidth: 1,
+        borderDash: [5, 5]
+      }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>

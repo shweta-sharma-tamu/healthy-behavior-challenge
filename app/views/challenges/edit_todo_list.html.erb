@@ -1,0 +1,81 @@
+<%= render 'main/navbar' %>
+
+<div class="container" style="margin-top: 8%;">
+
+  <div class="row" style="text-align: center; margin-bottom: 2%">
+  <!-- Display the success message if present -->
+        <% if flash[:notice] %>
+        <div class="alert alert-success text-center">
+            <%= flash[:notice] %>
+        </div>
+        <% elsif flash[:alert] %>
+        <div class="alert alert-danger text-center">
+            <%= flash[:alert] %>
+        </div>
+        <% end %>
+    <h3 style="font-size: 30px;">Current todo list for <%= @challenge.name %></h3>
+  </div>
+
+  <div class="row" style="margin-bottom: 2%">
+    <div class="col-md-6 col-md-offset-3">
+    <label for="start_date"><strong>Start Date:</strong> <%= @challenge.startDate.strftime('%B %d, %Y') %></label>
+    <br>
+    <label for="end_date"><strong>End Date:</strong> <%= @challenge.endDate.strftime('%B %d, %Y') %></label>
+      <%= form_with model: @todo_list, url: update_todo_list_challenge_path(@challenge), method: :post, id: "update-todo-list-form" do |f| %>
+        <div class="form-group">
+          <label for "tasks">Current Tasks List:</label>
+          <ol id="task-list">
+            <% @todo_list.each_with_index do |task, i| %>
+              <li>
+                <%= f.text_field "tasks[#{task.id}][taskName]", value: task.taskName, class: 'form-control' %>
+                <button class="btn btn-danger btn-circle delete-task-button">Delete</button> 
+              </li>
+            <% end %>
+          </ol>
+        </div>
+
+        <button type="button" id="add-task-button" class="btn btn-success" style="margin-bottom: 1%">Add Task</button>
+<br>
+        <div class="actions">
+          <%= f.submit 'Update Challenge', class: 'btn btn-primary btn-block' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const addTaskButton = document.getElementById("add-task-button");
+  const taskList = document.getElementById("task-list");
+  let taskIndex = <%= @todo_list.count %>; // Set the initial task index based on existing tasks
+
+  // Handle adding a new task
+  addTaskButton.addEventListener("click", function() {
+    const taskForm = `<li>
+      <input type="text" name="tasks[new_${taskIndex}][taskName]" class="form-control">
+      <button class="btn btn-danger btn-circle delete-task-button">Delete</button>
+    </li>`;
+
+    taskList.insertAdjacentHTML("beforeend", taskForm);
+    taskIndex++;
+  });
+
+  // Handle removing tasks
+  taskList.addEventListener("click", function(e) {
+    if (e.target.classList.contains("delete-task-button")) {
+      e.preventDefault();
+      const taskItem = e.target.closest("li");
+      taskItem.remove();
+    }
+  });
+
+  // Submit the form
+  const updateTodoListForm = document.getElementById("update-todo-list-form");
+  if (updateTodoListForm) {
+    updateTodoListForm.addEventListener("submit", function() {
+      // Additional validation or actions before submitting the form, if needed
+    });
+  }
+});
+</script>

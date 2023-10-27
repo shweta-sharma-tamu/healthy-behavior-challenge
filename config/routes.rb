@@ -25,9 +25,15 @@ Rails.application.routes.draw do
 
   get "/todo_list" , to: "todo_list#show", as: "todo_list"
   patch "/todo_list" , to: "todo_list#update", as: "mark_as_complete"
- 
+  get "/trainees/:trainee_id", to: "challenges#show_challenge_trainee", as: "show_challenge_trainee"
+
+  get "/trainees/:trainee_id/edit_todo_list/:challenge_id", to: "todo_list#edit", as: "edit_trainee_todo_list"
+  patch "/trainees/:trainee_id/challenges/:challenge_id", to: "todo_list#update", as: "update_trainee_todo_list"
+
   resources :challenges do
     member do
+      get 'edit_todo_list', to: "challenges#edit_todo_list"
+      post 'update_todo_list', to: "challenges#update_todo_list"
       get 'add_trainees', to: "challenges#add_trainees" # This defines the "Add Users" action for a specific challenge
       post 'update_trainees', to: "challenges#update_trainees"  # This defines the action to handle form submission
     end
@@ -35,7 +41,9 @@ Rails.application.routes.draw do
 
   resources :challenges do
       get "/trainees", controller:'challenges' ,action: 'trainees_list', constraints: { query_string: /(.+)?/ }, as: "list_trainees"
+      get 'task_progress', on: :member, as: "graph"
   end
+  post 'filter_data' => 'challenges#filter_data'
 
 end
 
