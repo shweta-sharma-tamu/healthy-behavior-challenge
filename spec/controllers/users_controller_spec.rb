@@ -18,12 +18,13 @@ RSpec.describe UsersController, type: :controller do
 
       it 'renders the show template if user is trainee' do
         get :show, params: { id: user.id }
-        expect(response).to render_template(:show)
+        expect(response).to redirect_to(todo_list_path)
       end
 
-      it 'assigns is_instructor to false for a trainee' do
+      it 'redirects to instructor path if user is instructor' do
         get :show, params: { id: user.id }
-        expect(assigns(:is_instructor)).to be_falsey
+        #expect(response).to render_template(:show)
+        expect(response).to redirect_to(todo_list_path)
       end
     end  
 

@@ -18,7 +18,18 @@
     <div class="row">
       <div class="col-md-6 col-md-offset-3" style="margin-top: 20%;">
       <div class="content-box">
-        <h3>Daily To-Do List</h3>
+        <%= form_with model: @user, url: todo_list_path, method: :get, data: { turbo: false } do |f| %>
+          <div class="form-group">
+            <%= f.label :selected_date, 'Select Date' %>
+            <%= f.date_field :selected_date, class: 'form-control' %>
+          </div>
+          <%= f.submit 'Show Tasks', class: 'btn btn-primary' %>
+        <% end %>
+      </div>
+      <% @challenge_to_do_lists.each do |challenge_todo| %>
+      <div class="content-box">
+      <div class="content-box">
+        <h3><%= challenge_todo[:challenge].name %> Daily To-Do List</h3>
         <p>Date: <%= @date.strftime("%B %d, %Y") %></p>
         <% if flash[:notice].present? %>
           <div>
@@ -26,6 +37,7 @@
           </div>
         <% end %>
         
+        <%= form_with model: @user, url: mark_as_complete_path, method: :patch, data: { turbo: false } do |f| %>
         <ul class="list-group">
             <table >
                 <thead>
@@ -34,11 +46,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% @todo_list.each do |task_id, status| %>
+                    <% challenge_todo[:todo_list].each do |task_id, status| %>
                         <tr>
-                        <td class="checkbox-cell">
-                            <%= check_box_tag "tasks[#{task_id}][completed]", "1", (status == "completed") %>
-                        </td>
+                          <td class="checkbox-cell">
+                          <%= f.hidden_field "tasks[#{task_id}][task_id]", value: task_id %>
+                          <%= f.hidden_field "tasks[#{task_id}][challenge_id]", value: challenge_todo[:challenge].id %>
+                          <%= f.hidden_field "tasks[#{task_id}][date]", value: @date %>
+                          <%= f.check_box "tasks[#{task_id}][completed]", { class: 'task-checkbox' }, "1", "0" %>
+                          </td>
                         <td class="task-name-cell">
                             <% if status == "completed" %>
                             <s><%= Task.find(task_id).taskName %></s>
@@ -52,16 +67,24 @@
             </table>
         </ul>
         
-        <%= form_with model: @user, url: mark_as_complete_path(tasks: @tasks), data: {turbo: false} do |f| %>
             <div class="text-center">
-                <%= f.submit 'Mark as Completed', class: "btn btn-primary" %>
+              <% if @date.present? %>
+                <% if @date == Date.today %>
+                  <%= f.submit 'Mark as Completed', class: "btn btn-primary" %>
+                <% elsif @date == Date.today - 1 && Time.now.hour <= 3 %>
+                  <%= f.submit 'Mark as Completed', class: "btn btn-primary" %>
+                <% else %>
+                  <%= f.submit 'Mark as Completed', class: "btn btn-primary", disabled: true %>
+                <% end %>
+              <% end %>
             </div>
-
-            <%= f.hidden_field :tasks, value: @tasks.to_json.html_safe %>
         <% end %>
 
         </div>
       </div>
-    </div>
+      <% end %>
+      </div>
+      </div>
   </div>
+
 </div>

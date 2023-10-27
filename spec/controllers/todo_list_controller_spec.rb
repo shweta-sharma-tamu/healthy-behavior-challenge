@@ -41,6 +41,13 @@ RSpec.describe TodoListController, type: :controller do
       get :show
       expect(response).to render_template(:show)
     end
+
+    it 'displays the Daily Todo List for the selected date' do
+      previous_date = Date.yesterday
+      get :show, params: { selected_date: previous_date }
+      expect(response).to render_template(:show)
+      expect(assigns(:date)).to eq(previous_date)
+    end
   end
 
   describe 'GET #edit' do
@@ -129,4 +136,18 @@ RSpec.describe TodoListController, type: :controller do
       end
     end
   end
+
+  describe 'POST #mark_as_completed' do
+    it 'marks a task as completed and shows a notice' do
+      session[:user_id] = @user.id
+      task_data = {
+        '1' => { task_id: 1, challenge_id: 1, date: Date.today, completed: '1' }
+      }
+      post :mark_as_completed, params: { user: { tasks: task_data } }
+      expect(response).to redirect_to(todo_list_path(selected_date: Date.today))
+      expect(flash[:notice]).to eq('Tasks have been updated.')
+    end
+  end
+
+
 end

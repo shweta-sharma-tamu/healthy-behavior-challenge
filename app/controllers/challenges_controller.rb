@@ -109,7 +109,8 @@ class ChallengesController < ApplicationController
                 task: task,
                 trainee: trainee,      
                 challenge: @challenge, 
-                date: date            
+                date: date,    
+                status: 'not_completed'          
               )
               if tasktodo.save
                 flash.now[:notice] = "Trainees were successfully added to the challenge."
