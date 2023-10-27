@@ -9,7 +9,8 @@
 # And I should not see a "Sign out" button
 
 Given("I am a logged-in user") do
-    User.create(email:'Admin@gmail.com', password:'Admin@123')
+    user = User.create(email:'Admin@gmail.com', password:'Admin@123', user_type:'Instructor')
+    instructor = Instructor.create(user_id: user.id, first_name: "admin", last_name: "admin_last_name")
     visit login_path
     expect(page).to have_content('User Sign in')
     fill_in 'Email', with: 'Admin@gmail.com'

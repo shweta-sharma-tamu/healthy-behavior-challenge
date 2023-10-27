@@ -4,7 +4,11 @@ Rails.application.routes.draw do
 
     resources :sessions, only: [:new, :create, :destroy]
 
-    resources :instructors, only: [:show], param: :instructor_id 
+    resources :instructors, only: [:show], param: :instructor_id do
+      get 'past_challenges', on: :member, to: "instructors#show_prev_challenges", as: "past_challenges"
+      get 'upcoming_challenges', on: :member, to: "instructors#show_future_challenges", as: "upcoming_challenges"
+    end
+
 
   root 'sessions#new'
   get "/login", to: "sessions#new", as: "login"
@@ -24,7 +28,8 @@ Rails.application.routes.draw do
   post 'instructor_referral', to: 'instructor_referral#create'
 
   get "/todo_list" , to: "todo_list#show", as: "todo_list"
-  patch "/todo_list" , to: "todo_list#update", as: "mark_as_complete"
+  patch "/todo_list/mark_as_completed", to: "todo_list#mark_as_completed", as: "mark_as_complete"
+
   get "/trainees/:trainee_id", to: "challenges#show_challenge_trainee", as: "show_challenge_trainee"
 
   get "/trainees/:trainee_id/edit_todo_list/:challenge_id", to: "todo_list#edit", as: "edit_trainee_todo_list"

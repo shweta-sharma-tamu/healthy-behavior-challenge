@@ -84,6 +84,40 @@ class InstructorsController < ApplicationController
         end
     end
 
+    def show_prev_challenges
+        if user_signed_in?
+            today = Date.today
+            @instructor = Instructor.find(params[:instructor_id])
+            @user_name_from_session = @instructor.first_name
+            instructor_id = params[:instructor_id]
+            @challenges = Challenge.where('"instructor_id" = ? AND "startDate" <= ? AND "endDate" <= ?', instructor_id, today, today).order('"endDate" ASC')
+            @challenges = @challenges.paginate(page: params[:page], per_page: 7)
+            if @instructor
+                @is_instructor = true
+            end 
+            render :show_prev_challenges, challenges: @challenges
+        else
+            redirect_to root_path
+        end
+    end
+
+    def show_future_challenges
+        if user_signed_in?
+            today = Date.today
+            @instructor = Instructor.find(params[:instructor_id])
+            @user_name_from_session = @instructor.first_name
+            instructor_id = params[:instructor_id]
+            @challenges = Challenge.where('"instructor_id" = ? AND "startDate" >= ? AND "endDate" >= ?', instructor_id, today, today).order('"endDate" ASC')
+            @challenges = @challenges.paginate(page: params[:page], per_page: 7)
+            if @instructor
+                @is_instructor = true
+            end 
+            render :show_future_challenges, challenges: @challenges
+        else
+            redirect_to root_path
+        end
+    end
+
     def user_params
         params.require(:user).permit(:email, :password, :confirm_password, :first_name, :last_name)
     end

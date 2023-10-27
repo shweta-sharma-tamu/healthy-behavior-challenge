@@ -4,16 +4,6 @@ class UsersController < ApplicationController
         @user=User.new
     end
 
-    def create
-        @user = User.new(user_params)
-        if @user.save
-            session[:user_id] = @user.id
-            redirect_to root_path
-        else
-            render 'sessions/new'
-        end
-    end
-
     def show
         user_id =  session[:user_id]
         if user_id
@@ -29,7 +19,7 @@ class UsersController < ApplicationController
                     render plain: 'Instructor not found', status: :not_found
                 end
             else
-                render :show
+                redirect_to todo_list_path
             end
         else
             redirect_to root_path
@@ -42,3 +32,4 @@ class UsersController < ApplicationController
         params.require(:user).permit(:email, :password, :user_type)
     end
 end
+

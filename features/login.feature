@@ -44,4 +44,4 @@ Feature: Login
     When I enter 'trainee@gmail.com' as email
     And I enter 'trainee@123' as password
     And I click on submit
-    Then I should see 'Welcome, User'
+    Then I should see 'Sign Out'

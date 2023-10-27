@@ -12,13 +12,24 @@ RSpec.describe TodoListController, type: :controller do
     end_date = start_date + 4.days
     @challenge2 = Challenge.create(name: 'challenge2', startDate: start_date, endDate: end_date, instructor_id: @instructor.id)
 
+    start_date1 = Date.today + 4.days
+    end_date1 = start_date1 + 4.days
+    @challenge3 = Challenge.create(name: 'challenge3', startDate: start_date1, endDate: end_date1, instructor_id: @instructor.id)
+
     @challengetrainee = ChallengeTrainee.create(trainee_id: @trainee.id, challenge_id: @challenge2.id)
     
     tasks = [Task.create(taskName: "Do 10 pushups"), Task.create(taskName: "Walk 10000 steps")]
+    tasks2 = [Task.create(taskName: "Do 25 pullups"), Task.create(taskName: "Drink 4 litres water")]
 
     (start_date..end_date).each do |date|
       tasks.each do |task|
         TodolistTask.create(task_id: task.id, status: "not_completed", trainee_id: @trainee.id, challenge_id: @challenge2.id, date: date)
+      end
+    end
+
+    (start_date1..end_date1).each do |date|
+      tasks2.each do |task|
+        TodolistTask.create(task_id: task.id, status: "not_completed", trainee_id: @trainee.id, challenge_id: @challenge3.id, date: date)
       end
     end
 
@@ -30,6 +41,13 @@ RSpec.describe TodoListController, type: :controller do
       get :show
       expect(response).to render_template(:show)
     end
+
+    it 'displays the Daily Todo List for the selected date' do
+      previous_date = Date.yesterday
+      get :show, params: { selected_date: previous_date }
+      expect(response).to render_template(:show)
+      expect(assigns(:date)).to eq(previous_date)
+    end
   end
 
   describe 'GET #edit' do
@@ -37,6 +55,12 @@ RSpec.describe TodoListController, type: :controller do
       it 'renders the edit template' do
         session[:user_id] = @instructor.user_id
         get :edit, params: { trainee_id: @trainee.id, challenge_id: @challenge2.id }
+        expect(response).to render_template('edit')
+      end
+
+      it 'renders the edit template for future challenge' do
+        session[:user_id] = @instructor.user_id
+        get :edit, params: { trainee_id: @trainee.id, challenge_id: @challenge3.id }
         expect(response).to render_template('edit')
       end
     end
@@ -52,22 +76,30 @@ RSpec.describe TodoListController, type: :controller do
 
   describe 'PATCH #update' do
     context 'when user is an instructor' do
-      # it 'updates the task list with valid data' do
-      #   session[:user_id] = @instructor.user_id
+      it 'updates the task list with valid data' do
+        session[:user_id] = @instructor.user_id
 
-      #   task_params = {
-      #     start_date: Date.tomorrow,
-      #     end_date: Date.tomorrow + 1.days,
-      #     tasks: {
-      #       '1' => { taskName: 'Task 1' },
-      #       '2' => { taskName: 'Task 2' }
-      #     }
-      #   }
+        task1_id = Task.find_by(taskName: 'Do 10 pushups').id
+        task2_id = Task.find_by(taskName: 'Walk 10000 steps').id
 
-      #   patch :update, params: { trainee_id: @trainee.id, challenge_id: @challenge2.id, task: task_params }
-      #   expect(response).to redirect_to(edit_trainee_todo_list_path(@trainee, @challenge2))
-      #   expect(flash[:notice]).to eq('Tasks successfully updated')
-      # end
+        task_params = {
+          start_date: Date.tomorrow,
+          end_date: Date.tomorrow + 1.days,
+          tasks: {
+            task1_id => { taskName: 'Do 25 pullups' },
+            task2_id => { taskName: 'Swim 0.5 hours' }
+          }
+        }
+
+        tasks_params = {
+          "new_1" => { taskName: 'New Task 1' },
+          "new_2" => {taskName: 'Drink 4 litres water'}
+        }
+
+        patch :update, params: { trainee_id: @trainee.id, challenge_id: @challenge2.id, task: task_params, tasks: tasks_params }
+        expect(response).to redirect_to(edit_trainee_todo_list_path(@trainee, @challenge2))
+        expect(flash[:notice]).to eq('Tasks successfully updated.')
+      end
 
       it 'redirects to the edit page with an error notice for invalid date range' do
         session[:user_id] = @instructor.user_id
@@ -85,6 +117,37 @@ RSpec.describe TodoListController, type: :controller do
         expect(response).to redirect_to(edit_trainee_todo_list_path(@trainee, @challenge2))
         expect(flash[:notice]).to eq("Date range must be within the challenge's start and end dates.")
       end
+
+      it 'redirects to the edit page with an error notice for invalid date range for ongoing challenge' do
+        session[:user_id] = @instructor.user_id
+
+        task_params = {
+          start_date: Date.today,
+          end_date: Date.tomorrow,
+          tasks: {
+            '1' => { taskName: 'Task 1' },
+            '2' => { taskName: 'Task 2' }
+          }
+        }
+
+        patch :update, params: { trainee_id: @trainee.id, challenge_id: @challenge2.id, task: task_params }
+        expect(response).to redirect_to(edit_trainee_todo_list_path(@trainee, @challenge2))
+        expect(flash[:notice]).to eq("Challenge has already started! Choose a start date from tomorrow onwards.")
+      end
     end
   end
+
+  describe 'POST #mark_as_completed' do
+    it 'marks a task as completed and shows a notice' do
+      session[:user_id] = @user.id
+      task_data = {
+        '1' => { task_id: 1, challenge_id: 1, date: Date.today, completed: '1' }
+      }
+      post :mark_as_completed, params: { user: { tasks: task_data } }
+      expect(response).to redirect_to(todo_list_path(selected_date: Date.today))
+      expect(flash[:notice]).to eq('Tasks have been updated.')
+    end
+  end
+
+
 end
