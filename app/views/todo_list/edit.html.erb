@@ -18,15 +18,15 @@
           <label for="start_date">Start Date</label>
 
           <% if @challenge.startDate <= Date.today %>
-            <%= f.date_field :start_date, class: 'form-control', value: Date.today %>
+            <%= f.date_field :start_date, class: 'form-control', value: Date.today, id: 'start_date' %>
           <% else %>
-            <%= f.date_field :start_date, class: 'form-control', value: @challenge.startDate %>
+            <%= f.date_field :start_date, class: 'form-control', value: @challenge.startDate, id: 'start_date' %>
           <% end %>
         </div>
         
         <div class="form-group">
           <label for "end_date">End Date</label>
-          <%= f.date_field :end_date, class: 'form-control', value: @challenge.endDate %>
+          <%= f.date_field :end_date, class: 'form-control', value: @challenge.endDate, id: 'end_date' %>
         </div>
         
         <div class="form-group">
