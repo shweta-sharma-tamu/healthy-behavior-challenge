@@ -240,7 +240,8 @@ class ChallengesController < ApplicationController
                 trainee: trainee_val, 
                 challenge: @challenge,
                 task: task,
-                date: date
+                date: date,
+                status: 'not_completed'
               )
             end
           end
@@ -267,7 +268,8 @@ class ChallengesController < ApplicationController
                 trainee: trainee_val, 
                 challenge: @challenge,
                 task: task,
-                date: date
+                date: date,
+                status:'not_completed'
               )
             end
           end

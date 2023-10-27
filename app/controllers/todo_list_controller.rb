@@ -133,7 +133,8 @@ class TodoListController < ApplicationController
                   trainee: @trainee, 
                   challenge: @challenge,
                   task: task,
-                  date: date
+                  date: date,
+                  status: 'not_completed'
                 )
               end
             end
@@ -158,7 +159,8 @@ class TodoListController < ApplicationController
                 trainee: @trainee, 
                 challenge: @challenge,
                 task: task,
-                date: date
+                date: date,
+                status: 'not_completed'
               )
             end
           end
