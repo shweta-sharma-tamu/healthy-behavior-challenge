@@ -1,9 +1,9 @@
 Given('I am an instructor with following challenges:') do |table|
     user = User.create!(email: 'testInstructor@gmail.com', password: 'abcdef', user_type: "Instructor")
-    instructor = Instructor.create(user: user, first_name: 'John', last_name: 'Doe')
+    @instructor = Instructor.create(user: user, first_name: 'John', last_name: 'Doe')
 
     table.hashes.each do |challenge|
-        Challenge.create!(name: challenge['name'], startDate: challenge['startDate'], endDate: challenge['endDate'], instructor: instructor, tasks_attributes: {
+        Challenge.create!(name: challenge['name'], startDate: challenge['startDate'], endDate: challenge['endDate'], instructor: @instructor, tasks_attributes: {
             '0' => { taskName: 'Task 1' },
             '1' => { taskName: 'Task 1' }  # Use a different name for the second task
           })
@@ -30,9 +30,15 @@ Then('I should not see {string}') do |string|
   expect(page).to_not have_content(string)
 end
 
+And("I am in Past Challenges Page") do
+  visit past_challenges_instructor_path @instructor.id
+ end
 
+And("I am in Upcoming Challenges Page") do
+  visit upcoming_challenges_instructor_path @instructor.id
+ end
 
 Then('{string} should be before {string}') do |first_string, second_string|
     expect(page.body.index(first_string)).to be < page.body.index(second_string)
-  end
+end
   
