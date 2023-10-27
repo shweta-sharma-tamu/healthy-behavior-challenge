@@ -4,7 +4,11 @@ Rails.application.routes.draw do
 
     resources :sessions, only: [:new, :create, :destroy]
 
-    resources :instructors, only: [:show], param: :instructor_id 
+    resources :instructors, only: [:show], param: :instructor_id do
+      get 'past_challenges', on: :member, to: "instructors#show_prev_challenges", as: "past_challenges"
+      get 'upcoming_challenges', on: :member, to: "instructors#show_future_challenges", as: "upcoming_challenges"
+    end
+
 
   root 'sessions#new'
   get "/login", to: "sessions#new", as: "login"
