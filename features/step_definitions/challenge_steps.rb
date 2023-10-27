@@ -17,6 +17,7 @@
   
   Given("I am not an instructor") do
     user = User.create!(email: 'trainee1@example.com', password: '123456', user_type: "Trainee1")
+    trainee = Trainee.create(full_name: 'trainee1', height: 165, weight: 85, user_id: user.id)
 
     # Use Capybara to log in as the user
     visit root_path

@@ -42,7 +42,7 @@ Feature: Challenges Controller
   Scenario: Attempt to create a challenge without being an instructor
     Given I am not an instructor
     When I visit the new challenge page
-    Then I should see "Welcome, User"
+    Then I should see "Select Date"
   
     Scenario: View trainees of a challenge
     Given I am an instructor and There exists a challenge "New Challenge"
