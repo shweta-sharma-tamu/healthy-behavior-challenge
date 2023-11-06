@@ -1,0 +1,12 @@
+Feature: Login
+  As a user,
+  I want to check my profile
+
+Scenario: check my profile
+    Given I am logged in
+    And I click on "View Profile"
+    Then I should see 'My Profile'
+
+Scenario: check my profile
+    Given I am on the trainee profile
+    Then I should be on root path
