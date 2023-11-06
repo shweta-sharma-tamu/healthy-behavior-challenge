@@ -14,6 +14,8 @@
       <ul class="nav navbar-nav navbar-right">
       <% if @is_instructor %>
       <%= link_to 'Refer Instructor', instructor_referral_path, class: 'btn btn-primary' %>
+      <% elsif current_user.present? %>
+      <%= link_to 'View Profile', trainee_profile_path, class: 'btn btn-primary' %>
       <% end %>
       <%= link_to "Sign Out" , signout_path, method: :get , class: 'btn btn-primary' %>
         <button type="button" class="btn btn-default navbar-btn">

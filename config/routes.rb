@@ -50,5 +50,7 @@ Rails.application.routes.draw do
   end
   post 'filter_data' => 'challenges#filter_data'
 
+  get 'trainee_profile', to: 'trainee_profile#show'
+
 end
 
