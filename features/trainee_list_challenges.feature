@@ -28,3 +28,13 @@ Feature: Instructor ListChallenges
     Then I should see 'Past Challenges'
     And I should see 'Challenge1' and 'Challenge4'
     And 'Challenge1' should be before 'Challenge4'
+
+  Scenario: Trainee cannot list challenges when not logged in
+    Given I am a trainee with following challenges:
+      | name       | startDate   | endDate     | tasks                   |
+      | Challenge1 | 2000-10-02  | 2020-10-20  | Task 1, Task 2, Task 3  |
+      | Challenge4 | 2000-10-02  | 2021-10-20  | Task 1, Task 2, Task 3  |
+    And I visit 'My Challenges'
+    Then I should not see 'Past Challenges'
+    And I should not see 'Ongoing Challenges'
+    And I should see 'You must be signed in to access this page.'
