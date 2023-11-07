@@ -11,6 +11,12 @@
   .task-name-cell s {
     text-decoration: line-through;
   }
+
+  .show-challenges-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+  }
 </style>
 <div>
   <%= render 'main/navbar' %>
@@ -81,6 +87,7 @@
         <% end %>
 
         </div>
+        <a href="<%= show_challenges_path %>" class="btn btn-primary show-challenges-btn">My Challenges</a>
       </div>
       <% end %>
       </div>

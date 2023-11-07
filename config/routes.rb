@@ -35,6 +35,8 @@ Rails.application.routes.draw do
   get "/trainees/:trainee_id/edit_todo_list/:challenge_id", to: "todo_list#edit", as: "edit_trainee_todo_list"
   patch "/trainees/:trainee_id/challenges/:challenge_id", to: "todo_list#update", as: "update_trainee_todo_list"
 
+  get "challenges", to: "trainees#show_challenges", as: "show_challenges"
+
   resources :challenges do
     member do
       get 'edit_todo_list', to: "challenges#edit_todo_list"
