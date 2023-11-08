@@ -83,6 +83,7 @@
                   <%= f.submit 'Mark as Completed', class: "btn btn-primary", disabled: true %>
                 <% end %>
               <% end %>
+              <%= link_to 'View Progress', graph_challenge_path(@challenge, trainee_id: @trainee.id), class: 'btn btn-primary' %>
             </div>
         <% end %>
 

@@ -25,7 +25,7 @@
   end
   
   When('I click on link {string}') do |string|
-    #click_link(string)
+    click_link(string)
   end
   
   Then('I should be on the todo list page') do
@@ -130,6 +130,10 @@
     fill_in 'email', with: 'instructor3@example.com'
     fill_in 'password', with: 'abcdef'
     click_button 'Sign In'
+  end
+
+  Then("I should be redirected to view progress page") do
+    expect(page).to have_content('View my progress for challenge1')
   end
 
 

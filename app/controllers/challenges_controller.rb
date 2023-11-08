@@ -155,6 +155,14 @@ class ChallengesController < ApplicationController
       @trainee = Trainee.find_by(id: params[:trainee_id])
       @challenge = Challenge.find_by(id: params[:id])
       @trainee_name = @trainee.full_name if @trainee.present?
+
+      @page_title = ''
+      @instructor = Instructor.find_by(user_id: session[:user_id])
+      if @instructor
+        @page_title = "Trainee " + @trainee.full_name + " progress"
+      else
+        @page_title = "View my progress for " + @challenge.name
+      end
     end
     
     def filter_data
