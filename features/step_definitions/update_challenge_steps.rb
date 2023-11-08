@@ -1,6 +1,6 @@
 Given('today is {string}') do |current_date|
-    # Set the current date for testing purposes
-    # This can be used to simulate the current date in your scenarios
+    @current_date = Date.parse(current_date)
+    Timecop.freeze(@current_date)
 end
 
 When('I update the challenge task list with the following tasks:') do |table|
@@ -18,7 +18,7 @@ end
 Then('I should be redirected to the edit page for {string}') do |challenge_name|
     challenge = Challenge.find_by(name: challenge_name)
 
-    expect(current_path).to eq(edit_todo_list_challenge_path(challenge))
+    expect(current_path).to eq(edit_challenge_path(challenge))
 end
 
 Then('I should be redirected to the details page for {string}') do |challenge_name|
@@ -26,4 +26,11 @@ Then('I should be redirected to the details page for {string}') do |challenge_na
 
     expect(current_path).to eq(challenge_path(challenge))
 end
-  
+
+When('I select the start date as {string}') do |date|
+    fill_in 'start_date', with: date
+end
+
+After do
+    Timecop.return
+end

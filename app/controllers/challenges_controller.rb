@@ -1,5 +1,5 @@
  # app/controllers/challenges_controller.rb
-class ChallengesController < ApplicationController
+ class ChallengesController < ApplicationController
   include ChallengesHelper
   before_action :require_user
 
@@ -180,7 +180,7 @@ class ChallengesController < ApplicationController
       render 'show_challenge_trainee'
     end
 
-    def edit_todo_list
+    def edit
       @user = User.find(session[:user_id])
       @instructor = Instructor.find_by(user_id: session[:user_id])
       Rails.logger.debug(@instructor)
@@ -194,59 +194,84 @@ class ChallengesController < ApplicationController
       @todo_list = Task.where(id: task_ids)
     end
 
-    def update_todo_list
-      current_date = Date.today
+    def update
       @challenge = Challenge.find(params[:id])
       @user = User.find(session[:user_id])
       @instructor = Instructor.find_by(user_id: session[:user_id])
 
-      if @challenge.endDate <= Date.today
-        flash[:alert] = "Challenge has already ended. You cannot edit to do list."
+      current_start_date = @challenge.startDate
+      current_end_date = @challenge.endDate
+
+      if current_end_date < Date.today
+        flash[:alert] = "Challenge has already ended. You cannot edit it"
         redirect_to challenge_path
         return
       end
 
-      # Parse the start and end dates from the form
-      start_date = (@challenge.startDate > Date.today ? @challenge.startDate : Date.today)
-      end_date = @challenge.endDate
+
+      end_date_params = Date.parse(params[:task][:end_date])
+        
+      start_date = Date.parse(params[:task][:start_date])
+      if start_date == current_start_date
+        if start_date <= Date.today
+          start_date_params = Date.tomorrow
+
+          if start_date_params > end_date_params
+            flash[:alert] = "Challenge has already started. List will be updated from tomorrow and the start date exceeds the end date"
+            redirect_to edit_challenge_path
+            return
+          end
+        else
+          start_date_params = start_date
+        end
+      else
+        start_date_params = start_date
+      end
+
+      if start_date_params > end_date_params
+        flash[:alert] = "Start date cannot exceed end date"
+        redirect_to edit_challenge_path
+        return
+      end
 
       trainee_ids = ChallengeTrainee.where(challenge_id: params[:id]).pluck(:trainee_id)
       @trainees = Trainee.where(id: trainee_ids)
 
       @trainees.each do |trainee_val|
-        TodolistTask.where(trainee: trainee_val, challenge: @challenge, date: start_date..end_date).destroy_all 
+        TodolistTask.where(trainee: trainee_val, challenge: @challenge, date: start_date_params..end_date_params).destroy_all
       end
 
       ChallengeGenericlist.where(challenge_id: @challenge.id).destroy_all
 
-
       # Process submitted tasks
       if params.has_key?(:task)
-        task_from_params = params[:task][:tasks]
-        task_from_params.each do |id, task_params|
-          existing_task = Task.find(id)
-  
-          if existing_task.taskName != task_params[:taskName]
-            # Name changed, make a new task
-            task = Task.create(taskName: task_params[:taskName])
-            id = task.id # Update the id
-          else
-            task = existing_task  
-          end
-  
-          @trainees.each do |trainee_val|
-            (start_date..end_date).each do |date|
-              TodolistTask.create(
-                trainee: trainee_val, 
-                challenge: @challenge,
-                task: task,
-                date: date,
-                status: 'not_completed'
-              )
+        task_from_params = params.dig(:task, :tasks)
+
+        if task_from_params.present?
+          task_from_params.each do |id, task_params|
+            existing_task = Task.find(id)
+    
+            if existing_task.taskName != task_params[:taskName]
+              task = Task.create(taskName: task_params[:taskName])
+              id = task.id
+            else
+              task = existing_task  
             end
+    
+            @trainees.each do |trainee_val|
+              (start_date_params..end_date_params).each do |date|
+                TodolistTask.create(
+                  trainee: trainee_val,
+                  challenge: @challenge,
+                  task: task,
+                  date: date,
+                  status: 'not_completed'
+                )
+              end
+            end
+    
+            ChallengeGenericlist.create(task: task, challenge: @challenge)
           end
-  
-          ChallengeGenericlist.create(task: task, challenge: @challenge)
         end
       end
       
@@ -256,14 +281,13 @@ class ChallengesController < ApplicationController
           existing_task = Task.find_by(taskName: task_params[:taskName])
 
           if existing_task
-            # Use existing task
             task = existing_task 
           else
-            # Create new task
             task = Task.create(taskName: task_params[:taskName])
           end
+
           @trainees.each do |trainee_val|
-            (start_date..end_date).each do |date|
+            (start_date_params..end_date_params).each do |date|
               TodolistTask.create(
                 trainee: trainee_val, 
                 challenge: @challenge,
@@ -273,11 +297,19 @@ class ChallengesController < ApplicationController
               )
             end
           end
+
           ChallengeGenericlist.create(task: task, challenge: @challenge)
         end
       end
-      flash[:notice] = "The Generic Todo List was successfully updated"
-      redirect_to edit_todo_list_challenge_path
+
+      if start_date != current_start_date
+        @challenge.startDate = start_date_params
+      end
+      @challenge.endDate = end_date_params
+      @challenge.save
+
+      flash[:notice] = "Challenge was successfully updated"
+      redirect_to edit_challenge_path
     end
 
     private
@@ -293,4 +325,3 @@ class ChallengesController < ApplicationController
       end
     end
   end
-  
