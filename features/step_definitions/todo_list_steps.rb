@@ -2,18 +2,20 @@
 
   Given('I am logged in') do
     @user2 = User.create!(email: 'instructor@example.com', password: 'abcdef',user_type: "Instructor")
-    @instructor = Instructor.create(user_id: @user2.id, first_name: "instructor1", last_name: "instructor_last_name")
+    @instructor = Instructor.create!(user_id: @user2.id, first_name: "instructor1", last_name: "instructor_last_name")
 
     @user = User.create!(email: 'traineetest@example.com', password: 'asdf',user_type: "trainee")
-    @trainee = Trainee.create(full_name: 'trainee1', height: 165, weight: 85, user_id: @user.id)
+    @trainee = Trainee.create!(full_name: 'trainee1', height: 165, weight: 85, user_id: @user.id)
 
-    @challenge1 = Challenge.create(name: 'challenge1', startDate: Date.today, endDate: Date.today, instructor_id: @instructor.id)
-    @challengetrainee = ChallengeTrainee.create(trainee_id: @trainee.id, challenge_id: @challenge1.id)
-    @task1 = Task.create(taskName: "exercise")
-    @task2 = Task.create(taskName: "steps")
-    @todolisttask = TodolistTask.create(task_id: @task1.id, status: "not_completed", trainee_id: @trainee.id, challenge_id: @challenge1.id, date: Date.today)
-    @todolisttask = TodolistTask.create(task_id: @task2.id, status: "not_completed", trainee_id: @trainee.id, challenge_id: @challenge1.id, date: Date.today)
-    
+    @challenge1 = Challenge.create!(name: 'challenge1', startDate: Date.today-2, endDate: Date.today+1, instructor_id: @instructor.id)
+    @challengetrainee = ChallengeTrainee.create!(trainee_id: @trainee.id, challenge_id: @challenge1.id)
+    @task1 = Task.create!(taskName: "exercise")
+    @task2 = Task.create!(taskName: "steps")
+    @todolisttask = TodolistTask.create!(task_id: @task1.id, status: "not_completed", trainee_id: @trainee.id, challenge_id: @challenge1.id, date: Date.today)
+    TodolistTask.create!(task_id: @task2.id, status: "not_completed", trainee_id: @trainee.id, challenge_id: @challenge1.id, date: Date.today)
+    TodolistTask.create!(task_id: @task1.id, status: "not_completed", trainee_id: @trainee.id, challenge_id: @challenge1.id, date: Date.today-1)
+    TodolistTask.create!(task_id: @task2.id, status: "not_completed", trainee_id: @trainee.id, challenge_id: @challenge1.id, date: Date.today-1)
+
     puts @user.email
     visit login_path
     expect(page).to have_content('User Sign in')
@@ -100,13 +102,13 @@
 
   Given('I am logged in as different user') do
     @user3 = User.create!(email: 'traineetest2@example.com', password: 'asdf',user_type: "trainee")
-    @trainee2 = Trainee.create(full_name: 'trainee2', height: 165, weight: 85, user_id: @user3.id)
+    @trainee2 = Trainee.create!(full_name: 'trainee2', height: 165, weight: 85, user_id: @user3.id)
 
     @user4 = User.create!(email: 'instructor2@example.com', password: 'abcdef',user_type: "Instructor")
     @instructor2 = Instructor.create(user_id: @user4.id, first_name: "instructor2", last_name: "instructor2_last_name")
 
-    @challenge2 = Challenge.create(name: 'challenge2', startDate: Date.today, endDate: Date.today, instructor_id: @instructor2.id)
-    @challengetrainee = ChallengeTrainee.create(trainee_id: @trainee2.id, challenge_id: @challenge2.id)
+    @challenge2 = Challenge.create!(name: 'challenge2', startDate: Date.today-1, endDate: Date.today+1, instructor_id: @instructor2.id)
+    @challengetrainee = ChallengeTrainee.create!(trainee_id: @trainee2.id, challenge_id: @challenge2.id)
     
     visit login_path
     expect(page).to have_content('User Sign in')
