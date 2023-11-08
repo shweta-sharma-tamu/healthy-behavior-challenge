@@ -63,7 +63,7 @@
 
     if (redirectChallengeButton) {
         redirectChallengeButton.addEventListener('click', function() {
-        window.location.href = "<%=  edit_todo_list_challenge_path @challenge.id %>";
+        window.location.href = "<%=  edit_challenge_path @challenge.id %>";
       });
     }
   });
