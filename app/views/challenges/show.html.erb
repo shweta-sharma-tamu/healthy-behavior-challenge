@@ -44,7 +44,11 @@
 
     <div class="text-center row">
         <div class="col-md-12">
-            <button type="button" id="edit-challenge" class="btn btn-primary btn-block">Edit Challenge</button>
+            <% if @challenge.endDate < Date.today %>
+                <button type="button" id="edit-challenge" class="btn btn-primary btn-block" disabled>Edit Challenge</button>
+            <% else %>
+                <button type="button" id="edit-challenge" class="btn btn-primary btn-block">Edit Challenge</button>
+            <% end %>
         </div>
     </div>
 </div>
