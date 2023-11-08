@@ -250,6 +250,34 @@ RSpec.describe ChallengesController, type: :controller do
       expect(response).to redirect_to(edit_challenge_path)
       expect(flash[:notice]).to eq("Challenge was successfully updated")
     end
+
+    it 'deletes existing tasks' do
+      session[:user_id] = @instructor.user_id
+
+      @challenge = Challenge.create(name: 'Test Challenge', startDate: Date.today+1, endDate: Date.tomorrow + 1)
+      @challenge.instructor = @instructor
+      @challenge.save
+
+      @task = Task.create(taskName: 'Task 1')
+      @task.save
+
+      @challengeGenList = ChallengeGenericlist.create(task: @task, challenge: @challenge)
+      @challengeGenList.save
+
+      @chall_trainee = ChallengeTrainee.create(challenge: @challenge, trainee: @trainee)
+      @chall_trainee.save
+
+      @todo_list = TodolistTask.create(trainee: @trainee, challenge: @challenge, task: @task, date: @challenge.startDate)
+      @todo_list.save
+
+      post :update, params: { 
+        id: @challenge.id,
+        task: { start_date: Date.today + 1, end_date: Date.tomorrow + 2 }
+      }
+
+      expect(TodolistTask.where(trainee: @trainee, challenge: @challenge).count).to eq(0)
+    end
+
   end
 
 
