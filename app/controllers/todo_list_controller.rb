@@ -27,7 +27,6 @@ class TodoListController < ApplicationController
             @challenge = Challenge.find_by(id: trainee_challenge_id)
 
             selected_date = params[:selected_date]
-            puts selected_date
             if selected_date.blank?
                 selected_date = params.dig(:user, :selected_date)
                 if selected_date.blank?
@@ -38,9 +37,7 @@ class TodoListController < ApplicationController
             else
                 current_date = Date.parse(selected_date)
             end
-            puts current_date
             @todo_list = TodolistTask.where(trainee_id: trainee_id, challenge_id: trainee_challenge_id, date: current_date).pluck(:task_id, :status)
-            puts @todo_list
             @date = current_date
             if(current_date<@challenge.endDate and current_date>@challenge.startDate)
                 @challenge_to_do_lists << { challenge: @challenge, todo_list: @todo_list }
