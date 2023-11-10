@@ -1,0 +1,20 @@
+<%= render 'main/navbar' %>
+
+<div class="container" style="margin-top: 8%;">
+  <div class="row" style="text-align: center; margin-bottom: 2%">
+    <% if flash[:notice] %>
+      <div class="alert alert-success text-center">
+        <%= flash[:notice] %>
+      </div>
+    <% elsif flash[:alert] %>
+      <div class="alert alert-danger text-center">
+        <%= flash[:alert] %>
+      </div>
+    <% end %>
+    <h1>Instructor Profile</h1>
+    <p>Email: <%= @user.email %></p>
+    <p>First Name: <%= @instructor.first_name %></p>
+    <p>Last Name: <%= @instructor.last_name %></p>
+    <%= link_to 'Edit Profile', edit_profile_path(@user.id), class: 'btn btn-primary' %>
+  </div>
+</div>

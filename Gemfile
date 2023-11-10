@@ -94,5 +94,6 @@ group :test do
   gem "rspec-rails"
   gem "database_cleaner"
   gem "simplecov"
+  gem "timecop"
 end
 
