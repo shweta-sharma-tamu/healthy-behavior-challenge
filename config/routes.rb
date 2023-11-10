@@ -52,5 +52,9 @@ Rails.application.routes.draw do
   end
   post 'filter_data' => 'challenges#filter_data'
 
+  get '/profile', to: 'profiles#show', as: "profile"
+  get '/edit_profile', to: 'profiles#edit', as: "edit_profile"
+  patch '/update_profile', to: 'profiles#update', as: "update_profile"
+
 end
 
