@@ -10,18 +10,18 @@
         <p><i> No Ongoing Challenges</i></p>
       <%else%>
         <% @curr_challenges.each do |challenge| %>
-          <div class="card" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); border: 1px solid #000;">
-            <div class="card-body" style="padding: 10px; display: flex; justify-content: space-between; align-items: center;">
-                <div class="row" style="height: 80px">
-                    <h3 class="card-title"><%= challenge.name %></h3>
-                    <p>Start Date: <%= challenge.startDate %></p>
-                    <p>End Date: <%= challenge.endDate %></p>
-                </div>
-                <div class="text-center row" style="margin: 2%">
-                <%= link_to 'View Progress', graph_challenge_path(challenge, trainee_id: @trainee.id), class: 'btn btn-primary' %>
+            <div class="card" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); border: 1px solid #000;">
+                <div class="card-body" style="padding: 2px 12px 15px 18px; display: flex; justify-content: space-between; align-items: center;">
+                    <div class="row" style="height: 80px">
+                        <h4 class="card-title"> <%= challenge.name %></h4>
+                        <p>Start Date: <%= challenge.startDate %></p>
+                        <p>End Date: <%= challenge.endDate %></p>
+                    </div>
+                    <div class="text-center row" style="margin: 2%">
+                    <%= link_to 'View Progress', graph_challenge_path(challenge, trainee_id: @trainee.id), class: 'btn btn-primary' %>
+                    </div>
                 </div>
             </div>
-          </div>
         <% end %>
       <% end %>
       <div class="row" style="height: 80px">
