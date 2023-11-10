@@ -8,8 +8,6 @@ class TodoListController < ApplicationController
 
     def show
         @user = User.find(session[:user_id])
-        puts @user
-        puts @user.id
         @is_instructor = @user.user_type.downcase == "instructor"
         if @is_instructor
             @instructor = Instructor.find_by(user_id: @user.id)
@@ -22,15 +20,12 @@ class TodoListController < ApplicationController
             @trainee = trainee
         end
         trainee_id = trainee.id
-        puts trainee_id
-        puts trainee
 
         @challenge_to_do_lists = []
         @trainee_challenges = ChallengeTrainee.where(trainee_id: trainee_id)
         @trainee_challenges.each do |trainee_challenge|
             trainee_challenge_id = trainee_challenge.challenge_id
             @challenge = Challenge.find_by(id: trainee_challenge_id)
-            puts trainee_challenge_id
 
             selected_date = params[:selected_date]
             if selected_date.blank?
@@ -43,10 +38,11 @@ class TodoListController < ApplicationController
             else
                 current_date = Date.parse(selected_date)
             end
-
             @todo_list = TodolistTask.where(trainee_id: trainee_id, challenge_id: trainee_challenge_id, date: current_date).pluck(:task_id, :status)
             @date = current_date
-            @challenge_to_do_lists << { challenge: @challenge, todo_list: @todo_list }
+            if(current_date<@challenge.endDate and current_date>@challenge.startDate)
+                @challenge_to_do_lists << { challenge: @challenge, todo_list: @todo_list }
+            end
         end
     end
       

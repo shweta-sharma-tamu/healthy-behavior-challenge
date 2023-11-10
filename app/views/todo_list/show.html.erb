@@ -19,10 +19,13 @@
   }
 </style>
 <div>
-  <%= render 'main/navbar' %>
+  <div class="row" style="height: 80px">
+    <%= render 'main/navbar' %>
+  </div>
   <div class="container">
     <div class="row">
-      <div class="col-md-6 col-md-offset-3" style="margin-top: 20%;">
+      <div class="col-md-6 col-md-offset-3" style="margin-top: 10%;">
+        <h3>  Daily To-Do List </h3>
         <% if flash[:notice].present? %>
           <div class="content-box">
             <h5><%= flash[:notice] %></h5>
@@ -40,7 +43,7 @@
       <% @challenge_to_do_lists.each do |challenge_todo| %>
       <div class="content-box">
       <div class="content-box">
-        <h3><%= challenge_todo[:challenge].name %> Daily To-Do List</h3>
+        <h3><%= challenge_todo[:challenge].name %></h3>
         <p>Date: <%= @date.strftime("%B %d, %Y") %></p>
         
         <%= form_with model: @user, url: mark_as_complete_path, method: :patch, data: { turbo: false } do |f| %>
@@ -86,11 +89,10 @@
               <%= link_to 'View Progress', graph_challenge_path(@challenge, trainee_id: @trainee.id), class: 'btn btn-primary' %>
             </div>
         <% end %>
-
         </div>
-        <a href="<%= show_challenges_path %>" class="btn btn-primary show-challenges-btn">My Challenges</a>
       </div>
       <% end %>
+      <a href="<%= show_challenges_path %>" class="btn btn-primary show-challenges-btn">My Challenges</a>
       </div>
       </div>
   </div>
