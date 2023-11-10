@@ -50,7 +50,6 @@ Feature: Challenges Controller
     When I visit the list trainees page
     Then I should see list of trainees of that challenge
 
-  # Add more scenarios for other controller actions as needed
   Scenario: View challenge details
     Given I am an instructor
     When I click on the challenge "ex chall"
@@ -61,7 +60,6 @@ Feature: Challenges Controller
     And I should see the "End Date: October 30, 2023"
     And I should see the "No of Tasks: 2"
     And I should see the "Show Participants" button
-    And I should see the "Edit Challenge" button
 
   Scenario: Display task progress for a trainee
     Given I am an instructor

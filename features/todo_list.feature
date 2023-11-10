@@ -48,3 +48,8 @@ Feature: Manage Daily To-Do List
     And I try to visit Daily To-Do List page
     Then I should be able to see "Ongoing Challenges"
 
+  Scenario: Viewing my progress for a challenge
+    Given I am logged in
+    And I click on link "View Progress"
+    Then I should be redirected to view progress page for "challenge"
+

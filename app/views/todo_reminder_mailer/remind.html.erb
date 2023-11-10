@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Please complete todays tasks!</title>
+</head>
+<body>
+  <h2>Hi <h3> <%= @name %>, </h3> Please complete todays tasks!</h2>
+  <br>
+  <% @chmap.each do |name,todos| %>
+       <h3> <%= name %> </h3>
+        <% todos.each do |todo| %>
+            <p><%= todo %> </p>
+        <% end %>
+  <% end %>
+  </h3>
+</body>
+</html>

@@ -159,63 +159,81 @@ RSpec.describe ChallengesController, type: :controller do
 
   end
 
-  describe 'GET #edit_todo_list' do
-
+  describe 'GET #edit' do
     it 'assigns @challenge and @todo_list for a challenge' do
       session[:user_id] = @instructor.user_id
+
       @challenge = Challenge.create(name: 'Test Challenge', startDate: Date.today, endDate: Date.tomorrow + 1)
       @challenge.instructor = @instructor
       @challenge.save
+
       @task = Task.create(taskName: 'Task 1')
       @task.save
+
       @challengeGenList = ChallengeGenericlist.create(task: @task, challenge: @challenge)
       @challengeGenList.save
-      get :edit_todo_list, params: { id: @challenge.id }
+      
+      get :edit, params: { id: @challenge.id }
+
       expect(assigns(:challenge)).to eq(@challenge)
+
       task = Task.where(id: @task.id)
       expect(assigns(:todo_list)).to eq(task)
     end
 
     it 'redirects to root_path if the user is not an instructor' do
       session[:user_id] = @instructor.user_id
+
       @challenge = Challenge.create(name: 'Test Challenge', startDate: Date.tomorrow, endDate: Date.tomorrow + 1)
       @challenge.instructor = @instructor
       @challenge.save
+
       session[:user_id] = @user2.id
-      get :edit_todo_list, params: { id: @challenge.id }
+
+      get :edit, params: { id: @challenge.id }
+
       expect(response).to redirect_to(root_path)
       expect(flash[:notice]).to eq('You are not an instructor.')
     end
 
   end
 
-  describe 'POST #update_todo_list' do
-
+  describe 'POST #update' do
     it 'cannot update challenge if it has already ended' do
       session[:user_id] = @instructor.user_id
+
       @challenge = Challenge.create(name: 'Test Challenge', startDate: Date.today - 4, endDate: Date.today - 1)
       @challenge.instructor = @instructor
       @challenge.save
+
       @task = Task.create(taskName: 'Task 1')
       @task.save
+
       @challengeGenList = ChallengeGenericlist.create(task: @task, challenge: @challenge)
       @challengeGenList.save
-      post :update_todo_list, params: { id: @challenge.id }
+
+      post :update, params: { id: @challenge.id }
+
       expect(assigns(:challenge)).to eq(@challenge)
-      expect(flash[:alert]).to eq('Challenge has already ended. You cannot edit to do list.')
+      expect(flash[:alert]).to eq('Challenge has already ended. You cannot edit it')
     end
 
     it 'update challenge if it has already started' do
       session[:user_id] = @instructor.user_id
+
       @challenge = Challenge.create(name: 'Test Challenge', startDate: Date.today-1, endDate: Date.tomorrow + 1)
       @challenge.instructor = @instructor
       @challenge.save
+
       @task = Task.create(taskName: 'Task 1')
       @task.save
+
       @challengeGenList = ChallengeGenericlist.create(task: @task, challenge: @challenge)
       @challengeGenList.save
+
       @chall_trainee = ChallengeTrainee.create(challenge: @challenge, trainee: @trainee)
       @chall_trainee.save
+
       task_params = { taskName: 'New Task' }
 
       @task2 = Task.create(taskName: 'Task 2')
@@ -223,31 +241,39 @@ RSpec.describe ChallengesController, type: :controller do
 
       task_params_2 = { taskName: 'New Task 2' }
 
-      post :update_todo_list, params: {
+      post :update, params: {
         id: @challenge.id,
-        task: { tasks: { @task.id => task_params } },
+        task: { start_date: Date.today - 1, end_date: Date.tomorrow + 2, tasks: { @task.id => task_params } },
         tasks: { @task2.id => task_params_2 }
       }
 
-      expect(response).to redirect_to(edit_todo_list_challenge_path)
-      expect(flash[:notice]).to eq("The Generic Todo List was successfully updated")
+      expect(response).to redirect_to(edit_challenge_path)
+      expect(flash[:notice]).to eq("Challenge was successfully updated")
     end
 
     it 'deletes existing tasks' do
-      # Assuming you have existing tasks
       session[:user_id] = @instructor.user_id
+
       @challenge = Challenge.create(name: 'Test Challenge', startDate: Date.today+1, endDate: Date.tomorrow + 1)
       @challenge.instructor = @instructor
       @challenge.save
+
       @task = Task.create(taskName: 'Task 1')
       @task.save
+
       @challengeGenList = ChallengeGenericlist.create(task: @task, challenge: @challenge)
       @challengeGenList.save
+
       @chall_trainee = ChallengeTrainee.create(challenge: @challenge, trainee: @trainee)
       @chall_trainee.save
+
       @todo_list = TodolistTask.create(trainee: @trainee, challenge: @challenge, task: @task, date: @challenge.startDate)
       @todo_list.save
-      post :update_todo_list, params: { id: @challenge.id }
+
+      post :update, params: { 
+        id: @challenge.id,
+        task: { start_date: Date.today + 1, end_date: Date.tomorrow + 2 }
+      }
 
       expect(TodolistTask.where(trainee: @trainee, challenge: @challenge).count).to eq(0)
     end
@@ -302,7 +328,7 @@ RSpec.describe ChallengesController, type: :controller do
     end
   end
     describe 'GET task_progress' do
-      it 'populates the required instance variables' do
+      it 'populates the required instance variables for instructor' do
         @challenge = Challenge.create!(name: 'ex chall', startDate: '2023-10-15', endDate: '2023-10-30', instructor: @instructor, tasks_attributes: {
           '0' => { taskName: 'Task 1' },
           '1' => { taskName: 'Task 1' } 
@@ -322,6 +348,29 @@ RSpec.describe ChallengesController, type: :controller do
         expect(assigns(:counts_total)).not_to be_nil
         expect(assigns(:trainee)).not_to be_nil
         expect(assigns(:trainee_name)).not_to be_nil
+        expect(assigns(:page_title)).to eq('Trainee ' + @trainee1.full_name + ' progress')
+      end
+      it 'populates the required instance variables for trainee' do
+        @challenge = Challenge.create!(name: 'ex chall', startDate: '2023-10-15', endDate: '2023-10-30', instructor: @instructor, tasks_attributes: {
+          '0' => { taskName: 'Task 1' },
+          '1' => { taskName: 'Task 1' } 
+        })
+        user1 = User.create!(email: 'trainee22dfas@example.com', password: 'abcdef', user_type: "Trainee")
+        @trainee1 = Trainee.create!(full_name: "blah 1dsad",user: user1,height:120,weight:120)
+        @task=Task.create!(taskName:"drink water")
+        @challenge.trainees << @trainee1
+        TodolistTask.create!(trainee_id: @trainee1.id, task_id: @task.id, challenge_id: @challenge.id, date: Date.today+1,status:"not_completed")
+        session[:user_id] = @trainee1.user_id
+        get :task_progress, params: { trainee_id: @trainee1.id, id: @challenge } 
+  
+        expect(assigns(:dates_completed)).not_to be_nil
+        expect(assigns(:counts_completed)).not_to be_nil
+        expect(assigns(:dates_not_completed)).not_to be_nil
+        expect(assigns(:counts_not_completed)).not_to be_nil
+        expect(assigns(:counts_total)).not_to be_nil
+        expect(assigns(:trainee)).not_to be_nil
+        expect(assigns(:trainee_name)).not_to be_nil
+        expect(assigns(:page_title)).to eq('View my progress for ' + @challenge.name)
       end
     end
 
