@@ -17,6 +17,7 @@ class TodoListController < ApplicationController
             return
         else
             trainee = Trainee.find_by(user_id: @user.id)
+            @trainee = trainee
         end
         trainee_id = trainee.id
 

@@ -328,7 +328,7 @@ RSpec.describe ChallengesController, type: :controller do
     end
   end
     describe 'GET task_progress' do
-      it 'populates the required instance variables' do
+      it 'populates the required instance variables for instructor' do
         @challenge = Challenge.create!(name: 'ex chall', startDate: '2023-10-15', endDate: '2023-10-30', instructor: @instructor, tasks_attributes: {
           '0' => { taskName: 'Task 1' },
           '1' => { taskName: 'Task 1' } 
@@ -348,6 +348,29 @@ RSpec.describe ChallengesController, type: :controller do
         expect(assigns(:counts_total)).not_to be_nil
         expect(assigns(:trainee)).not_to be_nil
         expect(assigns(:trainee_name)).not_to be_nil
+        expect(assigns(:page_title)).to eq('Trainee ' + @trainee1.full_name + ' progress')
+      end
+      it 'populates the required instance variables for trainee' do
+        @challenge = Challenge.create!(name: 'ex chall', startDate: '2023-10-15', endDate: '2023-10-30', instructor: @instructor, tasks_attributes: {
+          '0' => { taskName: 'Task 1' },
+          '1' => { taskName: 'Task 1' } 
+        })
+        user1 = User.create!(email: 'trainee22dfas@example.com', password: 'abcdef', user_type: "Trainee")
+        @trainee1 = Trainee.create!(full_name: "blah 1dsad",user: user1,height:120,weight:120)
+        @task=Task.create!(taskName:"drink water")
+        @challenge.trainees << @trainee1
+        TodolistTask.create!(trainee_id: @trainee1.id, task_id: @task.id, challenge_id: @challenge.id, date: Date.today+1,status:"not_completed")
+        session[:user_id] = @trainee1.user_id
+        get :task_progress, params: { trainee_id: @trainee1.id, id: @challenge } 
+  
+        expect(assigns(:dates_completed)).not_to be_nil
+        expect(assigns(:counts_completed)).not_to be_nil
+        expect(assigns(:dates_not_completed)).not_to be_nil
+        expect(assigns(:counts_not_completed)).not_to be_nil
+        expect(assigns(:counts_total)).not_to be_nil
+        expect(assigns(:trainee)).not_to be_nil
+        expect(assigns(:trainee_name)).not_to be_nil
+        expect(assigns(:page_title)).to eq('View my progress for ' + @challenge.name)
       end
     end
 
