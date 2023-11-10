@@ -1,0 +1,31 @@
+<%= render 'main/navbar' %>
+
+<div class="container mt-4" style="justify-content: center; margin-top: 14%;">
+  <div class="card" style="border: 2px solid #32a852;justify-content: center; ">
+    <div class="card-header bg-primary text-white">
+      <h1 class="card-title text-center mb-0">My Profile</h1>
+    </div>
+    <center>
+    <div class="card-body" style="justify-content: ">
+      <div class="row">
+        <div class="col-6">
+          <h2 style="color: #0080ff;display: inline-block; width: 150px;">Full Name: </h2>
+          <h2 style="display: inline-block;"> <%= @trainee.full_name %></h2>
+        </div>
+        <div class="col-6">
+          <h2 style="display: inline-block; width: 150px; color: #0080ff;">Height:</h2>
+          <h2 style="display: inline-block;"><%= @trainee.height %> inches</h2>
+        </div>
+        <div class="col-6">
+          <h2 style="display: inline-block; width: 150px; color: #0080ff;">Weight:</h2>
+          <h2 style="display: inline-block;"><%= @trainee.weight %> pounds</h2>
+        </div>
+        <!-- You can add more attributes as needed -->
+      </div>
+    </div>
+    </center>
+    <div class="card-footer text-center" style="margin-bottom:2%">
+      <%= link_to "Edit Profile", trainee_profile_path, class: "btn btn-primary" %>
+    </div>
+  </div>
+</div>
