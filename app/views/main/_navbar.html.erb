@@ -13,6 +13,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
       <% if @is_instructor %>
+      <%= link_to 'My Profile', profile_path, class: 'btn btn-primary' %>
       <%= link_to 'Refer Instructor', instructor_referral_path, class: 'btn btn-primary' %>
       <% end %>
       <%= link_to "Sign Out" , signout_path, method: :get , class: 'btn btn-primary' %>
