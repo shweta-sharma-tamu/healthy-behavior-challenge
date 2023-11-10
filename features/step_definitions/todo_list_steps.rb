@@ -7,7 +7,7 @@
     @user = User.create!(email: 'traineetest@example.com', password: 'asdf',user_type: "trainee")
     @trainee = Trainee.create(full_name: 'trainee1', height: 165, weight: 85, user_id: @user.id)
 
-    @challenge1 = Challenge.create(name: 'challenge1', startDate: Date.today, endDate: Date.today, instructor_id: @instructor.id)
+    @challenge1 = Challenge.create(name: 'challenge', startDate: Date.today, endDate: Date.today, instructor_id: @instructor.id)
     @challengetrainee = ChallengeTrainee.create(trainee_id: @trainee.id, challenge_id: @challenge1.id)
     @task1 = Task.create(taskName: "exercise")
     @task2 = Task.create(taskName: "steps")
@@ -132,8 +132,8 @@
     click_button 'Sign In'
   end
 
-  Then("I should be redirected to view progress page") do
-    expect(page).to have_content('View my progress for challenge1')
+  Then("I should be redirected to view progress page for {string}") do |string|
+    expect(page).to have_content('View my progress for '+ string)
   end
 
 

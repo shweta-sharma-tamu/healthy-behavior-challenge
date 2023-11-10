@@ -38,3 +38,15 @@ Feature: Instructor ListChallenges
     Then I should not see 'Past Challenges'
     And I should not see 'Ongoing Challenges'
     And I should see 'You must be signed in to access this page.'
+
+
+  Scenario: Viewing my progress for a challenge
+    Given I am a trainee with following challenges:
+      | name       | startDate   | endDate     | tasks                   |
+      | Challenge1 | 2023-10-02  | 2024-10-31  | Task 1, Task 2, Task 3  |
+    Given I am Logged in with username 'testTrainee@gmail.com' and password 'abcdef'
+    And I visit 'My Challenges'
+    Then I should see 'Ongoing Challenges'
+    And I should see 'Challenge1' 
+    And I click on link "View Progress"
+    Then I should be redirected to view progress page for 'Challenge1'

@@ -51,5 +51,5 @@ Feature: Manage Daily To-Do List
   Scenario: Viewing my progress for a challenge
     Given I am logged in
     And I click on link "View Progress"
-    Then I should be redirected to view progress page
+    Then I should be redirected to view progress page for "challenge"
 
