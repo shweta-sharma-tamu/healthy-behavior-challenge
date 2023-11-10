@@ -20,7 +20,7 @@ class InstructorReferralController < ApplicationController
         else
             @referral.save
             InstructorReferralMailer.with(referral: @referral,email: params[:email],is_used: false).refer.deliver_now
-            flash.now[:notice] = "Copy this link: #{ENV['ROOT_URL']}#{instructor_signup_path(token: @referral.token)}"
+            flash.now[:notice] = "#{ENV['ROOT_URL']}#{instructor_signup_path(token: @referral.token)}"
         end
         render action: "index"
     end
