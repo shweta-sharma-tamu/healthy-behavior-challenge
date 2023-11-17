@@ -132,17 +132,32 @@
     def task_progress
       task_completed_counts = TodolistTask.where(trainee_id: params[:trainee_id], challenge_id: params[:id], status: "completed").group(:date).count
       task_not_completed_counts = TodolistTask.where(trainee_id: params[:trainee_id], challenge_id: params[:id], status: "not_completed").group(:date).count
-    
-      # Get the union of all dates from both completed and not completed tasks
+      start_date = Date.today - 7
+      end_date = Date.today
+      task_completed_counts_week = TodolistTask.where(trainee_id: params[:trainee_id], challenge_id: params[:id], status: "completed", date: start_date..end_date).group(:date).count
+      task_not_completed_counts_week = TodolistTask.where(trainee_id: params[:trainee_id], challenge_id: params[:id], status: "not_completed",  date: start_date..end_date).group(:date).count
+
+      # Get the union of all dates from both completed and not completed tasks for all time
       all_dates = task_completed_counts.keys | task_not_completed_counts.keys
     
-      # Initialize arrays for dates and counts with zero counts
+      # Initialize arrays for dates and counts with zero counts for all time
       @dates_completed = []
       @counts_completed = []
       @dates_not_completed = []
       @counts_not_completed = []
       @counts_total=[]
     
+      # Get the union of all dates from both completed and not completed tasks for all time
+      all_dates_week = task_completed_counts_week.keys | task_not_completed_counts_week.keys
+      
+      puts all_dates_week
+      # Initialize arrays for dates and counts with zero counts for all time
+      @dates_completed_week = []
+      @counts_completed_week = []
+      @dates_not_completed_week = []
+      @counts_not_completed_week = []
+      @counts_total_week=[]
+      
       # Populate arrays with dates and counts, filling in zeros for missing dates
       all_dates.each do |date|
         @dates_completed << date
@@ -151,6 +166,20 @@
         @counts_not_completed << task_not_completed_counts[date].to_i
         @counts_total<<task_completed_counts[date].to_i+task_not_completed_counts[date].to_i
       end
+
+      # Populate arrays with dates and counts, filling in zeros for missing dates for the past week
+      all_dates_week.each do |date|
+        @dates_completed_week << date
+        @counts_completed_week << task_completed_counts_week[date].to_i
+        @dates_not_completed_week << date
+        @counts_not_completed_week << task_completed_counts_week[date].to_i
+        @counts_total_week<<task_completed_counts_week[date].to_i+task_not_completed_counts_week[date].to_i
+      end
+      
+      puts @dates_completed_week
+      puts @dates_not_completed_week
+      puts @counts_completed_week
+      puts @counts_not_completed_week
 
       @trainee = Trainee.find_by(id: params[:trainee_id])
       @challenge = Challenge.find_by(id: params[:id])
