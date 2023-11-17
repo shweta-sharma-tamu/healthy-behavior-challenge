@@ -150,7 +150,6 @@
       # Get the union of all dates from both completed and not completed tasks for all time
       all_dates_week = task_completed_counts_week.keys | task_not_completed_counts_week.keys
       
-      puts all_dates_week
       # Initialize arrays for dates and counts with zero counts for all time
       @dates_completed_week = []
       @counts_completed_week = []
@@ -172,15 +171,10 @@
         @dates_completed_week << date
         @counts_completed_week << task_completed_counts_week[date].to_i
         @dates_not_completed_week << date
-        @counts_not_completed_week << task_completed_counts_week[date].to_i
+        @counts_not_completed_week << task_not_completed_counts_week[date].to_i
         @counts_total_week<<task_completed_counts_week[date].to_i+task_not_completed_counts_week[date].to_i
       end
       
-      puts @dates_completed_week
-      puts @dates_not_completed_week
-      puts @counts_completed_week
-      puts @counts_not_completed_week
-
       @trainee = Trainee.find_by(id: params[:trainee_id])
       @challenge = Challenge.find_by(id: params[:id])
       @trainee_name = @trainee.full_name if @trainee.present?

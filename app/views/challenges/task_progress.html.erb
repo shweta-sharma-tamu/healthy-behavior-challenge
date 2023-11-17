@@ -1,6 +1,6 @@
 <%= render 'main/navbar' %>
 
-<div class="container mt-4" style="display: flex; justify-content: center; margin-top: 10%; margin-below:10%">
+<div class="container mt-4" style="display: flex; justify-content: center; margin-top: 10%; margin-bottom:10%">
   <h1><%= @page_title %> </h1>
 </div>
 
@@ -9,8 +9,8 @@
   <form>
   <label for="dropdown">Duration:</label>
   <select id="dropdown" name="dropdown" onchange="handleDropdownChange(this)">
-      <option value="option1">All Time</option>
-      <option value="option2">Last Week</option>
+      <option id="alltime" value="option1">All Time</option>
+      <option id="lastweek" value="option2">Last Week</option>
   </select>
   </form>
 
@@ -92,4 +92,3 @@
   }
 </script>
 
-</script>
