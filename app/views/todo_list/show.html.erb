@@ -65,9 +65,9 @@
                           </td>
                         <td class="task-name-cell">
                             <% if status == "completed" %>
-                            <s><%= Task.find(task_id).taskName %></s>
+                            <s><%= Task.find(task_id).taskName %></s>  <%= challenge_todo[:streak][task_id]%>🔥
                             <% else %>
-                            <%= Task.find(task_id).taskName %>
+                            <%= Task.find(task_id).taskName %>  <%= challenge_todo[:streak][task_id]%>🔥
                             <% end %>
                         </td>
                         </tr>
