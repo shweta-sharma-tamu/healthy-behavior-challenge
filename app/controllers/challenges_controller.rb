@@ -132,13 +132,14 @@
     def task_progress
       task_completed_counts = TodolistTask.where(trainee_id: params[:trainee_id], challenge_id: params[:id], status: "completed").group(:date).count
       task_not_completed_counts = TodolistTask.where(trainee_id: params[:trainee_id], challenge_id: params[:id], status: "not_completed").group(:date).count
+
       start_date = Date.today - 7
       end_date = Date.today
       task_completed_counts_week = TodolistTask.where(trainee_id: params[:trainee_id], challenge_id: params[:id], status: "completed", date: start_date..end_date).group(:date).count
       task_not_completed_counts_week = TodolistTask.where(trainee_id: params[:trainee_id], challenge_id: params[:id], status: "not_completed",  date: start_date..end_date).group(:date).count
 
       # Get the union of all dates from both completed and not completed tasks for all time
-      all_dates = task_completed_counts.keys | task_not_completed_counts.keys
+      all_dates = (task_completed_counts.keys | task_not_completed_counts.keys).sort
     
       # Initialize arrays for dates and counts with zero counts for all time
       @dates_completed = []
