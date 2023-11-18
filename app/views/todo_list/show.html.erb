@@ -1,5 +1,5 @@
 <style>
-.content-box {
+  .content-box {
     border: 2px solid green;
     padding: 5px;
   }
@@ -18,6 +18,7 @@
     right: 20px;
   }
 </style>
+
 <div>
   <div class="row" style="height: 80px">
     <%= render 'main/navbar' %>
@@ -31,70 +32,77 @@
             <h5><%= flash[:notice] %></h5>
           </div>
         <% end %>
-      <div class="content-box">
-        <%= form_with model: @user, url: todo_list_path, method: :get, data: { turbo: false } do |f| %>
-          <div class="form-group">
-            <%= f.label :selected_date, 'Select Date' %>
-            <%= f.date_field :selected_date, class: 'form-control' %>
-          </div>
-          <%= f.submit 'Show Tasks', class: 'btn btn-primary' %>
-        <% end %>
-      </div>
-      <% @challenge_to_do_lists.each do |challenge_todo| %>
-      <div class="content-box">
-      <div class="content-box">
-        <h3><%= challenge_todo[:challenge].name %></h3>
-        <p>Date: <%= @date.strftime("%B %d, %Y") %></p>
+
+        <div class="content-box">
+          <%= form_with model: @user, url: todo_list_path, method: :get, data: { turbo: false } do |f| %>
+            <div class="form-group">
+              <%= f.label :selected_date, 'Select Date' %>
+              <%= f.date_field :selected_date, class: 'form-control' %>
+            </div>
+            <%= f.submit 'Show Tasks', class: 'btn btn-primary' %>
+          <% end %>
+        </div>
+      
+        <% @challenge_to_do_lists.each do |challenge_todo| %>
+          <div class="content-box">
+            <div class="content-box">
+              <h3><%= challenge_todo[:challenge].name %></h3>
+              <p>Date: <%= @date.strftime("%B %d, %Y") %></p>
         
-        <%= form_with model: @user, url: mark_as_complete_path, method: :patch, data: { turbo: false } do |f| %>
-        <ul class="list-group">
-            <table >
-                <thead>
-                    <tr>
+              <%= form_with model: @user, url: mark_as_complete_path, method: :patch, data: { turbo: false } do |f| %>
+                <ul class="list-group">
+                  <table >
+                    <thead>
+                      <tr>
                         <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% challenge_todo[:todo_list].each do |task_id, status| %>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% challenge_todo[:todo_list].each do |task_id, status| %>
                         <tr>
                           <td class="checkbox-cell">
-                          <%= f.hidden_field "tasks[#{task_id}][task_id]", value: task_id %>
-                          <%= f.hidden_field "tasks[#{task_id}][challenge_id]", value: challenge_todo[:challenge].id %>
-                          <%= f.hidden_field "tasks[#{task_id}][date]", value: @date %>
-                          <%= f.check_box "tasks[#{task_id}][completed]", { class: 'task-checkbox' }, "1", "0" %>
+                            <%= f.hidden_field "tasks[#{task_id}][task_id]", value: task_id %>
+                            <%= f.hidden_field "tasks[#{task_id}][challenge_id]", value: challenge_todo[:challenge].id %>
+                            <%= f.hidden_field "tasks[#{task_id}][date]", value: @date %>
+                            <%= f.check_box "tasks[#{task_id}][completed]", { class: 'task-checkbox' }, "1", "0" %>
                           </td>
-                        <td class="task-name-cell">
+                          <td class="task-name-cell">
                             <% if status == "completed" %>
                             <s><%= Task.find(task_id).taskName %></s>  <%= challenge_todo[:streak][task_id]%>🔥
                             <% else %>
                             <%= Task.find(task_id).taskName %>  <%= challenge_todo[:streak][task_id]%>🔥
                             <% end %>
-                        </td>
+                          </td>
                         </tr>
-                    <% end %>
-                </tbody>
-            </table>
-        </ul>
+                      <% end %>
+                    </tbody>
+                  </table>
+                </ul>
+
+                <div>
+                  <h5>Total Best Days: <%= best_days(challenge_todo[:challenge].id, Trainee.find_by(user_id: @user.id).id) %></h5>
+                </div>
         
-            <div class="text-center">
-              <% if @date.present? %>
-                <% if @date == Date.today %>
-                  <%= f.submit 'Mark as Completed', class: "btn btn-primary" %>
-                <% elsif @date == Date.today - 1 && Time.now.hour <= 3 %>
-                  <%= f.submit 'Mark as Completed', class: "btn btn-primary" %>
-                <% else %>
-                  <%= f.submit 'Mark as Completed', class: "btn btn-primary", disabled: true %>
-                <% end %>
+                <div class="text-center">
+                  <% if @date.present? %>
+                    <% if @date == Date.today %>
+                      <%= f.submit 'Mark as Completed', class: "btn btn-primary" %>
+                    <% elsif @date == Date.today - 1 && Time.now.hour <= 3 %>
+                      <%= f.submit 'Mark as Completed', class: "btn btn-primary" %>
+                    <% else %>
+                      <%= f.submit 'Mark as Completed', class: "btn btn-primary", disabled: true %>
+                    <% end %>
+                  <% end %>
+                  <%= link_to 'View Progress', graph_challenge_path(@challenge, trainee_id: @trainee.id), class: 'btn btn-primary' %>
+                </div>
               <% end %>
-              <%= link_to 'View Progress', graph_challenge_path(@challenge, trainee_id: @trainee.id), class: 'btn btn-primary' %>
             </div>
+          </div>
         <% end %>
-        </div>
+
+        <a href="<%= show_challenges_path %>" class="btn btn-primary show-challenges-btn">My Challenges</a>
       </div>
-      <% end %>
-      <a href="<%= show_challenges_path %>" class="btn btn-primary show-challenges-btn">My Challenges</a>
-      </div>
-      </div>
+    </div>
   </div>
 
 </div>
