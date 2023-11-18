@@ -41,7 +41,8 @@ class TodoListController < ApplicationController
             @todo_list = TodolistTask.where(trainee_id: trainee_id, challenge_id: trainee_challenge_id, date: current_date).pluck(:task_id, :status)
             @date = current_date
             if(current_date<@challenge.endDate and current_date>@challenge.startDate)
-                @challenge_to_do_lists << { challenge: @challenge, todo_list: @todo_list }
+                streak = calculate_streak(trainee_id,trainee_challenge_id, current_date)
+                @challenge_to_do_lists << { challenge: @challenge, todo_list: @todo_list, streak: streak }
             end
         end
     end
@@ -198,6 +199,27 @@ class TodoListController < ApplicationController
             flash[:notice] = "You are not an instructor."
             redirect_to root_path
         end
+    end
+
+    def calculate_streak(trainee_id, challenge_id, current_date)
+      todolist_tasks = TodolistTask.where(trainee_id: trainee_id, challenge_id: challenge_id).order(date: :asc)
+
+    
+      streak_counters = Hash.new(0)
+      current_streak = 0
+    
+      todolist_tasks.each do |task|
+        break if task.date == current_date
+        streak_counters[task.task_id] ||= 0
+        if task.status == 'completed'
+          streak_counters[task.task_id]  += 1
+        else
+          streak_counters[task.task_id]  = 0
+        end
+
+      end
+    
+      streak_counters
     end
 
 

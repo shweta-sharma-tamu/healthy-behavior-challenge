@@ -138,7 +138,7 @@
       task_not_completed_counts_week = TodolistTask.where(trainee_id: params[:trainee_id], challenge_id: params[:id], status: "not_completed",  date: start_date..end_date).group(:date).count
 
       # Get the union of all dates from both completed and not completed tasks for all time
-      all_dates = task_completed_counts.keys | task_not_completed_counts.keys
+      all_dates = (task_completed_counts.keys | task_not_completed_counts.keys).sort
     
       # Initialize arrays for dates and counts with zero counts for all time
       @dates_completed = []

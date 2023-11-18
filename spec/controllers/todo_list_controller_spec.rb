@@ -148,6 +148,36 @@ RSpec.describe TodoListController, type: :controller do
       expect(flash[:notice]).to eq('Tasks have been updated.')
     end
   end
+  describe '#calculate_streak' do
+    let(:trainee_id) { @trainee.id }
+    let(:challenge_id) { @challenge2.id }
 
+    it 'calculates streak for completed tasks' do
+      (Date.today..Date.today + 4.days).each do |date|
+        TodolistTask.where(trainee_id: trainee_id, challenge_id: challenge_id, date: date).update_all(status: 'completed')
+      end
+      
+      streak_counters = controller.calculate_streak(trainee_id, challenge_id, Date.today + 4.days)
+      puts "hello #{streak_counters}}"
+      expect(streak_counters.values).to all(eq(4)) # Assuming 5 days in the streak
+    end
 
+    it 'breaks streak when task is not completed' do
+      TodolistTask.where(trainee_id: trainee_id, challenge_id: challenge_id, date: Date.today).update_all(status: 'not_completed')
+
+      streak_counters = controller.calculate_streak(trainee_id, challenge_id, Date.today + 4.days)
+      expect(streak_counters.values).to all(eq(0))
+    end
+
+    it 'handles tasks on different dates' do
+      (Date.today..Date.today + 4.days).each do |date|
+        TodolistTask.where(trainee_id: trainee_id, challenge_id: challenge_id, date: date).update_all(status: 'completed')
+      end
+
+      TodolistTask.where(trainee_id: trainee_id, challenge_id: challenge_id, date: Date.today).update_all(status: 'not_completed')
+
+      streak_counters = controller.calculate_streak(trainee_id, challenge_id, Date.today + 4.days)
+      expect(streak_counters.values).to all(eq(3))
+    end
+  end
 end
