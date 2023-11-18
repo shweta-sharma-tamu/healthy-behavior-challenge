@@ -1,11 +1,19 @@
 <%= render 'main/navbar' %>
 
-<div class="container mt-4" style="display: flex; justify-content: center; margin-top: 10%; margin-below:10%">
+<div class="container mt-4" style="display: flex; justify-content: center; margin-top: 10%; margin-bottom:10%">
   <h1><%= @page_title %> </h1>
 </div>
 
 <!-- Container for the graph following the navbar -->
 <div class="container mt-4" style="flex-direction: column; justify-content: center;  height: 100vh;margin-top: 10%;">
+  <form>
+  <label for="dropdown">Duration:</label>
+  <select id="dropdown" name="dropdown" onchange="handleDropdownChange(this)">
+      <option id="alltime" value="option1">All Time</option>
+      <option id="lastweek" value="option2">Last Week</option>
+  </select>
+  </form>
+
 
   <div id="chart-container" style="max-width: 100%; min-height: 300px; display: flex; justify-content: center; align-items: center;">
     <canvas id="taskCountChart"></canvas>
@@ -65,4 +73,22 @@
       }
     }
   });
+
+  function handleDropdownChange(dropdown) {
+      var selectedValue = dropdown.value;
+      console.log("Selected option: " + selectedValue);
+      if(selectedValue === "option1") {
+        taskCountChart.data.labels = <%= @dates_completed.to_json.html_safe %>;
+        taskCountChart.data.datasets[0].data = <%= @counts_completed.to_json.html_safe %>;
+        taskCountChart.data.datasets[1].data = <%= @counts_not_completed.to_json.html_safe %>;
+        taskCountChart.data.datasets[2].data = <%= @counts_total.to_json.html_safe %>;
+      } else if (selectedValue === "option2") {
+        taskCountChart.data.labels = <%= @dates_completed_week.to_json.html_safe %>;
+        taskCountChart.data.datasets[0].data = <%= @counts_completed_week.to_json.html_safe %>;
+        taskCountChart.data.datasets[1].data = <%= @counts_not_completed_week.to_json.html_safe %>;
+        taskCountChart.data.datasets[2].data = <%= @counts_total_week.to_json.html_safe %>;
+      }
+      taskCountChart.update();
+  }
 </script>
+
