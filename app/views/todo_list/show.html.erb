@@ -1,6 +1,6 @@
 <style>
   .content-box {
-    border: 2px solid green;
+    border: 2px solid;
     padding: 5px;
   }
 
@@ -25,27 +25,27 @@
   </div>
   <div class="container">
     <div class="row">
-      <div class="col-md-6 col-md-offset-3" style="margin-top: 10%;">
+      <div class="col-md-6 col-md-offset-3" style="margin-top: 2%;">
         <h3>  Daily To-Do List </h3>
         <% if flash[:notice].present? %>
-          <div class="content-box">
+          <div style="padding: 5px; color: green;" >
             <h5><%= flash[:notice] %></h5>
           </div>
         <% end %>
 
-        <div class="content-box">
+        <div>
           <%= form_with model: @user, url: todo_list_path, method: :get, data: { turbo: false } do |f| %>
             <div class="form-group">
               <%= f.label :selected_date, 'Select Date' %>
               <%= f.date_field :selected_date, class: 'form-control' %>
             </div>
-            <%= f.submit 'Show Tasks', class: 'btn btn-primary' %>
+            <%= f.submit 'Show Tasks', class: 'btn btn-primary', style: 'margin: 2px' %>
           <% end %>
         </div>
       
         <% @challenge_to_do_lists.each do |challenge_todo| %>
-          <div class="content-box">
-            <div class="content-box">
+          <div class="card" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); border: 1px solid #000; padding: 2%;">
+            <div>
               <h3><%= challenge_todo[:challenge].name %></h3>
               <p>Date: <%= @date.strftime("%B %d, %Y") %></p>
         
