@@ -23,7 +23,7 @@
               <li><%= link_to 'My Profile', profile_path %></li>
               <li><%= link_to 'Refer Instructor', instructor_referral_path %></li>
             <% elsif current_user.present? %>
-              <li><%= link_to 'View Profile', trainee_profile_path %></li>
+              <li><%= link_to 'My Profile', trainee_profile_path %></li>
             <% end %>
             <li><%= link_to "Sign Out", signout_path, method: :get %></li>
           </ul>

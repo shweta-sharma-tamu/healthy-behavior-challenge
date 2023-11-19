@@ -4,7 +4,7 @@ Feature: Login
 
 Scenario: check my profile
     Given I am logged in
-    And I click on "View Profile"
+    And I click on "My Profile"
     Then I should see 'My Profile'
 
 Scenario: check my profile
