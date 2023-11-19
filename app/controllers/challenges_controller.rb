@@ -148,7 +148,7 @@
       @counts_total=[]
     
       # Get the union of all dates from both completed and not completed tasks for all time
-      all_dates_week = task_completed_counts_week.keys | task_not_completed_counts_week.keys
+      all_dates_week = (task_completed_counts_week.keys | task_not_completed_counts_week.keys).sort
       
       # Initialize arrays for dates and counts with zero counts for all time
       @dates_completed_week = []
