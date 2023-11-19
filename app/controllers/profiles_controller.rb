@@ -4,6 +4,7 @@ class ProfilesController < ApplicationController
         @user = User.find(session[:user_id])
         if (@user.user_type.downcase == "instructor")
             @instructor = Instructor.find_by(user_id: @user.id)
+            @is_instructor = true
         end
     end
 
