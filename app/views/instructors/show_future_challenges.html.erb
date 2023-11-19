@@ -7,42 +7,60 @@
     bottom: 20px;
     right: 20px;
   }
+  .indiChallenge {
+    border: solid 2px;
+    overflow: hidden;
+    margin: 1% 0;
+  }
+  .challenge-content {
+    padding: 0 1% 1% 1%
+  }
 </style>
 
 <%= render 'main/navbar' %>
 <div class="container d-flex justify-content-center align-items-center vh-100 vw-100" style="margin-top:10vh">
-<div class="welcome-message mt-4">
-<h4>Welcome, <%= @user_name_from_session %></h4>
-</div>
-<% if flash[:notice] %>
-<div class="alert alert-success text-center">
-    <%= flash[:notice] %>
-</div>
-<% end %>
+  <div class="welcome-message mt-4">
+    <h4>Welcome, <%= @user_name_from_session %></h4>
+  </div>
 
-
-<div class="container">
-    <div class="row" style="height: 80px">
-        <div class="col-md-6">
-            <h1>Upcoming Challenges</h1>
-        </div>
-        <div class="col-md-3"style="display: flex; align-items: center;height: 80px">
-            <button type="button" id="prev-challenge-btn" class="btn btn-primary btn-block"> <<-- Show Past Challenges </button>
-        </div>
-        <div class="col-md-3" style="display: flex; align-items: center;height: 80px">
-            <button type="button" id="ongoing-challenge-btn" class="btn btn-primary btn-block;" > <-- Show Ongoing Challenges</button>
-        </div>
+  <% if flash[:notice] %>
+    <div class="alert alert-success text-center">
+      <%= flash[:notice] %>
     </div>
-</div>
+  <% end %>
 
-  <div class="d-flex flex-wrap justify-content-center">
-    <% @challenges.each do |challenge| %>
-      <a href="<%= challenge_path(challenge) %>" class="challenge-tile">
-        <h3>Challenge Name: <%= challenge.name %></h3>
-        <p>Start Date: <%= challenge.startDate %></p>
-        <p>End Date: <%= challenge.endDate %></p>
-      </a>
-    <% end %>
+  <div class="container">
+    <div class="row" style="height: 80px">
+      <div class="col-md-6">
+        <h1>Upcoming Challenges</h1>
+      </div>
+      <div class="col-md-3"style="display: flex; align-items: center; height: 80px">
+        <button type="button" id="prev-challenge-btn" class="btn btn-primary btn-block" style="padding: 0;">
+          <span style="font-size: 20px">&#8606;</span>
+          Show Past Challenges
+        </button>
+      </div>
+      <div class="col-md-3" style="display: flex; align-items: center; height: 80px">
+        <button type="button" id="ongoing-challenge-btn" class="btn btn-primary btn-block" style="padding: 0;">
+          <span style="font-size: 20px">&#8672;</span>
+          Show Ongoing Challenges
+        </button>
+      </div>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-center">
+      <% @challenges.each do |challenge| %>
+        <div class="row indiChallenge">
+          <div class="challenge-content">
+            <a href="<%= challenge_path(challenge) %>" class="challenge-tile" style="text-decoration: none;">
+              <h2 style="font-size: 24px"><%= challenge.name %></h2>
+            </a>
+            <p style="display: inline; margin-right: 3em">Start Date: <%= challenge.startDate %></p>
+            <p style="display: inline">End Date: <%= challenge.endDate %></p>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
 
   <%= will_paginate @challenges %>
