@@ -45,6 +45,7 @@
      - Run rspec tests with ``` RAILS_ENV=test bundle exec rspec ```
      - You can find coverage report in ``` coverage/ ``` folder in root directory
 
+<<<<<<< HEAD
        
 4. Coverage Report
      - The comprehensive test coverage needs to run Rspec and cucumber. You will see the coverage percentage after run two commands.
@@ -60,6 +61,13 @@
            bundle exec rubycritic
            ```
          - Rubycritic will analyze your codebase and generate an HTML report containing a summary of the code quality metrics. The report is usually saved in the tmp/rubycritic directory.
+=======
+0. Please make sure .env file is correct
+1. Run your test commands in the terminal of rails container.
+2. Run cucumber tests with `RAILS_ENV=test cucumber -s`
+3. Run rspec tests with `RAILS_ENV=test rspec`
+4. You can find coverage report in coverage/
+>>>>>>> main
 
 
 5. Know how to deploy our project
