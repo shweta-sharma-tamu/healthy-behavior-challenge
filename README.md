@@ -84,7 +84,8 @@
       ```
       heroku open
       ```
-
+    - You can find our deployed app here:
+      https://fitxtdev-41d849676354.herokuapp.com/
       
 6. Know How to Use the Web application
     - We have Two Modules :
