@@ -32,4 +32,85 @@ RSpec.describe TraineeProfileController, type: :controller do
       end
     end
   end
+
+  describe 'GET #edit' do
+    context 'when user is logged in' do
+      let(:user) { create(:user) }
+      let!(:trainee) { create(:trainee, user: user) }
+
+      before do
+        session[:user_id] = user.id
+        get :edit
+      end
+
+      it 'assigns @trainee' do
+        expect(assigns(:trainee)).to eq(trainee)
+      end
+
+      it 'renders the edit template' do
+        expect(response).to render_template(:edit)
+      end
+    end
+
+    context 'when user is not logged in' do
+      it 'redirects to root path' do
+        get :edit
+        expect(response).to redirect_to(root_path)
+      end
+    end
+  end
+
+  describe 'PATCH #update' do
+    let(:user) { create(:user) }
+    let!(:trainee) { create(:trainee, user: user) }
+
+    context 'when user is logged in' do
+      before { session[:user_id] = user.id }
+
+      context 'with valid params' do
+        let(:valid_params) { { trainee: { full_name: 'Updated Name', height: 180, weight: 75 } } }
+
+        it 'updates the trainee profile' do
+          patch :update, params: valid_params
+          trainee.reload
+          expect(trainee.full_name).to eq('Updated Name')
+          expect(trainee.height).to eq(180)
+          expect(trainee.weight).to eq(75)
+        end
+
+        it 'redirects to trainee profile path' do
+          patch :update, params: valid_params
+          expect(response).to redirect_to(trainee_profile_path)
+        end
+
+        it 'sets a notice message' do
+          patch :update, params: valid_params
+          expect(flash[:notice]).to eq('Profile updated successfully.')
+        end
+      end
+
+      context 'with invalid params' do
+        let(:invalid_params) { { trainee: { height: -5 } } }
+
+        it 'does not update the trainee profile' do
+          previous_name = trainee.full_name
+          patch :update, params: invalid_params
+          trainee.reload
+          expect(trainee.full_name).to eq(previous_name)
+        end
+
+        it 'renders the edit template' do
+          patch :update, params: invalid_params
+          expect(response).to render_template(:edit)
+        end
+      end
+    end
+
+    context 'when user is not logged in' do
+      it 'redirects to root path' do
+        patch :update, params: { trainee: { full_name: 'Updated Name', height: 180, weight: 75 } }
+        expect(response).to redirect_to(root_path)
+      end
+    end
+  end
 end
