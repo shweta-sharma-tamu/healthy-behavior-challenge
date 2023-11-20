@@ -13,7 +13,7 @@ Scenario: check my profile
 
 Scenario: check my profile
     Given I am logged in
-    And I click on "View Profile"
+    And I click on "My Profile"
     Then I should see 'My Profile'
     And I click on "Edit Profile"
     Then I should be on edit profile path

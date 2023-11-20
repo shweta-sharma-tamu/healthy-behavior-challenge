@@ -5,7 +5,7 @@ Feature: Login
 
 Scenario: go to edit my profile
     Given I am logged in
-    And I click on "View Profile"
+    And I click on "My Profile"
     Then I should see 'My Profile'
     And I click on "Edit Profile"
     Then I should be on edit profile path
@@ -14,7 +14,7 @@ Scenario: go to edit my profile
 
 Scenario: edit my profile
     Given I am logged in
-    And I click on "View Profile"
+    And I click on "My Profile"
     Then I should see 'My Profile'
     And I click on "Edit Profile"
     Then I should be on edit profile path
@@ -30,7 +30,7 @@ Scenario: edit my profile
 
 Scenario: cancel
     Given I am logged in
-    And I click on "View Profile"
+    And I click on "My Profile"
     Then I should see 'My Profile'
     And I click on "Edit Profile"
     Then I should be on edit profile path
