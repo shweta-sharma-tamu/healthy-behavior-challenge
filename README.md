@@ -120,8 +120,8 @@
 
    
 7. Contact Us for any queries: Please reach out to any one of us if you have any queries
-    - Sharvani Ramineni ( sharvani.ramineni@tamu.edu / 9793443673)
-    - Utsav Dabhi ( utsav.dabhi@tamu.edu / +91 7296953946)
+    - Sharvani Ramineni ( sharvani.ramineni@tamu.edu )
+    - Utsav Dabhi ( utsav.dabhi@tamu.edu )
     - Satya Bhavsar ( satyabhavsar@tamu.edu )
     - Vineet Gandham ( vineet.gandham@tamu.edu )
     - Faizan Ali Khaji ( khajifaizanali@tamu.edu )
