@@ -6,7 +6,7 @@
     <div class="navbar-header">
       <div class="container-fluid">
         <% if @is_instructor || current_user.present? %>
-          <%= link_to 'HBC', user_path(current_user), class: 'navbar-brand', style: 'color: white' %>
+          <%= link_to 'HBC', user_path(current_user), class: 'navbar-brand', style: 'color: white; font-size: 40px;' %>
         <% end %>
       </div>
     </div>
@@ -29,6 +29,6 @@
           </ul>
         </li>
       </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
+    </div>
+  </div>
 </nav>

@@ -53,7 +53,7 @@
   end
   
   When("I press Create Challenge") do 
-    click_button "Create the challenge"
+    click_button "Create Challenge"
   end
 
   When('I visit the new challenge page') do
@@ -116,7 +116,6 @@
   end
   
   Then('I should see the task progress chart') do
-    # Write assertions to check if the task progress details are displayed correctly
-    expect(page).to have_content('Trainee blah 1 progress') # Add more specific assertions here
+    expect(page).to have_content('Progress Overview: blah 1')
   end
   

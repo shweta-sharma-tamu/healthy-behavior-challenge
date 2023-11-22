@@ -7,7 +7,7 @@ Given("I am logged in as trainee") do
     fill_in 'email', with: 'traineetest@example.com'
     fill_in 'password', with: 'asdf'
     click_button 'Sign In'
-    expect(page).to have_content("Daily To-Do List")
+    expect(page).to have_content("Daily Todo List")
 end
 
 When("I select one of the dates from previous challenge") do
@@ -32,7 +32,7 @@ When("I select one of the dates from previous challenge") do
 end
   
 Then("I should see the Best Days for the whole challenge") do
-    expect(page).to have_content("Total Best Days: 1")
+    expect(page).to have_content("🎯 1")
 end
   
 When("I select today's date") do
@@ -57,5 +57,5 @@ When("I select today's date") do
 end
   
 Then("I should see the Best Days for the ongoing challenge") do
-    expect(page).to have_content("Total Best Days: 2")
+    expect(page).to have_content("🎯 2")
 end
