@@ -38,10 +38,11 @@ Given("I am an instructor trying to add trainees to a challenge") do
   Then("I select a trainee and add it to {string}")  do |challenge_name|
 
     challenge = Challenge.find_by(name: challenge_name)
-    trainee_2 = Trainee.find_by(full_name:'Trainee2 Name')
+    #trainee_2 = Trainee.find_by(full_name:'Trainee2 Name')
+    select 'Trainee2 Name', from: 'traineeSelect'
 
-    post update_trainees_challenge_path(challenge.id, {trainee_ids: [trainee_2.id]}) # Assuming this is a POST request
-    fill_in "traineeSearch", with: trainee_2.full_name # Assuming this is the input field for trainee_ids
+    #post update_trainees_challenge_path(challenge.id, {trainee_ids: [trainee_2.id]}) # Assuming this is a POST request
+    #fill_in "traineeSearch", with: trainee_2.full_name # Assuming this is the input field for trainee_ids
     
 
   end
