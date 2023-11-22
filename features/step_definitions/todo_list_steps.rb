@@ -22,7 +22,7 @@
     fill_in 'email', with: 'traineetest@example.com'
     fill_in 'password', with: 'asdf'
     click_button 'Sign In'
-    expect(page).to have_content("Daily To-Do List")
+    expect(page).to have_content("Daily Todo List")
     puts @user.id
   end
   
@@ -78,7 +78,7 @@
 
   When('I visit the Daily Todo List page') do
     visit todo_list_path
-    expect(page).to have_content("Daily To-Do List")
+    expect(page).to have_content("Daily Todo List")
   end
 
   When('I select a previous date from the date selector') do
@@ -115,7 +115,7 @@
     fill_in 'email', with: 'traineetest2@example.com'
     fill_in 'password', with: 'asdf'
     click_button 'Sign In'
-    expect(page).to have_content("Daily To-Do List")
+    expect(page).to have_content("Daily Todo List")
   end
 
   And('I try to visit Daily To-Do List page') do
@@ -135,7 +135,7 @@
   end
 
   Then("I should be redirected to view progress page for {string}") do |string|
-    expect(page).to have_content('View my progress for '+ string)
+    expect(page).to have_content('My Progress: '+ string)
   end
 
 

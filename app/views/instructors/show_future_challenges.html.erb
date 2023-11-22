@@ -32,7 +32,7 @@
   <div class="container">
     <div class="row" style="height: 80px">
       <div class="col-md-6">
-        <h1>Upcoming Challenges</h1>
+        <h1 style="font-weight: 500">Upcoming Challenges</h1>
       </div>
       <div class="col-md-3"style="display: flex; align-items: center; height: 80px">
         <button type="button" id="prev-challenge-btn" class="btn btn-primary btn-block" style="padding: 0;">
@@ -53,7 +53,7 @@
         <div class="row indiChallenge">
           <div class="challenge-content">
             <a href="<%= challenge_path(challenge) %>" class="challenge-tile" style="text-decoration: none;">
-              <h2 style="font-size: 24px"><%= challenge.name %></h2>
+              <h2 style="font-size: 24px; font-weight: 500"><%= challenge.name %></h2>
             </a>
             <p style="display: inline; margin-right: 3em">Start Date: <%= challenge.startDate %></p>
             <p style="display: inline">End Date: <%= challenge.endDate %></p>
