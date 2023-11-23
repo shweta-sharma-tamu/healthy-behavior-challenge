@@ -1,34 +1,38 @@
 <%= render 'main/navbar' %>
 
-<div class="container" style="margin-top: 10%;">
-      <!-- Display the success message if present -->
-        <% if flash[:notice] %>
+<div class="container" style="margin-top: 8%;">
+    <% if flash[:notice] %>
         <div class="alert alert-success text-center">
             <%= flash[:notice] %>
         </div>
-        <% elsif flash[:alert] %>
+    <% elsif flash[:alert] %>
         <div class="alert alert-danger text-center">
             <%= flash[:alert] %>
         </div>
-        <% end %>
-    <div class="row" style="text-align: center; margin-bottom: 2%">
-        <h1 style="font-size: 40px; text-decoration: underline;"><%= @challenge.name %></h1>
+    <% end %>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div style="margin-bottom: 5%">
+                <h2 style="font-size: 3rem; font-weight: 500"><%= @challenge.name %></h2>
+            </div>
+        </div>
     </div>
 
     <div class="row" style="margin-bottom: 2%">
         <div class="col-md-6">
-            <p style="font-size: 20px"><strong>Duration:</strong> <%= calculate_duration_in_days(@challenge.startDate, @challenge.endDate) + 1 %> days</p>
-            <p style="font-size: 20px"><strong>Participants:</strong> <%= @challenge.trainees.count %></p>
-            <p style="font-size: 20px"><strong>Start Date:</strong> <%= @challenge.startDate.strftime('%B %d, %Y') %></p>
-            <p style="font-size: 20px"><strong>End Date:</strong> <%= @challenge.endDate.strftime('%B %d, %Y') %></p>
-            <p style="font-size: 20px"><strong>No of Tasks:</strong> <%= @challenge.tasks.count %></p>
+            <p style="font-size: 18px"><strong>Duration:</strong> <%= calculate_duration_in_days(@challenge.startDate, @challenge.endDate) + 1 %> days</p>
+            <p style="font-size: 18px"><strong>Participants:</strong> <%= @challenge.trainees.count %></p>
+            <p style="font-size: 18px"><strong>Start Date:</strong> <%= @challenge.startDate.strftime('%B %d, %Y') %></p>
+            <p style="font-size: 18px"><strong>End Date:</strong> <%= @challenge.endDate.strftime('%B %d, %Y') %></p>
+            <p style="font-size: 18px"><strong>No of Tasks:</strong> <%= @challenge.tasks.count %></p>
         </div>
-        <div class="col-md-6" style="height: 300px; overflow-y: auto; border: 3px solid #ccc; border-radius: 10px;">
-            <p style="font-size: 25px; text-align: center">To-do List</p>
+        <div class="col-md-6" style="height: 300px; overflow-y: auto; border: 3px solid #ccc; border-radius: 10px; background-color: #f5f8fa">
+            <p style="font-size: 25px; text-align: center">Todo List</p>
             <ol>
-            <% @challenge.tasks.each do |task| %>
-                <li style="font-size: 18px"><%= task.taskName %></li>
-            <% end %>
+                <% @challenge.tasks.each do |task| %>
+                    <li style="font-size: 18px"><%= task.taskName %></li>
+                <% end %>
             </ol>
         </div>
     </div>
@@ -42,14 +46,12 @@
         </div>
     </div>
 
-    <div class="text-center row">
-        <div class="col-md-12">
-            <% if @challenge.endDate < Date.today %>
-                <button type="button" id="edit-challenge" class="btn btn-primary btn-block" disabled>Edit Challenge</button>
-            <% else %>
-                <button type="button" id="edit-challenge" class="btn btn-primary btn-block">Edit Challenge</button>
-            <% end %>
-        </div>
+    <div style="position: fixed; bottom: 2rem; right: 2rem;">
+        <% if @challenge.endDate < Date.today %>
+            <button type="button" id="edit-challenge" class="btn btn-primary btn-block" style="width: 16rem; padding: 5% 2%" disabled>Edit Challenge</button>
+        <% else %>
+            <button type="button" id="edit-challenge" class="btn btn-primary btn-block" style="width: 16rem; padding: 5% 2%">Edit Challenge</button>
+        <% end %>
     </div>
 </div>
 

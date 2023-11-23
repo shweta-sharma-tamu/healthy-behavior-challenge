@@ -191,9 +191,9 @@
       @page_title = ''
       @instructor = Instructor.find_by(user_id: session[:user_id])
       if @instructor
-        @page_title = "Trainee " + @trainee.full_name + " progress"
+        @page_title = "Progress Overview: " + @trainee.full_name
       else
-        @page_title = "View my progress for " + @challenge.name
+        @page_title = "My Progress: " + @challenge.name
       end
     end
     

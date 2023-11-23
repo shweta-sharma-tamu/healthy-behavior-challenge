@@ -19,9 +19,9 @@
   end
   
   Then("I should see my email, first name, and last name") do
-    expect(page).to have_content("Email: instructor@example.com") 
-    expect(page).to have_content("First Name: John") 
-    expect(page).to have_content("Last Name: Doe") 
+    expect(page).to have_content("instructor@example.com") 
+    expect(page).to have_content("John") 
+    expect(page).to have_content("Doe") 
   end
   
   And("I should be able to see {string} button") do |button_text|
@@ -42,8 +42,8 @@
   end
   
   And("I should see my updated first name and last name on the profile page") do
-    expect(page).to have_content("First Name: NewJohn")
-    expect(page).to have_content("Last Name: NewDoe")
+    expect(page).to have_content("NewJohn")
+    expect(page).to have_content("NewDoe")
   end
   
   

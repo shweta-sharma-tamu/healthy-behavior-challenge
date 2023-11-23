@@ -26,37 +26,41 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6 col-md-offset-3" style="margin-top: 2%;">
-        <h3>  Daily To-Do List </h3>
-        <% if flash[:notice].present? %>
-          <div style="padding: 5px; color: green;" >
-            <h5><%= flash[:notice] %></h5>
+        <% if flash[:notice] %>
+          <div class="alert alert-success text-center">
+            <%= flash[:notice] %>
+          </div>
+        <% elsif flash[:alert] %>
+          <div class="alert alert-danger text-center">
+            <%= flash[:alert] %>
           </div>
         <% end %>
 
+        <h2 style="margin: 1rem 0 2rem 0; font-weight: 500">Daily Todo List</h2>
+
         <div>
           <%= form_with model: @user, url: todo_list_path, method: :get, data: { turbo: false } do |f| %>
-            <div class="form-group">
+            <div class="form-group" style="margin-bottom: 5px">
               <%= f.label :selected_date, 'Select Date' %>
               <%= f.date_field :selected_date, class: 'form-control' %>
             </div>
-            <%= f.submit 'Show Tasks', class: 'btn btn-primary', style: 'margin: 2px' %>
+            <%= f.submit 'Show Tasks', class: 'btn btn-primary', style: "margin-bottom: 5px" %>
+            <div class="text-center" style="margin-bottom: 5px">
+              <span>Streak: 🔥</span>
+              <span>Total Best Days: 🎯</span> 
+            </div>
           <% end %>
         </div>
       
         <% @challenge_to_do_lists.each do |challenge_todo| %>
           <div class="card" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); border: 1px solid #000; padding: 2%;">
             <div>
-              <h3><%= challenge_todo[:challenge].name %></h3>
+              <h3 style="margin-top: 0; font-weight: 500"><%= challenge_todo[:challenge].name %></h3>
               <p>Date: <%= @date.strftime("%B %d, %Y") %></p>
         
               <%= form_with model: @user, url: mark_as_complete_path, method: :patch, data: { turbo: false } do |f| %>
-                <ul class="list-group">
+                <ul class="list-group" style="margin-bottom: 1rem">
                   <table >
-                    <thead>
-                      <tr>
-                        <th></th>
-                      </tr>
-                    </thead>
                     <tbody>
                       <% challenge_todo[:todo_list].each do |task_id, status| %>
                         <tr>
@@ -68,9 +72,9 @@
                           </td>
                           <td class="task-name-cell">
                             <% if status == "completed" %>
-                            <s><%= Task.find(task_id).taskName %></s>  <%= challenge_todo[:streak][task_id]%>🔥
+                              <s><%= Task.find(task_id).taskName %></s> 🔥<%= challenge_todo[:streak][task_id]%>
                             <% else %>
-                            <%= Task.find(task_id).taskName %>  <%= challenge_todo[:streak][task_id]%>🔥
+                              <%= Task.find(task_id).taskName %> 🔥<%= challenge_todo[:streak][task_id]%>
                             <% end %>
                           </td>
                         </tr>
@@ -80,7 +84,7 @@
                 </ul>
 
                 <div>
-                  <h5>Total Best Days: <%= best_days(challenge_todo[:challenge].id, Trainee.find_by(user_id: @user.id).id) %></h5>
+                  🎯 <%= best_days(challenge_todo[:challenge].id, Trainee.find_by(user_id: @user.id).id) %>
                 </div>
         
                 <div class="text-center">
@@ -100,7 +104,9 @@
           </div>
         <% end %>
 
-        <a href="<%= show_challenges_path %>" class="btn btn-primary show-challenges-btn">My Challenges</a>
+        <div style="position: fixed; bottom: 2rem; right: 2rem;">
+          <a href="<%= show_challenges_path %>" class="btn btn-primary show-challenges-btn" style="width: 16rem; padding: 0.5% 0.3%">My Challenges</a>
+        <div>
       </div>
     </div>
   </div>

@@ -369,8 +369,9 @@ RSpec.describe ChallengesController, type: :controller do
         expect(assigns(:counts_total_week)).not_to be_nil
         expect(assigns(:trainee)).not_to be_nil
         expect(assigns(:trainee_name)).not_to be_nil
-        expect(assigns(:page_title)).to eq('Trainee ' + @trainee1.full_name + ' progress')
+        expect(assigns(:page_title)).to eq('Progress Overview: ' + @trainee1.full_name)
       end
+
       it 'populates the required instance variables for trainee' do
         @challenge = Challenge.create!(name: 'ex chall', startDate: Date.today - 10, endDate: Date.today + 10, instructor: @instructor, tasks_attributes: {
           '0' => { taskName: 'Task 1' },
@@ -399,7 +400,7 @@ RSpec.describe ChallengesController, type: :controller do
         expect(assigns(:counts_total_week)).not_to be_nil
         expect(assigns(:trainee)).not_to be_nil
         expect(assigns(:trainee_name)).not_to be_nil
-        expect(assigns(:page_title)).to eq('View my progress for ' + @challenge.name)
+        expect(assigns(:page_title)).to eq('My Progress: ' + @challenge.name)
       end
     end
 
