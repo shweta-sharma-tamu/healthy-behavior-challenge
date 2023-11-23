@@ -1,6 +1,15 @@
 <%= render 'main/navbar' %>
 
 <div class="container mt-4" style="margin-top: 5%;">
+<% if flash[:notice] %>
+<div class="alert alert-success text-center">
+    <%= flash[:notice] %>
+</div>
+<% elsif flash[:alert] %>
+<div class="alert alert-danger text-center">
+    <%= flash[:alert] %>
+</div>
+<% end %>
   <h1 class="card-title text-center mb-0" style="padding: 1%;">My Profile</h1>
   <div class="card" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); border: 1px solid #000; padding: 2%;">
       <div class="card-body" style="padding: 2%;">
@@ -21,7 +30,7 @@
         </div>
       </div>
     <div class="card-footer text-center" style="margin-bottom:2%">
-      <%= link_to "Edit Profile", trainee_profile_path, class: "btn btn-primary" %>
+      <%= link_to "Edit Profile", edit_trainee_profile_path, class: "btn btn-primary" %>
     </div>
   </div>
 </div>

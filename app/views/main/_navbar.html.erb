@@ -1,28 +1,32 @@
-<nav class="navbar navbar-fixed-top navbar-light bg-primary" style="padding: 5px;">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<nav class="navbar navbar-fixed-top navbar-light bg-primary">
   <div class="container-fluid">
     <div class="navbar-header">
       <div class="container-fluid">
-        <% if @is_instructor %>
-          <%= link_to 'HBC', instructor_path(current_user), class: 'navbar-brand', style: 'color: white; font-size: 40px;' %>
-        <% elsif current_user.present? %>
-          <%= link_to 'HBC', user_path(current_user), class: 'navbar-brand', style: 'color: white; font-size: 40px;' %>
+        <% if @is_instructor || current_user.present? %>
+          <%= link_to 'HBC', user_path(current_user), class: 'navbar-brand', style: 'color: white' %>
         <% end %>
       </div>
     </div>
 
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <div class="collapse navbar-collapse" id="navbarContent">
       <ul class="nav navbar-nav navbar-right">
-        <% if @is_instructor %>
-          <%= link_to 'My Profile', profile_path, class: 'btn btn-primary' %>
-          <%= link_to 'Refer Instructor', instructor_referral_path, class: 'btn btn-primary' %>
-        <% elsif current_user.present? %>
-          <%= link_to 'My Profile', trainee_profile_path, class: 'btn btn-primary' %>
-        <% end %>
-      
-        <%= link_to "Sign Out" , signout_path, method: :get , class: 'btn btn-primary' %>
-        <button type="button" class="btn btn-default navbar-btn">
-          <span class="glyphicon glyphicon-menu-hamburger"></span>
-        </button>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            <span class="glyphicon glyphicon-menu-hamburger" style="color: white;"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <% if @is_instructor %>
+              <li><%= link_to 'My Profile', profile_path %></li>
+              <li><%= link_to 'Refer Instructor', instructor_referral_path %></li>
+            <% elsif current_user.present? %>
+              <li><%= link_to 'My Profile', trainee_profile_path %></li>
+            <% end %>
+            <li><%= link_to "Sign Out", signout_path, method: :get %></li>
+          </ul>
+        </li>
       </ul>
     </div>
   </div>
