@@ -99,6 +99,15 @@
 
     def update_trainees
       @challenge = Challenge.find(params[:id])
+      trainee_ids = params[:trainee_ids].reject(&:blank?)
+      if trainee_ids.empty?
+        flash.now[:alert] = "No trainee selected. Please select at least one trainee."
+        @challenge_trainees = ChallengeTrainee.where(challenge_id: params[:id])
+        trainee_ids = @challenge_trainees.pluck(:trainee_id)
+        @trainees = Trainee.where.not(id: trainee_ids)
+        render 'add_trainees'
+        return
+      end
       if @challenge.trainees << Trainee.where(id: params[:trainee_ids])        
         flash.now[:notice] = "Trainees were successfully added to the challenge."
         @challenge.trainees.each do |trainee|
