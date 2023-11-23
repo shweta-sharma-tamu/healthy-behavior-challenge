@@ -491,8 +491,27 @@ RSpec.describe ChallengesController, type: :controller do
   end
 end
 
-  private
+describe 'DELETE #delete_trainee' do
+  it 'deletes trainee and removes from the list' do
+     session[:user_id] = @instructor.user_id
+      @challenge = Challenge.create!(name: 'ex chall', startDate: Date.today + 7, endDate: Date.today+13, instructor: @instructor, tasks_attributes: {
+        '0' => { taskName: 'Task 1' },
+        '1' => { taskName: 'Task 1' } 
+      })
+      user1 = User.create!(email: 'trainee22@example.com', password: 'abcdef', user_type: "Trainee")
+      @trainee1 = Trainee.create!(full_name: "blah 1",user: user1,height:120,weight:120)
+      @challenge.trainees << @trainee1
+      delete :delete_trainee, params: {
+            challenge_id: @challenge.id,
+            trainee_id:@trainee1.id,
+            id:@challenge.id
+        }
+      expect(response).to have_http_status(:redirect)
+      expect(@challenge.trainees).not_to include(@trainee1)  
+  end
+end
 
+private
   def valid_params
     { name: 'New Challenge', startDate: '2023-10-15', endDate: '2023-10-30', tasks_attributes: { '0' => { taskName: 'Task 1' }, '1' => { taskName: 'Task 1' } } }
   end
