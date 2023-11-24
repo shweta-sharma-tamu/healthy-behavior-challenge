@@ -91,15 +91,6 @@ RSpec.describe TodoListController, type: :controller do
           }
         }
 
-        puts("***********************")
-        puts(Date.today)
-        puts(Date.today.strftime("%Y-%m-%d %H:%M:%S %Z"))
-        puts(Date.tomorrow)
-        puts(Date.tomorrow.strftime("%Y-%m-%d %H:%M:%S %Z"))
-        puts(Date.tomorrow + 1.days)
-        puts Time.now.strftime("%Y-%m-%d %H:%M:%S %Z")
-        puts("***********************")
-
         tasks_params = {
           "new_1" => { taskName: 'New Task 1' },
           "new_2" => {taskName: 'Drink 4 litres water'}
