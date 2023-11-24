@@ -49,6 +49,13 @@ Feature: Challenges Controller
     And there are trainees in the challenge "New Challenge"
     When I visit the list trainees page
     Then I should see list of trainees of that challenge
+  
+  Scenario: Delete trainee from a challenge
+    Given I am an instructor and There exists a challenge "New Challenge"
+    And there is trainee "trainee1" in the challenge "New Challenge"
+    When I visit the list trainees page
+    And I delete "trainee1"
+    Then I should not see "trainee1"
 
   Scenario: View challenge details
     Given I am an instructor
