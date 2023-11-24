@@ -8,7 +8,7 @@ Feature: Manage Daily To-Do List
   Scenario: Viewing the To-Do List
     Given I am logged in
     Then I should be on the todo list page
-    And I should be able to see "Daily To-Do List"
+    And I should be able to see "Daily Todo List"
     And I should be able to see "Date:"
 
   Scenario: Updating the To-Do List
@@ -20,7 +20,7 @@ Feature: Manage Daily To-Do List
   Scenario: Viewing the To-Do List with a Date Selector
     Given I am logged in
     Then I should be on the todo list page
-    And I should be able to see "Daily To-Do List"
+    And I should be able to see "Daily Todo List"
     And I should see "Date:"
     And I should see a date selector
   

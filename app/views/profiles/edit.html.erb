@@ -1,36 +1,45 @@
 <%= render 'main/navbar' %>
 
-<div class="container" style="margin-top: 8%;">
-  <div class="row" style="text-align: center; margin-bottom: 2%">
-    <% if flash[:notice] %>
-      <div class="alert alert-success text-center">
-        <%= flash[:notice] %>
-      </div>
-    <% elsif flash[:alert] %>
-      <div class="alert alert-danger text-center">
-        <%= flash[:alert] %>
-      </div>
-    <% end %>
-    <h1>Edit Instructor Profile</h1>
-    <%= form_for @instructor, url: update_profile_path, method: :patch do |f| %>
-      <div class="form-group">
-        <%= f.label :email %>
-        <%= f.email_field :email, value: @user.email, class: 'form-control', readonly: true %>
-      </div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3" style="margin-top: 15%;">
+      <% if flash[:notice] %>
+        <div class="alert alert-success text-center">
+          <%= flash[:notice] %>
+        </div>
+      <% elsif flash[:alert] %>
+        <div class="alert alert-danger text-center">
+          <%= flash[:alert] %>
+        </div>
+      <% end %>
 
-      <div class="form-group">
-        <%= f.label :first_name %>
-        <%= f.text_field :first_name, value: @instructor.first_name, class: 'form-control' %>
-      </div>
+      <%= content_tag :h2, "Edit Instructor Profile", class: 'text-center', style: 'font-weight: 500' %>
 
-      <div class="form-group">
-        <%= f.label :last_name %>
-        <%= f.text_field :last_name, value: @instructor.last_name, class: 'form-control' %>
-      </div>
+      <%= form_for @instructor, url: update_profile_path, method: :patch do |f| %>
+        <div class="form-group">
+          <%= f.label :email %>
+          <%= f.email_field :email, value: @user.email, class: 'form-control', readonly: true %>
+        </div>
 
-      <%= f.submit 'Update Profile', class: 'btn btn-primary' %>
-    <% end %>
+        <div class="form-group">
+          <%= f.label :first_name %>
+          <%= f.text_field :first_name, value: @instructor.first_name, class: 'form-control' %>
+        </div>
 
-    <%= link_to 'Cancel', profile_path, class: 'btn btn-default' %>
+        <div class="form-group">
+          <%= f.label :last_name %>
+          <%= f.text_field :last_name, value: @instructor.last_name, class: 'form-control' %>
+        </div>
+
+        <div class="text-center row" style="margin-bottom: 1%">
+          <div class="col-md-6">
+            <%= f.submit 'Update Profile', class: 'btn btn-primary btn-block' %>
+          </div>
+          <div class="col-md-6">
+            <%= link_to 'Cancel', profile_path, class: 'btn btn-default btn-block' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>

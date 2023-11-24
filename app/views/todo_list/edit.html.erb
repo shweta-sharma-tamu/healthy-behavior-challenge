@@ -1,14 +1,18 @@
 <%= render 'main/navbar' %>
 
 <div class="container" style="margin-top: 8%;">
-  <% if flash[:notice].present? %>
-    <div>
-      <h5><%= flash[:notice] %></h5>
+  <% if flash[:notice] %>
+    <div class="alert alert-success text-center">
+      <%= flash[:notice] %>
+    </div>
+  <% elsif flash[:alert] %>
+    <div class="alert alert-danger text-center">
+      <%= flash[:alert] %>
     </div>
   <% end %>
 
   <div class="row" style="text-align: center; margin-bottom: 2%">
-    <h3 style="font-size: 30px;">Current todo list for <%= Trainee.find(params[:trainee_id]).full_name %></h3>
+    <h2 style="font-weight: 500">Current Todo List: <%= Trainee.find(params[:trainee_id]).full_name %></h2>
   </div>
 
   <div class="row" style="margin-bottom: 2%">

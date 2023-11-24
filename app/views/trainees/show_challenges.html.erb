@@ -1,48 +1,64 @@
+<style>
+  .indiChallenge {
+    border: solid 2px;
+    overflow: hidden;
+    margin: 1% 0;
+  }
+  .challenge-content {
+    padding: 0 1% 1% 0
+  }
+</style>
+
 <div>
   <div class="row" style="height: 80px">
     <%= render 'main/navbar' %>
   </div>
+
   <div class="container">
       <div class="row" style="height: 80px">
-        <h2>Ongoing Challenges</h2>
+        <h2 style="font-weight: 500">Ongoing Challenges</h2>
       </div>
+
       <% if @curr_challenges.empty?() %>
-        <p><i> No Ongoing Challenges</i></p>
+        <p><i>No Ongoing Challenges</i></p>
       <%else%>
         <% @curr_challenges.each do |challenge| %>
-            <div class="card" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); border: 1px solid #000;">
-                <div class="card-body" style="padding: 2px 12px 15px 18px; display: flex; justify-content: space-between; align-items: center;">
-                    <div class="row" style="height: 80px">
-                        <h4 class="card-title"> <%= challenge.name %></h4>
-                        <p>Start Date: <%= challenge.startDate %></p>
-                        <p>End Date: <%= challenge.endDate %></p>
-                    </div>
-                    <div class="text-center row" style="margin: 2%">
-                    <%= link_to 'View Progress', graph_challenge_path(challenge, trainee_id: @trainee.id), class: 'btn btn-primary' %>
-                    </div>
-                </div>
+          <div class="card indiChallenge">
+            <div class="card-body challenge-content" style="padding: 2px 12px 15px 18px; display: flex; justify-content: space-between; align-items: center;">
+              <div class="row">
+                <h4 class="card-title" style="font-size: 24px; font-weight: 500"><%= challenge.name %></h4>
+                <p style="display: inline; margin-right: 3em">Start Date: <%= challenge.startDate %></p>
+                <p style="display: inline">End Date: <%= challenge.endDate %></p>
+              </div>
+              
+              <div class="text-center row" style="margin: 0.5%">
+                <%= link_to 'View Progress', graph_challenge_path(challenge, trainee_id: @trainee.id), class: 'btn btn-primary' %>
+              </div>
             </div>
+          </div>
         <% end %>
       <% end %>
+
       <div class="row" style="height: 80px">
-        <h2>Past Challenges</h2>
+        <h2 style="font-weight: 500">Past Challenges</h2>
       </div>
       <% if @past_challenges.empty?() %>
-        <p><i> No Past Challenges</i></p>
+        <p><i>No Past Challenges</i></p>
       <%else%>
         <% @past_challenges.each do |challenge| %>
-            <div class="card" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); border: 1px solid #000;">
-                <div class="card-body" style="padding: 2px 12px 15px 18px; display: flex; justify-content: space-between; align-items: center;">
-                    <div class="row" style="height: 80px">
-                        <h4 class="card-title"> <%= challenge.name %></h4>
-                        <p>Start Date: <%= challenge.startDate %></p>
-                        <p>End Date: <%= challenge.endDate %></p>
-                    </div>
-                    <div class="text-center row" style="margin: 2%">
-                    <%= link_to 'View Progress', graph_challenge_path(challenge, trainee_id: @trainee.id), class: 'btn btn-primary' %>
-                    </div>
-                </div>
+          <div class="card indiChallenge">
+            <div class="card-body challenge-content" style="padding: 2px 12px 15px 18px; display: flex; justify-content: space-between; align-items: center;">
+              <div class="row">
+                <h4 class="card-title" style="font-size: 24px; font-weight: 500"><%= challenge.name %></h4>
+                <p style="display: inline; margin-right: 3em">Start Date: <%= challenge.startDate %></p>
+                <p style="display: inline">End Date: <%= challenge.endDate %></p>
+              </div>
+              
+              <div class="text-center row" style="margin: 0.5%">
+                <%= link_to 'View Progress', graph_challenge_path(challenge, trainee_id: @trainee.id), class: 'btn btn-primary' %>
+              </div>
             </div>
+          </div>
         <% end %>
       <% end %>
   </div>
