@@ -83,13 +83,22 @@ RSpec.describe TodoListController, type: :controller do
         task2_id = Task.find_by(taskName: 'Walk 10000 steps').id
 
         task_params = {
-          start_date: Date.tomorrow + 1.days,
-          end_date: Date.tomorrow + 2.days,
+          start_date: Date.tomorrow,
+          end_date: Date.tomorrow + 1.days,
           tasks: {
             task1_id => { taskName: 'Do 25 pullups' },
             task2_id => { taskName: 'Swim 0.5 hours' }
           }
         }
+
+        puts("***********************")
+        puts(Date.today)
+        puts(Date.today.strftime("%Y-%m-%d %H:%M:%S %Z"))
+        puts(Date.tomorrow)
+        puts(Date.tomorrow.strftime("%Y-%m-%d %H:%M:%S %Z"))
+        puts(Date.tomorrow + 1.days)
+        puts Time.now.strftime("%Y-%m-%d %H:%M:%S %Z")
+        puts("***********************")
 
         tasks_params = {
           "new_1" => { taskName: 'New Task 1' },
