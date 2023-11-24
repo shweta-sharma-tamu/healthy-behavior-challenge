@@ -99,6 +99,15 @@
 
     def update_trainees
       @challenge = Challenge.find(params[:id])
+      trainee_ids = params[:trainee_ids].reject(&:blank?)
+      if trainee_ids.empty?
+        flash.now[:alert] = "No trainee selected. Please select at least one trainee."
+        @challenge_trainees = ChallengeTrainee.where(challenge_id: params[:id])
+        trainee_ids = @challenge_trainees.pluck(:trainee_id)
+        @trainees = Trainee.where.not(id: trainee_ids)
+        render 'add_trainees'
+        return
+      end
       if @challenge.trainees << Trainee.where(id: params[:trainee_ids])        
         flash.now[:notice] = "Trainees were successfully added to the challenge."
         @challenge.trainees.each do |trainee|
@@ -182,9 +191,9 @@
       @page_title = ''
       @instructor = Instructor.find_by(user_id: session[:user_id])
       if @instructor
-        @page_title = "Trainee " + @trainee.full_name + " progress"
+        @page_title = "Progress Overview: " + @trainee.full_name
       else
-        @page_title = "View my progress for " + @challenge.name
+        @page_title = "My Progress: " + @challenge.name
       end
     end
     
@@ -341,6 +350,19 @@
 
       flash[:notice] = "Challenge was successfully updated"
       redirect_to edit_challenge_path
+    end
+
+    def delete_trainee
+      @challenge = Challenge.find(params[:challenge_id])
+      @trainee = Trainee.find(params[:trainee_id])
+      challenge_trainee = ChallengeTrainee.find_by(challenge_id: @challenge.id, trainee_id: @trainee.id)
+
+      if challenge_trainee
+        challenge_trainee.destroy
+        redirect_to challenge_list_trainees_path(challenge_id: params[:challenge_id])
+      else
+        redirect_to challenge_list_trainees_path(challenge_id: params[:challenge_id])
+      end
     end
 
     private

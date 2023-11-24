@@ -110,18 +110,34 @@ RSpec.describe ChallengesController, type: :controller do
 
     it 'assigns @challenge if the challenge has not started' do
       session[:user_id] = @instructor.user_id
-      @challenge = Challenge.create(name: 'Test Challenge', startDate: Date.tomorrow, endDate: Date.tomorrow + 1)
+      @challenge = Challenge.create!(name: 'Test Challenge', startDate: Date.tomorrow+1, endDate: Date.tomorrow + 10, instructor: @instructor, tasks_attributes: {
+        '0' => { taskName: 'Task 1' },
+        '1' => { taskName: 'Task 1' } 
+      })
       @challenge.instructor = @instructor
       @challenge.save
-      @trainee1 = Trainee.create(full_name: 'Trainee 1', height:1.5, weight: 1.5)
-      @trainee2 = Trainee.create(full_name: 'Trainee 2', height:1.5, weight: 1.5)
+      @trainee1 = Trainee.create!(full_name: 'Trainee 1', height:1.5, weight: 1.5, user: @user2)
       @trainee1.save
-      @trainee2.save
       
       get :add_trainees, params: { id: @challenge.id }
       expect(assigns(:challenge)).to eq(@challenge)
-      post :update_trainees, params: {id: @challenge.id, trainee_ids: [@trainee1.id, @trainee2.id]}
+      post :update_trainees, params: {id: @challenge.id, trainee_ids: [@trainee1.id]}
       expect(flash.now[:notice]).to eq('Trainees were successfully added to the challenge.')
+    end
+
+    it 'shows error message if no trainee selected to add to the challenge' do
+      session[:user_id] = @instructor.user_id
+      @challenge = Challenge.create!(name: 'Test Challenge', startDate: Date.tomorrow+1, endDate: Date.tomorrow + 10, instructor: @instructor, tasks_attributes: {
+        '0' => { taskName: 'Task 1' },
+        '1' => { taskName: 'Task 1' } 
+      })
+      @challenge.instructor = @instructor
+      @challenge.save
+      
+      get :add_trainees, params: { id: @challenge.id }
+      expect(assigns(:challenge)).to eq(@challenge)
+      post :update_trainees, params: {id: @challenge.id, trainee_ids: [""]}
+      expect(flash.now[:alert]).to eq('No trainee selected. Please select at least one trainee.')
     end
 
     it 'adds trainees to the challenge' do
@@ -353,8 +369,9 @@ RSpec.describe ChallengesController, type: :controller do
         expect(assigns(:counts_total_week)).not_to be_nil
         expect(assigns(:trainee)).not_to be_nil
         expect(assigns(:trainee_name)).not_to be_nil
-        expect(assigns(:page_title)).to eq('Trainee ' + @trainee1.full_name + ' progress')
+        expect(assigns(:page_title)).to eq('Progress Overview: ' + @trainee1.full_name)
       end
+
       it 'populates the required instance variables for trainee' do
         @challenge = Challenge.create!(name: 'ex chall', startDate: Date.today - 10, endDate: Date.today + 10, instructor: @instructor, tasks_attributes: {
           '0' => { taskName: 'Task 1' },
@@ -383,7 +400,7 @@ RSpec.describe ChallengesController, type: :controller do
         expect(assigns(:counts_total_week)).not_to be_nil
         expect(assigns(:trainee)).not_to be_nil
         expect(assigns(:trainee_name)).not_to be_nil
-        expect(assigns(:page_title)).to eq('View my progress for ' + @challenge.name)
+        expect(assigns(:page_title)).to eq('My Progress: ' + @challenge.name)
       end
     end
 
@@ -474,8 +491,27 @@ RSpec.describe ChallengesController, type: :controller do
   end
 end
 
-  private
+describe 'DELETE #delete_trainee' do
+  it 'deletes trainee and removes from the list' do
+     session[:user_id] = @instructor.user_id
+      @challenge = Challenge.create!(name: 'ex chall', startDate: Date.today + 7, endDate: Date.today+13, instructor: @instructor, tasks_attributes: {
+        '0' => { taskName: 'Task 1' },
+        '1' => { taskName: 'Task 1' } 
+      })
+      user1 = User.create!(email: 'trainee22@example.com', password: 'abcdef', user_type: "Trainee")
+      @trainee1 = Trainee.create!(full_name: "blah 1",user: user1,height:120,weight:120)
+      @challenge.trainees << @trainee1
+      delete :delete_trainee, params: {
+            challenge_id: @challenge.id,
+            trainee_id:@trainee1.id,
+            id:@challenge.id
+        }
+      expect(response).to have_http_status(:redirect)
+      expect(@challenge.trainees).not_to include(@trainee1)  
+  end
+end
 
+private
   def valid_params
     { name: 'New Challenge', startDate: '2023-10-15', endDate: '2023-10-30', tasks_attributes: { '0' => { taskName: 'Task 1' }, '1' => { taskName: 'Task 1' } } }
   end

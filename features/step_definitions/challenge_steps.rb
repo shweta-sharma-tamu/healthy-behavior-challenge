@@ -53,7 +53,7 @@
   end
   
   When("I press Create Challenge") do 
-    click_button "Create the challenge"
+    click_button "Create Challenge"
   end
 
   When('I visit the new challenge page') do
@@ -93,6 +93,29 @@
     Challenge.find_by(name: challenge).trainees << [@trainee1,@trainee2,@trainee3]
   end
 
+  And("there is trainee {string} in the challenge {string}") do |trainee,challenge|
+    user1 = User.create!(email: 'trainee22@example.com', password: 'abcdef', user_type: "Trainee")
+    user2 = User.create!(email: 'trainee2@example.com', password: 'abcdef', user_type: "Trainee")
+    user3 = User.create!(email: 'trainee3@example.com', password: 'abcdef', user_type: "Trainee")
+    @trainee1 = Trainee.create!(full_name: trainee,user: user1,height:120,weight:120)
+    puts @trainee1.id
+    @trainee2 = Trainee.create!(full_name: "blah 2",user: user2,height:120,weight:120)
+    @trainee3 = Trainee.create!(full_name: "blah 3",user: user3,height:120,weight:120)
+    Challenge.find_by(name: challenge).trainees << [@trainee1,@trainee2,@trainee3]
+  end
+
+  And("I delete {string}") do |trainee|
+    puts "##{@trainee1.id}_#{@trainee1.full_name.parameterize}_delete_link"
+    delete_button = find("##{@trainee1.full_name.parameterize}_#{@trainee1.id}_delete_link")
+
+    # Click the delete button
+    delete_button.click
+  end
+
+  Then('Then I should not see {string}') do |trainee|
+    expect(page).to_not have_content(@trainee1.full_name)
+  end
+
   When('I visit the list trainees page') do
     visit challenge_list_trainees_path(challenge_id: @challenge.id)
   end
@@ -116,7 +139,6 @@
   end
   
   Then('I should see the task progress chart') do
-    # Write assertions to check if the task progress details are displayed correctly
-    expect(page).to have_content('Trainee blah 1 progress') # Add more specific assertions here
+    expect(page).to have_content('Progress Overview: blah 1')
   end
   

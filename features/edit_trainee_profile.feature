@@ -9,7 +9,7 @@ Scenario: go to edit my profile
     Then I should see 'My Profile'
     And I click on "Edit Profile"
     Then I should be on edit profile path
-    Then I should see 'Edit Profile'
+    Then I should see 'Edit Trainee Profile'
 
 
 Scenario: edit my profile
@@ -18,7 +18,7 @@ Scenario: edit my profile
     Then I should see 'My Profile'
     And I click on "Edit Profile"
     Then I should be on edit profile path
-    Then I should see 'Edit Profile'
+    Then I should see 'Edit Trainee Profile'
     When I fill in 'Full name' with 'New Trainee'
     When I fill in 'Height' with '110'
     When I fill in 'Weight' with '100'

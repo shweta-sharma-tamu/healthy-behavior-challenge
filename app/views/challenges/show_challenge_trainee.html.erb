@@ -1,54 +1,66 @@
 <%= render 'main/navbar' %>
+
 <head>
-<meta name="csrf-token" content="<%= form_authenticity_token %>">
+  <meta name="csrf-token" content="<%= form_authenticity_token %>">
 </head>
+
 <div class="container" style="margin-top: 10%;">
 </div>
 
 <div class="filter-date-section">
+  <div class="row" style="text-align: center;">
+    <h2>Todo List</h2>
+  </div>
 
   <div class="row" style="text-align: center; margin-bottom: 2%">
-  <h2 style="font-size: 32px;">Todo List</h2>
-  </div>
-  <div class="row" style="text-align: center; margin-bottom: 2%; ">
-    <div style="display: flex; justify-content: center; align-items: center;">
-      <h3 style="font-size: 30px; margin: 1%;"><%= @trainee.full_name %></h3>
-      <h3 style="font-size: 30px; margin: 1%;"><%= @challenge.name %></h3>
+    <div style="display: flex; justify-content: center; align-items: center">
+      <h3 style="margin: 1%;">Trainee: <%= @trainee.full_name %></h3>
+      <h3 style="margin: 1%;">Challenge: <%= @challenge.name %></h3>
     </div>
   </div>
 
   <div class="row" style="text-align: center; margin-bottom: 2%">
-  <label for="datePicker">Select a Date:</label>
-  <input type="date" id="datePicker">
-  <button id="filterButton" data-trainee-id="<%= @trainee.id %>" data-challenge-id="<%= @challenge.id %>">Select</button>
-  <div id="filteredData">
-    <div class="card" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); border: 1px solid #000; margin: 2%; max-width: 500px; margin: 2% auto;">
-      <% @filtered_data.each do |task| %>
-        <div class="row" style="text-align: center; margin: 1%"><%= task.taskName %></div>
-      <% end %>
+    <label for="datePicker">Select a Date:</label>
+    <input type="date" id="datePicker">
+    <button id="filterButton" data-trainee-id="<%= @trainee.id %>" data-challenge-id="<%= @challenge.id %>">Select</button>
+    
+    <div id="filteredData">
+      <div class="card" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); border: 1px solid #000; margin: 2%; max-width: 500px; margin: 2% auto;">
+        <% @filtered_data.each do |task| %>
+          <div class="row" style="text-align: center; margin: 1%"><%= task.taskName %></div>
+        <% end %>
+      </div>
     </div>
+    
+    <%= link_to "Edit TodoList", edit_trainee_todo_list_path(trainee_id: @trainee.id, challenge_id: @challenge.id), class: 'btn btn-primary' %>
   </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-    var defaultDate = new Date("<%= @challenge.startDate.strftime('%Y-%m-%d') %>");
-    var currentDate = new Date();
-    if(defaultDate<currentDate) {
-      defaultDate = currentDate;
-    }
-    $(document).ready(function() {
-      $('#datePicker').val(defaultDate.toISOString().substr(0, 10));
+</div>
 
-    });
-    document.addEventListener('DOMContentLoaded', function() {
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  var defaultDate = new Date("<%= @challenge.startDate.strftime('%Y-%m-%d') %>");
+  var currentDate = new Date();
+    
+  if(defaultDate<currentDate) {
+    defaultDate = currentDate;
+  }
+    
+  $(document).ready(function() {
+    $('#datePicker').val(defaultDate.toISOString().substr(0, 10));
+  });
+    
+  document.addEventListener('DOMContentLoaded', function() {
     var csrfToken = $('meta[name="csrf-token"]').attr('content');
     $.ajaxSetup({
       headers: {
         'X-CSRF-Token': csrfToken
       }
     });
+
     const filterButton = document.getElementById('filterButton');
     var traineeId = $('#filterButton').data('trainee-id');
     var challengeId = $('#filterButton').data('challenge-id');
+    
     filterButton.addEventListener('click', function() {
       var selectedDate = $('#datePicker').val();
       $.ajax({
@@ -75,10 +87,5 @@
         }
       });
     });
-    });
-  </script>
-  <%= link_to "Edit TodoList", edit_trainee_todo_list_path(trainee_id: @trainee.id, challenge_id: @challenge.id) %>
-
-</div>
-</div>
+  });
 </script>
