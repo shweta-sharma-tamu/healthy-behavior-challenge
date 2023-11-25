@@ -1,8 +1,9 @@
+<%= render 'main/navbar' %>
+<%= javascript_include_tag 'application' %>
 <style>
   .btn-group .btn {
     margin-right: 10px; 
   }
-
   .btn-group .btn:last-child {
     margin-right: 0;
   }
@@ -15,38 +16,37 @@
     <div class="col-xs-4" style="padding: 0">
       <h2 style="font-weight: 500">Trainee List</h2>
     </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-6" style="padding: 0">
-      <h3>Challange: <%= @challenge.name %></h3>
+    <div class="col-xs-4">
+        <h2>Challange: <%= @challenge.name %> </h1>
     </div>
-    <div class="col-md-6" style="padding: 0">
-      <h3>Total Count: <%= @trainees_ct %></h3>
+    <div class="col-xs-4">
+        <h2>Total Count: <%= @trainees_ct %></h1>
     </div>
-  </div>
-
-  <div class="row">
     </div>
-        <div class="col-12">
-          <div class="row">
-            <% @trainees.each do |trainee| %>
-              <div class="card" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); border: 1px solid #000;">
-                <div class="card-body" style="padding: 0.7%; display: flex; justify-content: space-between; align-items: center;">
-                  <h3 class="card-title"><%= trainee.full_name %></h3>
-                  
-                  <div class="ml-auto">
-                    <div class="btn-group">
-                      <%= link_to 'View Progress', graph_challenge_path(@challenge, trainee_id: trainee.id), class: 'btn btn-primary' %>
-                      <%= link_to 'View TodoList', show_challenge_trainee_path(challenge_id: @challenge.id, trainee_id: trainee.id), class: 'btn btn-primary' %>
-                    </div>
-                  </div>
+    <div>
+   
+    </div>
+     <div class="row">
+    <div class="col-12">
+        <div class="row">
+          <% @trainees.each do |trainee| %>
+            <div class="card" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); border: 1px solid #000;">
+              <div class="card-body" style="padding: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <h3 class="card-title"><%= trainee.user.id %>. <%= trainee.full_name %></h3>
+                <div class="btn-group ml-auto" style="padding: 3px">
+                  <%= link_to 'View Progress', graph_challenge_path(@challenge, trainee_id: trainee.id), class: 'btn btn-primary' %>
+                  <%= link_to 'View TodoList', show_challenge_trainee_path(challenge_id: @challenge.id, trainee_id: trainee.id), class: 'btn btn-primary' %>
+                  <%= link_to 'Delete', 
+                  delete_trainee_challenge_path(trainee,challenge_id: @challenge.id, trainee_id: trainee.id),
+                  method: :delete,
+                  class: 'btn btn-danger',
+                  id:"#{trainee.full_name.parameterize}_#{trainee.id}_delete_link"
+                  %>
                 </div>
               </div>
-            <% end %>
-          </div>
+            </div>
+          <% end %>
         </div>
-      
       <%= will_paginate @trainees %>
     </div>
   </div>

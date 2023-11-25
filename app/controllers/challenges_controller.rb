@@ -352,6 +352,19 @@
       redirect_to edit_challenge_path
     end
 
+    def delete_trainee
+      @challenge = Challenge.find(params[:challenge_id])
+      @trainee = Trainee.find(params[:trainee_id])
+      challenge_trainee = ChallengeTrainee.find_by(challenge_id: @challenge.id, trainee_id: @trainee.id)
+
+      if challenge_trainee
+        challenge_trainee.destroy
+        redirect_to challenge_list_trainees_path(challenge_id: params[:challenge_id])
+      else
+        redirect_to challenge_list_trainees_path(challenge_id: params[:challenge_id])
+      end
+    end
+
     private
   
     def challenge_params
