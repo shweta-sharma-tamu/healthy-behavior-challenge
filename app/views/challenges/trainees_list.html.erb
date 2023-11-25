@@ -37,7 +37,7 @@
                   <%= link_to 'View Progress', graph_challenge_path(@challenge, trainee_id: trainee.id), class: 'btn btn-primary' %>
                   <%= link_to 'View TodoList', show_challenge_trainee_path(challenge_id: @challenge.id, trainee_id: trainee.id), class: 'btn btn-primary' %>
                   <%= link_to 'Delete', 
-                  delete_trainee_challenge_path(trainee,challenge_id: @challenge.id, trainee_id: trainee.id),
+                  delete_trainee_challenge_path(@challenge,challenge_id: @challenge.id, trainee_id: trainee.id),
                   method: :delete,
                   class: 'btn btn-danger',
                   id:"#{trainee.full_name.parameterize}_#{trainee.id}_delete_link"
