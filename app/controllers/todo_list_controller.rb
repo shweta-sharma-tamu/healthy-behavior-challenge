@@ -40,7 +40,7 @@ class TodoListController < ApplicationController
             end
             @todo_list = TodolistTask.where(trainee_id: trainee_id, challenge_id: trainee_challenge_id, date: current_date).pluck(:task_id, :status)
             @date = current_date
-            if(current_date<@challenge.endDate and current_date>@challenge.startDate)
+            if(current_date<=@challenge.endDate and current_date>=@challenge.startDate)
                 streak = calculate_streak(trainee_id,trainee_challenge_id, current_date)
                 @challenge_to_do_lists << { challenge: @challenge, todo_list: @todo_list, streak: streak }
             end
