@@ -110,7 +110,8 @@
       end
       if @challenge.trainees << Trainee.where(id: params[:trainee_ids])        
         flash.now[:notice] = "Trainees were successfully added to the challenge."
-        @challenge.trainees.each do |trainee|
+        @new_trainees = Trainee.where(id: params[:trainee_ids])
+        @new_trainees.each do |trainee|
           tasks = @challenge.tasks
           tasks.each do |task|
             (@challenge.startDate..@challenge.endDate).each do |date|
