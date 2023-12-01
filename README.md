@@ -76,6 +76,9 @@
       git push heroku main
       ```
     - Go to heroku and add-on postgres from resources
+    - Go to settings -> configuration variables
+    - Add a configuration variable PROJECT_EMAIL and add value as your email
+    - Add a configuration variable PROJECT_PASSWORD and add value as your gmail app password
     - Run migrations
       ```
       heroku run rake db:migrate
