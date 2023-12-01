@@ -43,7 +43,7 @@ Rails.application.routes.draw do
       post 'update', to: "challenges#update", as: "update"
       get 'add_trainees', to: "challenges#add_trainees" # This defines the "Add Users" action for a specific challenge
       post 'update_trainees', to: "challenges#update_trainees"  # This defines the action to handle form submission
-      delete 'delete_trainee', to: "challenges#delete_trainee", as: "delete_trainee"
+      get '/delete_trainee', as: "delete_trainee",controller:'challenges' ,action: 'delete_trainee'
     end
   end
 
