@@ -63,6 +63,7 @@
 
 
 5. Know how to deploy our project
+    - ``` cd healthy-behavior-challenge ```
     - Login to heroku through CLI
       ```
       heroku login
