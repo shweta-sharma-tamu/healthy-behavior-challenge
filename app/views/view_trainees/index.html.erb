@@ -1,0 +1,28 @@
+<%= render 'main/navbar' %>
+
+<div style="padding-top: 60px;">
+  <h1>View Trainees Page</h1>
+  <% if @trainees.present? %>
+    <table>
+      <thead>
+        <tr>
+          <th>Trainee Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @trainees.each do |trainee| %>
+          <tr>
+            <td><%= trainee.full_name %></td>
+            <td>
+              <td><%= link_to 'View Profile', trainee_profile_details_path(trainee), class: 'btn btn-primary' %></td>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>No Trainees.</p>
+  <% end %>
+</div>
+
+

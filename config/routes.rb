@@ -37,6 +37,12 @@ Rails.application.routes.draw do
 
   get "challenges", to: "trainees#show_challenges", as: "show_challenges"
 
+  get '/view_trainees', to: 'view_trainees#index', as: 'view_trainees'
+  get 'view_trainees/:id/profile_details', to: 'view_trainees#profile_details', as: 'trainee_profile_details'
+
+
+
+
   resources :challenges do
     member do
       get 'edit', to: "challenges#edit"
@@ -62,4 +68,3 @@ Rails.application.routes.draw do
   patch 'trainee_profile', to: 'trainee_profile#update'
 
 end
-
