@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # app/controllers/view_trainees_controller.rb
 class ViewTraineesController < ApplicationController
   def index
@@ -8,7 +10,4 @@ class ViewTraineesController < ApplicationController
   def profile_details
     @trainee = Trainee.find(params[:id])
   end
-
-
-
 end
