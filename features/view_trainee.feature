@@ -20,4 +20,16 @@ Feature: View Trainees Navigation
     When I click on the "Back to All Trainees" button
     Then I should be back on the "View Trainees" page
 
+  Scenario: Instructor tries to view a non-existent trainee's profile
+    Given I have instructor access
+    And I am on the "View Trainees" page
+    When I attempt to view a profile for a non-existent trainee
+    Then I should see an error message indicating the trainee does not exist
+
+  Scenario: No trainees are available to view
+    Given I have instructor access
+    And I am on the "View Trainees" page
+    And no trainees exist
+    Then I should see a message indicating there are no trainees to display
+
 

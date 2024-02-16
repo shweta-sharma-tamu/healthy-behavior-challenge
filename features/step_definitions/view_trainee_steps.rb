@@ -63,3 +63,30 @@ Then("I should be back on the {string} page") do |page_name|
                   end
   expect(page).to have_current_path(expected_path)
 end
+
+
+Given(/^I am on the "([^"]*)" page$/) do |page_name|
+  case page_name
+  when "View Trainees"
+    visit view_trainees_path
+  else
+    raise "Path for '#{page_name}' is not defined in step definitions."
+  end
+end
+
+When("I attempt to view a profile for a non-existent trainee") do
+  visit "/view_trainees/non-existent-id/profile_details"
+end
+
+Then("I should see an error message indicating the trainee does not exist") do
+  expect(page).to have_content("Trainee not found.")
+end
+
+
+Given("no trainees exist") do
+  Trainee.delete_all
+end
+
+Then("I should see a message indicating there are no trainees to display") do
+  expect(page).to have_content("No Trainees.")
+end
