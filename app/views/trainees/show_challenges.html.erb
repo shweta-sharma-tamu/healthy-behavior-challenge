@@ -30,7 +30,9 @@
                 <p style="display: inline; margin-right: 3em">Start Date: <%= challenge.startDate %></p>
                 <p style="display: inline">End Date: <%= challenge.endDate %></p>
               </div>
-              
+              <div class="text-center row" style="margin: 0.5%">
+                <%= link_to 'View Task Table', view_challenge_tasks_detail_path(challenge.id), class: 'btn btn-primary' %>
+              </div>
               <div class="text-center row" style="margin: 0.5%">
                 <%= link_to 'View Progress', graph_challenge_path(challenge, trainee_id: @trainee.id), class: 'btn btn-primary' %>
               </div>

@@ -36,6 +36,9 @@ Rails.application.routes.draw do
   patch "/trainees/:trainee_id/challenges/:challenge_id", to: "todo_list#update", as: "update_trainee_todo_list"
 
   get "challenges", to: "trainees#show_challenges", as: "show_challenges"
+  get '/view_challenge_tasks', to: 'view_challenge_tasks#index', as: 'view_challenge_tasks'
+  get "challenges/:id/challenge_details", to: "view_challenge_tasks#challenge_details", as: "view_challenge_tasks_detail"
+
 
   get '/view_trainees', to: 'view_trainees#index', as: 'view_trainees'
   get 'view_trainees/:id/profile_details', to: 'view_trainees#profile_details', as: 'trainee_profile_details'
