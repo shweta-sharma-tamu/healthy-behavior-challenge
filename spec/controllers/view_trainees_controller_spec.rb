@@ -29,4 +29,16 @@ RSpec.describe ViewTraineesController, type: :controller do
       expect(response).to render_template :profile_details
     end
   end
+
+  describe "GET #profile_details for non-existent trainee" do
+    it "redirects to the view_trainees index view" do
+      get :profile_details, params: { id: "non-existent-id" }
+      expect(response).to redirect_to(view_trainees_path)
+    end
+
+    it "sets an alert message" do
+      get :profile_details, params: { id: "non-existent-id" }
+      expect(flash[:alert]).to match(/Trainee not found./)
+    end
+  end
 end
