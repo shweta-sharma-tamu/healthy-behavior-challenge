@@ -23,6 +23,36 @@
   <div class="row" style="height: 80px">
     <%= render 'main/navbar' %>
   </div>
+  <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Larry</td>
+      <td>the Bird</td>
+      <td>@twitter</td>
+    </tr>
+  </tbody>
+</table>
   <div class="container">
     <div class="row">
       <div class="col-md-6 col-md-offset-3" style="margin-top: 2%;">
@@ -56,13 +86,13 @@
           <div class="card" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); border: 1px solid #000; padding: 2%;">
             <div>
               <h3 style="margin-top: 0; font-weight: 500"><%= challenge_todo[:challenge].name %></h3>
-              <p>Date: <%= @date.strftime("%B %d, %Y") %></p>
+              <p>Date: <%= challenge_todo[:date].strftime("%B %d, %Y") %></p>
         
               <%= form_with model: @user, url: mark_as_complete_path, method: :patch, data: { turbo: false } do |f| %>
                 <ul class="list-group" style="margin-bottom: 1rem">
                   <table >
                     <tbody>
-                      <% challenge_todo[:todo_list].each do |task_id, status| %>
+                      <% challenge_todo[:todo_list].each do |task_id, status, date| %>
                         <tr>
                           <td class="checkbox-cell">
                             <%= f.hidden_field "tasks[#{task_id}][task_id]", value: task_id %>
@@ -72,9 +102,9 @@
                           </td>
                           <td class="task-name-cell">
                             <% if status == "completed" %>
-                              <s><%= Task.find(task_id).taskName %></s> 🔥<%#= challenge_todo[:streak][task_id]%>
+                              <s><%= Task.find(task_id).taskName %></s> <%#= challenge_todo[:streak][task_id]%>
                             <% else %>
-                              <%= Task.find(task_id).taskName %> 🔥<%#= challenge_todo[:streak][task_id]%>
+                              <%= Task.find(task_id).taskName %> <%#= challenge_todo[:streak][task_id]%>
                             <% end %>
                           </td>
                         </tr>

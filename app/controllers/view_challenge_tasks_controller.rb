@@ -41,10 +41,12 @@ class ViewChallengeTasksController < ApplicationController
     else
         current_date = Date.parse(selected_date)
     end
-    @todo_list = TodolistTask.where(trainee_id: trainee_id, challenge_id: params[:id], date: current_date).pluck(:task_id, :status)
-    @challenge_to_do_lists << { challenge: @challenge, todo_list: @todo_list}
+    (@challenge.startDate...@challenge.endDate).each do |ch_date|
+      @todo_list = TodolistTask.where(trainee_id: trainee_id, challenge_id: params[:id], date: ch_date).pluck(:task_id, :status, :date)
+      @challenge_to_do_lists << { challenge: @challenge, todo_list: @todo_list, date: ch_date}
+    end
+    
     @date = current_date
-  
 
     unless @challenge
       flash[:alert] = 'task not found.'
