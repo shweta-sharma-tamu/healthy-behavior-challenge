@@ -1,6 +1,13 @@
 # README
 
 1. [deployed app](https://hbcapp-0b562e08f85e.herokuapp.com/)
+      - Instructor Credentials:
+           ```
+           Email :  healthybehaviorchallenge@gmail.com
+           Password : asdf
+           ```
+     - You can add your own credentials for trainee accounts
+     - From there you should be able to use all the features of the app
 2. Code Climate Reports
       - [Link to rubocop report](https://drive.google.com/file/d/1NIKxQ7L5d2Z-Bvtc3XkgI9SvOUgWsEpp/view?usp=sharing)
       - [Link to RSPEC coverage report](https://drive.google.com/drive/folders/1-cmpYC1cz5VsGO3EU0Q846kFAJdKuQLM?usp=drive_link)
