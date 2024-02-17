@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe TraineeProfileController, type: :controller do
   describe 'GET #show' do
     context 'when trainee is found' do
       let(:user_id) { 1 } # Replace with the specific user ID used for testing
-      
+
       before do
         allow(Trainee).to receive(:find_by).and_return(Trainee.new) # Stub the Trainee model
-        get :show, session: { user_id: user_id }
+        get :show, session: { user_id: }
       end
 
       it 'assigns @trainee' do
@@ -21,10 +23,10 @@ RSpec.describe TraineeProfileController, type: :controller do
 
     context 'when trainee is not found' do
       let(:user_id) { 2 } # Replace with a user ID that won't find a trainee
-      
+
       before do
         allow(Trainee).to receive(:find_by).and_return(nil) # Stub the Trainee model
-        get :show, session: { user_id: user_id }
+        get :show, session: { user_id: }
       end
 
       it 'redirects to root path' do
@@ -36,7 +38,7 @@ RSpec.describe TraineeProfileController, type: :controller do
   describe 'GET #edit' do
     context 'when user is logged in' do
       let(:user) { create(:user) }
-      let!(:trainee) { create(:trainee, user: user) }
+      let!(:trainee) { create(:trainee, user:) }
 
       before do
         session[:user_id] = user.id
@@ -62,7 +64,7 @@ RSpec.describe TraineeProfileController, type: :controller do
 
   describe 'PATCH #update' do
     let(:user) { create(:user) }
-    let!(:trainee) { create(:trainee, user: user) }
+    let!(:trainee) { create(:trainee, user:) }
 
     context 'when user is logged in' do
       before { session[:user_id] = user.id }

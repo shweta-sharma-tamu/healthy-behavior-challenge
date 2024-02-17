@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :task do
-    task_id { "id" }
-    taskName { "MyString" }
+    task_id { 'id' }
+    taskName { 'MyString' }
   end
 end

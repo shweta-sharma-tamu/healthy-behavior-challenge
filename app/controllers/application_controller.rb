@@ -1,7 +1,9 @@
-class ApplicationController < ActionController::Base
-   helper_method :user_signed_in?
+# frozen_string_literal: true
 
-     def user_signed_in?
-        session[:user_id].present?
-     end
+class ApplicationController < ActionController::Base
+  helper_method :user_signed_in?
+
+  def user_signed_in?
+    session[:user_id].present?
+  end
 end

@@ -1,12 +1,13 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
   describe 'GET #show' do
     context 'when trainee is logged in' do
-      let(:user) { create(:user, email: 'trainee@gmail.com', user_type: "Trainee") }
-      let(:trainee) { create(:trainee, user: user) }
-    
-    
+      let(:user) { create(:user, email: 'trainee@gmail.com', user_type: 'Trainee') }
+      let(:trainee) { create(:trainee, user:) }
+
       before do
         session[:user_id] = user.id
       end
@@ -23,10 +24,10 @@ RSpec.describe UsersController, type: :controller do
 
       it 'redirects to instructor path if user is instructor' do
         get :show, params: { id: user.id }
-        #expect(response).to render_template(:show)
+        # expect(response).to render_template(:show)
         expect(response).to redirect_to(todo_list_path)
       end
-    end  
+    end
 
     context 'when instructor is logged in' do
       let(:instructor_user) { create(:user, email: 'instructor2@gmail.com', user_type: 'Instructor') }

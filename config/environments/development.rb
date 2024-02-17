@@ -1,4 +1,6 @@
-require "active_support/core_ext/integer/time"
+# frozen_string_literal: true
+
+require 'active_support/core_ext/integer/time'
 
 Rails.application.configure do
   # Configure 'rails notes' to inspect Cucumber files
@@ -11,7 +13,7 @@ Rails.application.configure do
   # it changes. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
-  config.hosts << "www.example.com"
+  config.hosts << 'www.example.com'
 
   # Do not eager load code on boot.
   config.eager_load = false
@@ -24,13 +26,13 @@ Rails.application.configure do
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
-  if Rails.root.join("tmp/caching-dev.txt").exist?
+  if Rails.root.join('tmp/caching-dev.txt').exist?
     config.action_controller.perform_caching = true
     config.action_controller.enable_fragment_cache_logging = true
 
     config.cache_store = :memory_store
     config.public_file_server.headers = {
-      "Cache-Control" => "public, max-age=#{2.days.to_i}"
+      'Cache-Control' => "public, max-age=#{2.days.to_i}"
     }
   else
     config.action_controller.perform_caching = false
@@ -74,12 +76,12 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
 
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.default_url_options = { host: "localhost:3000" }
+  config.action_mailer.default_url_options = { host: 'localhost:3000' }
   # config.action_mailer.default_url_options = { host: "https://fitxtdev-41d849676354.herokuapp.com" }
 
-  config.log_level = :debug  # Set log level to debug, for example
+  config.log_level = :debug # Set log level to debug, for example
 
-  config.action_mailer.default_options = { from: 'healthbehaviorchallenge@gmail.com' , protocol: 'http'}
+  config.action_mailer.default_options = { from: 'healthbehaviorchallenge@gmail.com', protocol: 'http' }
   config.action_mailer.delivery_method = :smtp
 
   config.action_mailer.smtp_settings = {
@@ -91,5 +93,4 @@ Rails.application.configure do
     authentication: 'plain',
     enable_starttls_auto: true
   }
-
 end

@@ -10,11 +10,11 @@ class ViewTraineesController < ApplicationController
 
   def profile_details
     @trainee = Trainee.find_by(id: params[:id])
-    unless @trainee
-      flash[:alert] = 'Trainee not found.'
-      redirect_to view_trainees_path
-      return
-    end
+    return if @trainee
+
+    flash[:alert] = 'Trainee not found.'
+    redirect_to view_trainees_path
+    nil
   end
 
   def trainee_not_found
