@@ -1,6 +1,10 @@
 # README
 
-1. Cloning the Repository
+1. [deployed app](https://hbcapp-0b562e08f85e.herokuapp.com/)
+2. Code Climate Reports
+      - [Link to rubocop report](https://drive.google.com/file/d/1NIKxQ7L5d2Z-Bvtc3XkgI9SvOUgWsEpp/view?usp=sharing)
+      - [Link to RSPEC coverage report](https://drive.google.com/drive/folders/1-cmpYC1cz5VsGO3EU0Q846kFAJdKuQLM?usp=drive_link)
+3. Cloning the Repository
       - Please visit https://github.com/shweta-sharma-tamu/healthy-behavior-challenge to clone our project. 
       - You will be able to find all these instructions in the google document attached at last. 
       - Command to clone :
@@ -8,7 +12,7 @@
         git clone https://github.com/shweta-sharma-tamu/healthy-behavior-challenge
         ```
 
-2. Know how to get started with Development
+4. Know how to get started with Development
      - We have our project executed using docker containerization. So one has to follow below steps to install and get started with docker for development of our project.
      - Please refer to this link to install docker based on your system specifications: ``` https://docs.docker.com/desktop/install/mac-install/ ```
      - Verify docker installation using  ``` docker --version ```
@@ -32,7 +36,7 @@
      - To access the app locally : ``` http://localhost:3000/ ``` and use above provided credentials to login. 
 
 
-3. Know how to run tests
+5. Know how to run tests
      - Please make sure ``` .env ``` file is correct
      - Run your test commands in the terminal of the rails container.
         - To do so follow as below :
@@ -46,8 +50,8 @@
      - You can find coverage report in ``` coverage/ ``` folder in root directory
 
        
-4. Coverage Report
-     - The comprehensive test coverage needs to run Rspec and cucumber. You will see the coverage percentage after run two commands.
+6. Coverage Report
+     - The comprehensive test coverage needs to run Rspec and cucumber. You will see the coverage percentage after run two commands. 
      - Running Rubocop :
          - Run the following command to execute Rubocop:
            ```
@@ -62,7 +66,7 @@
          - Rubycritic will analyze your codebase and generate an HTML report containing a summary of the code quality metrics. The report is usually saved in the tmp/rubycritic directory.
 
 
-5. Know how to deploy our project
+7. Know how to deploy our project
     - ``` cd healthy-behavior-challenge ```
     - Login to heroku through CLI
       ```
@@ -91,7 +95,7 @@
     - You can find our deployed app here:
       https://hbcapp-0b562e08f85e.herokuapp.com/
       
-6. Know How to Use the Web application
+8. Know How to Use the Web application
     - We have Two Modules :
        - Instructor(Gym Instructor)
          - Can Create/Edit Challenge
@@ -123,10 +127,11 @@
         - They can see the streak and also the report which tracks their weekly report.
 
    
-7. Contact Us for any queries: Please reach out to any one of us if you have any queries
-    - Sharvani Ramineni ( sharvani.ramineni@tamu.edu )
-    - Utsav Dabhi ( utsav.dabhi@tamu.edu )
-    - Satya Bhavsar ( satyabhavsar@tamu.edu )
-    - Vineet Gandham ( vineet.gandham@tamu.edu )
-    - Faizan Ali Khaji ( khajifaizanali@tamu.edu )
-    - Shweta Sharma ( shweta_sharma_1999@tamu.edu )
+9. Contact Us for any queries: Please reach out to any one of us if you have any queries
+    - Tolga Yildiz (tolgayildiz@tamu.edu)
+    - Mackenzie Hamlett (mackenziehamlett@tamu.edu)
+    - Jakob Kirby (kirbyj3684@tamu.edu)
+    - Chenxin Li (Lee1151341952@tamu.edu)
+    - Francis Bui (francisthienbui@tamu.edu)
+    - Michael Chiu (mchiu@tamu.edu)
+    - Fizza Ali (fizza@tamu.edu)
