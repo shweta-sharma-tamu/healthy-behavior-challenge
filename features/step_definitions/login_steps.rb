@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 Given(/^A user is registered with the email "Admin@gmail.com" and password "Admin@123"$/) do
-  user = User.create(email:'Admin@gmail.com', password:'Admin@123', user_type:'Instructor')
-  instructor = Instructor.create(user_id: user.id, first_name: "instructor", last_name: "instructor_last_name")
+  user = User.create(email: 'Admin@gmail.com', password: 'Admin@123', user_type: 'Instructor')
+  Instructor.create(user_id: user.id, first_name: 'instructor', last_name: 'instructor_last_name')
 end
 
 Given(/^A trainee is registered with the email "trainee@gmail.com" and password "trainee@123"$/) do
-  user = User.create(email:'trainee@gmail.com', password:'trainee@123', user_type:'Trainee')
-  trainee = Trainee.create(full_name: 'trainee', height: 165, weight: 85, user_id: user.id)
+  user = User.create(email: 'trainee@gmail.com', password: 'trainee@123', user_type: 'Trainee')
+  Trainee.create(full_name: 'trainee', height: 165, weight: 85, user_id: user.id)
 end
 
 Given(/^I am not currently Logged in$/) do
@@ -52,5 +54,3 @@ end
 Then('I should see {string}') do |arg|
   expect(page).to have_content(arg)
 end
-
-

@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe SessionsController, type: :controller do
-
   after(:all) do
     User.destroy_all
   end
@@ -39,11 +40,11 @@ RSpec.describe SessionsController, type: :controller do
 
   describe 'POST #create' do
     context 'when user is registered' do
-        user = FactoryBot.create(:user)
+      FactoryBot.create(:user)
     end
 
     context 'with valid credentials' do
-     let(:user_params) { { email: 'Admin@gmail.com', password: 'Admin@123' } }
+      let(:user_params) { { email: 'Admin@gmail.com', password: 'Admin@123' } }
 
       it 'logs in the user' do
         post :create, params: { email: 'Admin@gmail.com', password: 'Admin@123' }
@@ -68,7 +69,7 @@ RSpec.describe SessionsController, type: :controller do
 
   describe 'GET #destroy' do
     context 'with valid credentials' do
-     let(:user_params) { { email: 'Admin@gmail.com', password: 'Admin@123' } }
+      let(:user_params) { { email: 'Admin@gmail.com', password: 'Admin@123' } }
 
       it 'logs out the user' do
         get :destroy

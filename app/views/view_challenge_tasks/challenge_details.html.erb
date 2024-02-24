@@ -1,0 +1,89 @@
+<style>
+  .show-challenges-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .back-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 150px;
+  }
+</style>
+
+<div>
+  <div class="row" style="height: 80px">
+    <%= render 'main/navbar' %>
+  </div>
+  
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1" style="margin-top: 2%;">
+        <% if flash[:notice] %>
+          <div class="alert alert-success text-center">
+            <%= flash[:notice] %>
+          </div>
+        <% elsif flash[:alert] %>
+          <div class="alert alert-danger text-center">
+            <%= flash[:alert] %>
+          </div>
+        <% end %>
+
+        <h2 style="margin: 1rem 0 2rem 0; font-weight: 500; text-align: center">  <%= @challenge.name %> </h2>
+        <h2 style="margin: 1rem 0 2rem 0; font-weight: 500; text-align: center">Challenge Tracker </h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Tasks</th>
+              <% @challenge_to_do_lists.each do |ch_todo| %>
+                <th>  <%= ch_todo[:date].strftime("%B %d, %Y") %>  </th>
+
+              <% end %>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <% @challenge.task_ids.each do |t_id| %>
+                <tr>
+                  <td>
+                  <b>
+                    <%= Task.find(t_id).taskName %> 
+                  </b>
+                  </td>  
+                  <% @challenge_to_do_lists.each do |ch_todo| %>
+                    <% ch_todo[:todo_list].each do |task_id, status, date| %>
+                      <% if task_id === t_id %>
+                        <% if date > Date.today %>
+                            <td>
+                            🔒
+                            </td>
+                        <% else %>
+                          <td>
+                            <% if status === "completed" %>
+                            ✅
+                            <% else %>
+                            ❌
+                            <% end %>
+                          </td>
+                      <%end%>
+                    <% end %>
+                    <%end%>
+                  <%end%>
+                </tr>
+              <% end %>               
+            </tr>
+          </tbody>
+        </table>
+       
+        <div >
+          <div class="btn back-btn" style="width: 16rem; padding: 0.5% 0.3%">
+            <%= link_to "Back", :back %>
+          </div>
+          <a href="<%= show_challenges_path %>" class="btn btn-primary show-challenges-btn" style="width: 16rem; padding: 0.5% 0.3%">My Challenges</a>
+        <div>
+      </div>
+    </div>
+  </div>
+
+</div>

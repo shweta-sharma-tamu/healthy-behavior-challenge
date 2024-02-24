@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/controllers/trainees_controller_spec.rb
 require 'rails_helper'
 
@@ -6,11 +8,11 @@ RSpec.describe TraineesController, type: :controller do
     context 'when user is signed in' do
       it 'assigns the trainee and challenge data' do
         user = create(:user)
-        trainee = create(:trainee, user: user)
+        trainee = create(:trainee, user:)
         challenge1 = create(:challenge, start_date: Date.today - 1, end_date: Date.today + 1)
         challenge2 = create(:challenge, start_date: Date.today - 2, end_date: Date.today - 1)
-        ChallengeTrainee.create(trainee: trainee, challenge: challenge1)
-        ChallengeTrainee.create(trainee: trainee, challenge: challenge2)
+        ChallengeTrainee.create(trainee:, challenge: challenge1)
+        ChallengeTrainee.create(trainee:, challenge: challenge2)
 
         session[:user_id] = user.id
         get :show_challenges
@@ -22,7 +24,7 @@ RSpec.describe TraineesController, type: :controller do
 
       it 'renders the show_challenges template' do
         user = create(:user)
-        trainee = create(:trainee, user: user)
+        create(:trainee, user:)
         session[:user_id] = user.id
 
         get :show_challenges
@@ -36,7 +38,7 @@ RSpec.describe TraineesController, type: :controller do
         get :show_challenges
 
         expect(response).to redirect_to(login_path)
-        expect(flash[:alert]).to eq("You must be signed in to access this page.")
+        expect(flash[:alert]).to eq('You must be signed in to access this page.')
       end
     end
   end
