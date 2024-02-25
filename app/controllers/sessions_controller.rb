@@ -2,9 +2,7 @@
 
 class SessionsController < ApplicationController
   def new
-    if session[:user_id].present?
-        redirect_to user_path(session[:user_id])
-    end
+    redirect_to user_path(session[:user_id]) if session[:user_id].present?
     @user = User.new
   end
 
