@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe ViewTraineesController, type: :controller do
   before do
     user = User.create!(email: 'john@example.com', password: 'password')
-    @trainee = Trainee.create!(full_name: 'John Doe', height: 165, weight: 85, user:)
+    @trainee = Trainee.create!(full_name: 'John Doe', height_feet: 5, height_inches: 4, weight: 85, user:)
   end
 
   describe 'GET #index' do
