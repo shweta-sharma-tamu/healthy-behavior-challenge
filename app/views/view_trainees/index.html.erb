@@ -8,6 +8,8 @@
         <tr>
           <th>Trainee Name</th>
           <th>View Profile Button</th>
+          <th>View Challenges Button</th>
+          <th>View Workout Plan Button</th>
           <!-- add future headers here -->
         </tr>
       </thead>
@@ -17,8 +19,14 @@
             <td><%= trainee.full_name %></td>
             <td>
               <%= link_to 'View Profile', trainee_profile_details_path(trainee), class: 'btn btn-primary' %>
-              <!-- add future buttons here -->
             </td>
+            <td>
+              <%= link_to 'View Challenges', trainee_challenges_path(trainee), class: 'btn btn-primary' %>
+            </td>
+            <td>
+              <%= link_to 'View Workout Plan', trainee_workout_plan_path(trainee), class: 'btn btn-primary' %>
+            </td>
+            <!-- add future buttons here with new <td> tags for each -->
           </tr>
         <% end %>
       </tbody>

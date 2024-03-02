@@ -43,6 +43,11 @@ Rails.application.routes.draw do
 
   get '/view_trainees', to: 'view_trainees#index', as: 'view_trainees'
   get 'view_trainees/:id/profile_details', to: 'view_trainees#profile_details', as: 'trainee_profile_details'
+  get 'view_trainees/:id/challenges', to: 'view_trainees#challenges', as: 'trainee_challenges'
+  get 'view_trainees/:id/workout_plan', to: 'view_trainees#workout_plan', as: 'trainee_workout_plan'
+  get 'view_trainees/:trainee_id/challenges/:challenge_id/progress', to: 'view_trainees#progress', as: 'trainee_challenge_progress'
+
+
 
   resources :challenges do
     member do
