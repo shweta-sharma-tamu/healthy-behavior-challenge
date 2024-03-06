@@ -25,7 +25,7 @@ end
 
 Given('I am on the "View Trainees" page with at least one trainee') do
   trainee_user = User.create!(email: 'trainee@example.com', password: 'password', user_type: 'Trainee')
-  Trainee.create!(user: trainee_user, full_name: 'Trainee Name', height: 180, weight: 75)
+  Trainee.create!(user: trainee_user, full_name: 'Trainee Name', height_feet: 6, height_inches: 10, weight: 75)
   visit view_trainees_path
 end
 
@@ -41,7 +41,7 @@ Given("I am on a trainee's profile details page") do
   user = User.create!(email: 'instructor@example.com', password: 'abcdef', user_type: 'Instructor')
   Instructor.create(user:, first_name: 'John', last_name: 'Doe')
   trainee_user = User.create!(email: 'trainee@example.com', password: 'password', user_type: 'Trainee')
-  Trainee.create!(user: trainee_user, full_name: 'Trainee Name', height: 180, weight: 75)
+  Trainee.create!(user: trainee_user, full_name: 'Trainee Name', height_feet: 5, height_inches: 9, weight: 75)
 
   visit root_path
   fill_in 'Email', with: user.email
