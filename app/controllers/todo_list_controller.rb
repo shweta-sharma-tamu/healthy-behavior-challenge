@@ -21,6 +21,7 @@ class TodoListController < ApplicationController
     end
     trainee_id = trainee.id
 
+
     @challenge_to_do_lists = []
     @trainee_challenges = ChallengeTrainee.where(trainee_id:)
     @trainee_challenges.each do |trainee_challenge|

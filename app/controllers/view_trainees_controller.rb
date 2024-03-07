@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# allow instructor view information about selected trainee
 class ViewTraineesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :trainee_not_found
 
@@ -9,14 +10,8 @@ class ViewTraineesController < ApplicationController
   end
 
   def profile_details
-    @trainee = Trainee.find_by(id: params[:id])
-    return if @trainee
-
-    flash[:alert] = 'Trainee not found.'
-    redirect_to view_trainees_path
-    nil
+    @trainee = Trainee.find(params[:id])
   end
-
 
   def progress
     @trainee = Trainee.find(params[:trainee_id])
