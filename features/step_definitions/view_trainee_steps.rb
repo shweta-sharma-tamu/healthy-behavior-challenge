@@ -134,12 +134,6 @@ Then('I should see messages indicating there are no current or past challenges')
 end
 
 
-# Given('I am on a trainee\'s challenge progress page') do
-#   visit view_trainees_path
-#   first(:link, 'Challenges').click
-#   first(:link, 'Progress').click
-# end
-
 Then('I should be back on that trainee\'s challenges page') do
   expect(page).to have_current_path(trainee_challenges_path(Trainee.first))
   expect(page).to have_content('Current Challenges')
