@@ -27,9 +27,6 @@ class ViewTraineesController < ApplicationController
     @past_challenges = @trainee.challenges.where('"challenges"."endDate" < ?', Date.today).order('"challenges"."endDate" ASC')
   end
 
-  def workout_plan
-    @trainee = Trainee.find(params[:id])
-  end
 
   def trainee_not_found
     flash[:alert] = 'Trainee not found.'
