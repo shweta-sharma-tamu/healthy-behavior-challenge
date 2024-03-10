@@ -48,8 +48,8 @@
                 <tr>
                   <td>
                   <b>
-                    <%= Task.find(t_id).taskName %> 
-										<%= Task.find(t_id).numbers %> 
+										<%task = Task.find(t_id) %> 
+										<%= task.taskName %> 
                   </b>
                   </td>  
                   <% @challenge_to_do_lists.each do |ch_todo| %>
@@ -63,11 +63,12 @@
                             </td>
                         <% else %>
                           <td>
-														<%=numbers %>
-														<div class="form-outline">
+														<% task.numbers.each do |num|%>
+														<div class="col-xs-4">
 																<input type="number" id="typeNumber" class="form-control" />
-																<label class="form-label" for="typeNumber">Expected:  <%numbers%></label>
+																<label class="form-label" for="typeNumber">Expected:  <%=num%></label>
 														</div>
+														<% end %>
                             <%# if status === "completed" %>
                             			<%#✅%>
                             <%# else %>
