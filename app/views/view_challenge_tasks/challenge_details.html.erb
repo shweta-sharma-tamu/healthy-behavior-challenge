@@ -49,22 +49,30 @@
                   <td>
                   <b>
                     <%= Task.find(t_id).taskName %> 
+										<%= Task.find(t_id).numbers %> 
                   </b>
                   </td>  
                   <% @challenge_to_do_lists.each do |ch_todo| %>
-                    <% ch_todo[:todo_list].each do |task_id, status, date| %>
+                    <% ch_todo[:todo_list].each do |task_id, status, date, numbers| %>
+										
                       <% if task_id === t_id %>
+												
                         <% if date > Date.today %>
                             <td>
                             🔒
                             </td>
                         <% else %>
                           <td>
-                            <% if status === "completed" %>
-                            ✅
-                            <% else %>
-                            ❌
-                            <% end %>
+														<%=numbers %>
+														<div class="form-outline">
+																<input type="number" id="typeNumber" class="form-control" />
+																<label class="form-label" for="typeNumber">Expected:  <%numbers%></label>
+														</div>
+                            <%# if status === "completed" %>
+                            			<%#✅%>
+                            <%# else %>
+                            			<%#❌%>
+                            <%# end %>
                           </td>
                       <%end%>
                     <% end %>

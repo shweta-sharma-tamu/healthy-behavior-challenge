@@ -88,14 +88,14 @@ class ChallengesController < ApplicationController
 
   def add_trainees
     @challenge = Challenge.find(params[:id])
-    if @challenge.startDate <= Date.today
-      flash.now[:alert] = 'Challenge has already started. You cannot add trainees.'
-      @trainees = []
-    else
+    # if @challenge.startDate <= Date.today
+    #   flash.now[:alert] = 'Challenge has already started. You cannot add trainees.'
+    #   @trainees = []
+    # else
       @challenge_trainees = ChallengeTrainee.where(challenge_id: params[:id])
       trainee_ids = @challenge_trainees.pluck(:trainee_id)
       @trainees = Trainee.where.not(id: trainee_ids)
-    end
+    # end
   end
 
   def update_trainees
@@ -331,9 +331,9 @@ class ChallengesController < ApplicationController
     new_tasks = params[:tasks]
     if new_tasks && !new_tasks.empty?
       new_tasks.each_value do |task_params|
-        existing_task = Task.find_by(taskName: task_params[:taskName])
-
-        task = existing_task || Task.create(taskName: task_params[:taskName])
+				nums = task_params[:taskName].scan(/[A-Z]+: (\d+)/).flatten.map(&:to_f)
+        existing_task = Task.find_by(taskName: task_params[:taskName], numbers: nums)
+        task = existing_task || Task.create(taskName: task_params[:taskName], numbers: nums)
 
         @trainees.each do |trainee_val|
           (start_date_params..end_date_params).each do |date|
@@ -342,7 +342,8 @@ class ChallengesController < ApplicationController
               challenge: @challenge,
               task:,
               date:,
-              status: 'not_completed'
+              status: 'not_completed',
+							numbers: nums
             )
           end
         end
