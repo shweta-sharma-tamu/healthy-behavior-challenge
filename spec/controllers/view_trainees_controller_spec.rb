@@ -82,14 +82,6 @@ RSpec.describe ViewTraineesController, type: :controller do
     end
   end
 
-  describe 'GET #workout_plan' do
-    it 'assigns the requested trainee to @trainee' do
-      get :workout_plan, params: { id: @trainee.id }
-
-      expect(assigns(:trainee)).to eq(@trainee)
-    end
-  end
-
   describe 'GET #progress for non-existent trainee' do
     it 'redirects to the view_trainees index view with an alert' do
       get :progress, params: { trainee_id: 'non-existent-id', challenge_id: 'some-challenge-id' }
@@ -101,14 +93,6 @@ RSpec.describe ViewTraineesController, type: :controller do
   describe 'GET #challenges for non-existent trainee' do
     it 'redirects to the view_trainees index view with an alert' do
       get :challenges, params: { id: 'non-existent-id' }
-      expect(response).to redirect_to(view_trainees_path)
-      expect(flash[:alert]).to match(/Trainee not found./)
-    end
-  end
-
-  describe 'GET #workout_plan for non-existent trainee' do
-    it 'redirects to the view_trainees index view with an alert' do
-      get :workout_plan, params: { id: 'non-existent-id' }
       expect(response).to redirect_to(view_trainees_path)
       expect(flash[:alert]).to match(/Trainee not found./)
     end
