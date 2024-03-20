@@ -67,7 +67,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_11_163327) do
     t.string "taskName"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.float "numbers", default: [], array: true
   end
 
   create_table "todolist_tasks", force: :cascade do |t|
@@ -78,7 +77,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_11_163327) do
     t.date "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.float "numbers", default: [], array: true
     t.index ["challenge_id"], name: "index_todolist_tasks_on_challenge_id"
     t.index ["task_id"], name: "index_todolist_tasks_on_task_id"
     t.index ["trainee_id"], name: "index_todolist_tasks_on_trainee_id"
