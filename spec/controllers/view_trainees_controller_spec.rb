@@ -5,13 +5,13 @@ require 'rails_helper'
 RSpec.describe ViewTraineesController, type: :controller do
   before do
     user = User.create!(email: 'john@example.com', password: 'password')
-    @trainee = Trainee.create!(full_name: 'John Someone', height_feet: 5, height_inches: 4, weight: 85, user:user)
+    @trainee = Trainee.create!(full_name: 'John Someone', height_feet: 5, height_inches: 4, weight: 85, user:)
 
     instructor_user = User.create!(email: 'instructor@example.com', password: 'securepassword', user_type: 'instructor')
     instructor = Instructor.create!(user: instructor_user, first_name: 'Jane', last_name: 'Doe')
 
-
-    @challenge = Challenge.create!(name: 'Challenge Name', startDate: Date.yesterday, endDate: Date.tomorrow, instructor: instructor)
+    @challenge = Challenge.create!(name: 'Challenge Name', startDate: Date.yesterday, endDate: Date.tomorrow,
+                                   instructor:)
     @task = Task.create!(taskName: 'Task Name')
     TodolistTask.create!(task: @task, challenge: @challenge, trainee: @trainee, status: 'completed', date: Date.today)
     ChallengeTrainee.create!(trainee: @trainee, challenge: @challenge)
@@ -26,7 +26,6 @@ RSpec.describe ViewTraineesController, type: :controller do
     Instructor.destroy_all
     User.destroy_all
   end
-
 
   describe 'GET #index' do
     it 'populates an array of all trainees' do

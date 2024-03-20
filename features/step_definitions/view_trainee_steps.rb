@@ -24,22 +24,23 @@ Then("I should be on the 'View Trainees' page") do
 end
 
 Given('I am on the "View Trainees" page with at least one trainee') do
-  instructor_user = User.create!(email: 'testinstructor@example.com', password: 'securepassword', user_type: 'Instructor')
+  instructor_user = User.create!(email: 'testinstructor@example.com', password: 'securepassword',
+                                 user_type: 'Instructor')
   instructor = Instructor.create!(user: instructor_user, first_name: 'Some', last_name: 'Body')
 
   trainee_user = User.create!(email: 'trainee@example.com', password: 'password', user_type: 'Trainee')
-  trainee = Trainee.create!(user: trainee_user, full_name: 'Trainee Name', height_feet: 6, height_inches: 10, weight: 75)
+  trainee = Trainee.create!(user: trainee_user, full_name: 'Trainee Name', height_feet: 6, height_inches: 10,
+                            weight: 75)
 
-  @challenge = Challenge.create!(name: 'Challenge Name', startDate: Date.yesterday, endDate: Date.tomorrow, instructor: instructor)
-  ChallengeTrainee.create!(trainee: trainee, challenge: @challenge)
+  @challenge = Challenge.create!(name: 'Challenge Name', startDate: Date.yesterday, endDate: Date.tomorrow,
+                                 instructor:)
+  ChallengeTrainee.create!(trainee:, challenge: @challenge)
 
   @task = Task.create!(taskName: 'Task Name')
-  TodolistTask.create!(task: @task, challenge: @challenge, trainee: trainee, status: 'completed', date: Date.today)
+  TodolistTask.create!(task: @task, challenge: @challenge, trainee:, status: 'completed', date: Date.today)
 
   visit view_trainees_path
 end
-
-
 
 When('I click on the "View Profile" button for the first trainee') do
   first(:link, 'View Profile').click
@@ -124,7 +125,8 @@ end
 
 Given('I am on the "View Trainees" page with at least one trainee but no challenges') do
   trainee_user = User.create!(email: 'traineewithnochallenges@example.com', password: 'password', user_type: 'Trainee')
-  @trainee = Trainee.create!(user: trainee_user, full_name: 'Trainee Name', height_feet: 6, height_inches: 10, weight: 75)
+  @trainee = Trainee.create!(user: trainee_user, full_name: 'Trainee Name', height_feet: 6, height_inches: 10,
+                             weight: 75)
   visit view_trainees_path
 end
 
@@ -132,7 +134,6 @@ Then('I should see messages indicating there are no current or past challenges')
   expect(page).to have_content('No Current Challenges')
   expect(page).to have_content('No Past Challenges')
 end
-
 
 Then('I should be back on that trainee\'s challenges page') do
   expect(page).to have_current_path(trainee_challenges_path(Trainee.first))

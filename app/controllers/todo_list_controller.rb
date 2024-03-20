@@ -21,7 +21,6 @@ class TodoListController < ApplicationController
     end
     trainee_id = trainee.id
 
-
     @challenge_to_do_lists = []
     @trainee_challenges = ChallengeTrainee.where(trainee_id:)
     @trainee_challenges.each do |trainee_challenge|
@@ -86,34 +85,33 @@ class TodoListController < ApplicationController
     redirect_to todo_list_path(selected_date: @date), notice: 'Tasks have been updated.'
   end
 
-	def todo_list_update
-
-		@user = User.find(session[:user_id])
+  def todo_list_update
+    @user = User.find(session[:user_id])
     trainee = Trainee.find_by(user_id: @user.id)
     trainee_id = trainee.id
 
-		current_date = Date.today
-		user_tasks = params[:user][:tasks]
+    current_date = Date.today
+    user_tasks = params[:user][:tasks]
 
-		user_tasks.each do |task_id, task_data|
+    user_tasks.each do |task_id, task_data|
       task_id = task_data[:task_id]
       challenge_id = task_data[:challenge_id]
       completed = task_data[:completed]
       current_date = task_data[:date]
-      status = completed == '1' ? 'completed' : 'not_completed'
+      completed == '1' ? 'completed' : 'not_completed'
 
       @date = current_date
       task = TodolistTask.find_by(
-        trainee_id: trainee_id,
-        task_id: task_id,
-        challenge_id: challenge_id,
+        trainee_id:,
+        task_id:,
+        challenge_id:,
         date: current_date
       )
-			if task.nil?
-				redirect_to view_challenge_tasks_detail_path, notice: 'Tasks not found'
-				return
-			end
-			new_data = params[:user][:numbers].map(&:to_f)
+      if task.nil?
+        redirect_to view_challenge_tasks_detail_path, notice: 'Tasks not found'
+        return
+      end
+      new_data = params[:user][:numbers].map(&:to_f)
       task.update(numbers: new_data)
     end
 
@@ -142,7 +140,7 @@ class TodoListController < ApplicationController
         redirect_to edit_trainee_todo_list_path(@trainee, @challenge)
         return
       end
-			
+
       TodolistTask.where(trainee: @trainee, challenge: @challenge, date: start_date..end_date).destroy_all
 
       # Process submitted tasks
@@ -200,10 +198,10 @@ class TodoListController < ApplicationController
       trainee_challenge_id = ChallengeTrainee.find_by(trainee_id:).challenge_id
       current_date = Date.today
       task_params = params[:tasks] || {}
-			nums = params[:numbers]
-			puts params
+      nums = params[:numbers]
+      puts params
       task_params.each do |task_id, status|
-        TodolistTask.find_by(id: task_id, date: @date).update(status: status, numbers: nums)
+        TodolistTask.find_by(id: task_id, date: @date).update(status:, numbers: nums)
       end
       @todo_list = TodolistTask.where(trainee_id:, challenge_id: trainee_challenge_id, date: current_date).pluck(
         :task_id, :status

@@ -45,7 +45,7 @@ class ChallengesController < ApplicationController
         if existing_task
           existing_tasks << existing_task
         else
-					nums = task_name.scan(/(\d+\.?\d+)|(\d+)/).flatten.compact.map(&:to_f)
+          nums = task_name.scan(/(\d+\.?\d+)|(\d+)/).flatten.compact.map(&:to_f)
           new_task = Task.new(taskName: task_name, numbers: nums)
           existing_tasks << new_task
         end
@@ -93,9 +93,9 @@ class ChallengesController < ApplicationController
     #   flash.now[:alert] = 'Challenge has already started. You cannot add trainees.'
     #   @trainees = []
     # else
-      @challenge_trainees = ChallengeTrainee.where(challenge_id: params[:id])
-      trainee_ids = @challenge_trainees.pluck(:trainee_id)
-      @trainees = Trainee.where.not(id: trainee_ids)
+    @challenge_trainees = ChallengeTrainee.where(challenge_id: params[:id])
+    trainee_ids = @challenge_trainees.pluck(:trainee_id)
+    @trainees = Trainee.where.not(id: trainee_ids)
     # end
   end
 
@@ -304,7 +304,7 @@ class ChallengesController < ApplicationController
       if task_from_params.present?
         task_from_params.each do |id, task_params|
           existing_task = Task.find(id)
-					nums = task_params[:taskName].scan(/(\d+\.?\d+)|(\d+)/).flatten.compact.map(&:to_f)
+          nums = task_params[:taskName].scan(/(\d+\.?\d+)|(\d+)/).flatten.compact.map(&:to_f)
           if existing_task.taskName != task_params[:taskName]
             task = Task.create(taskName: task_params[:taskName], numbers: nums)
             task.id
@@ -320,7 +320,7 @@ class ChallengesController < ApplicationController
                 task:,
                 date:,
                 status: 'not_completed',
-								numbers: nums
+                numbers: nums
               )
             end
           end
@@ -333,7 +333,7 @@ class ChallengesController < ApplicationController
     new_tasks = params[:tasks]
     if new_tasks && !new_tasks.empty?
       new_tasks.each_value do |task_params|
-				nums = task_params[:taskName].scan(/(\d+\.?\d+)|(\d+)/).flatten.compact.map(&:to_f)
+        nums = task_params[:taskName].scan(/(\d+\.?\d+)|(\d+)/).flatten.compact.map(&:to_f)
         existing_task = Task.find_by(taskName: task_params[:taskName], numbers: nums)
         task = existing_task || Task.create(taskName: task_params[:taskName], numbers: nums)
 
@@ -345,7 +345,7 @@ class ChallengesController < ApplicationController
               task:,
               date:,
               status: 'not_completed',
-							numbers: nums
+              numbers: nums
             )
           end
         end

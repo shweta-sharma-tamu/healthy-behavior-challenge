@@ -96,7 +96,7 @@ group :test do
   gem 'database_cleaner'
   gem 'rspec-rails'
   gem 'rubocop', require: false
-  gem "rubycritic", require: false
+  gem 'rubycritic', require: false
   gem 'selenium-webdriver'
   gem 'simplecov'
   gem 'timecop'

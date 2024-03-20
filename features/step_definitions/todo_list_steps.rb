@@ -7,7 +7,7 @@ Given('I am logged in') do
   @instructor = Instructor.create!(user_id: @user2.id, first_name: 'instructor1', last_name: 'instructor_last_name')
 
   @user = User.create!(email: 'traineetest@example.com', password: 'asdf', user_type: 'trainee')
-  @trainee = Trainee.create!(full_name: 'trainee1', height_feet: 6, height_inches:9, weight: 85, user_id: @user.id)
+  @trainee = Trainee.create!(full_name: 'trainee1', height_feet: 6, height_inches: 9, weight: 85, user_id: @user.id)
 
   @challenge1 = Challenge.create!(name: 'challenge', startDate: Date.today - 2, endDate: Date.today + 1,
                                   instructor_id: @instructor.id)

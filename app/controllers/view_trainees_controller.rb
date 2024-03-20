@@ -20,13 +20,13 @@ class ViewTraineesController < ApplicationController
     @dates = (@challenge.startDate..@challenge.endDate).to_a
   end
 
-
   def challenges
     @trainee = Trainee.find(params[:id])
-    @curr_challenges = @trainee.challenges.where('"challenges"."startDate" <= ? AND "challenges"."endDate" >= ?', Date.today, Date.today).order('"challenges"."endDate" ASC')
-    @past_challenges = @trainee.challenges.where('"challenges"."endDate" < ?', Date.today).order('"challenges"."endDate" ASC')
+    @curr_challenges = @trainee.challenges.where('"challenges"."startDate" <= ? AND "challenges"."endDate" >= ?',
+                                                 Date.today, Date.today).order('"challenges"."endDate" ASC')
+    @past_challenges = @trainee.challenges.where('"challenges"."endDate" < ?',
+                                                 Date.today).order('"challenges"."endDate" ASC')
   end
-
 
   def trainee_not_found
     flash[:alert] = 'Trainee not found.'
